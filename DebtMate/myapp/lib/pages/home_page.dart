@@ -16,7 +16,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    // Delay init until after build context is fully available
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ToastContext().init(context);
     });

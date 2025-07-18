@@ -17,25 +17,25 @@ namespace DebtMateAPI.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterRequest request)
+        public async Task<RegisterResponse> Register(RegisterRequest request)
         {
             bool success = await _userService.Register(request.Login, request.Password, request.UserName);
 
             if (success)
-                return Ok(new RegisterResponse { Message = "Registered successfully", Success = true});
+                return new RegisterResponse { Message = "Registered successfully", Success = true};
 
-            return BadRequest(new RegisterResponse { Message = "Could not register", Success = false });
+            return new RegisterResponse { Message = "Could not register", Success = false };
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginRequest request)
+        public async Task<LoginResponse> Login(LoginRequest request)
         {
             LoginResponse? loginResponse = await _userService.Login(request.Login, request.Password);
 
             if (loginResponse != null)
-                return Ok(loginResponse);
+                return loginResponse;
 
-            return BadRequest(new LoginResponse { Message = "Login failed", Success = false });
+            return new LoginResponse { Message = "Login failed", Success = false };
         }
     }
 }

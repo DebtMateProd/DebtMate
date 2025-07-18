@@ -1,13 +1,8 @@
-class LoginResponse {
+class LoginResp {
   final String token;
   final String userId;
+  final bool isSuccess;
+  final String message;
 
-  LoginResponse({required this.token, required this.userId});
-
-  factory LoginResponse.fromJson(Map<String, dynamic> json) {
-    return LoginResponse(
-      token: json['token'],
-      userId: json['userId'],
-    );
-  }
+  LoginResp({required this.token, required this.userId, required this.isSuccess, required this.message});
 }

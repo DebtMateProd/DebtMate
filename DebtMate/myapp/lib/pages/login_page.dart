@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/models/requests/login_request.dart';
 import 'package:myapp/widgets/button.dart';
 import 'package:myapp/widgets/text_field.dart';
 import 'package:myapp/utils/toast.dart';
@@ -25,12 +26,12 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void login() async {
-    final success = await _authController.login(
-      _loginController.text,
-      _passwordController.text,
+    final success = await _authController.login(LoginReq(
+      login: _loginController.text, 
+      password: _passwordController.text)
     );
 
-    if (success?.token != '' ) {
+    if (success.token != '' ) {
       showToast("successful");
     } else {
       showToast("unsuccessful");

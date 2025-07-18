@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/models/requests/register_request.dart';
 import 'package:myapp/widgets/button.dart';
 import 'package:myapp/widgets/text_field.dart';
 import 'package:myapp/utils/toast.dart';
@@ -13,8 +14,9 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final _loginController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final loginController = TextEditingController();
+  final passwordController = TextEditingController();
+  final userNameController = TextEditingController();
 
   late final AuthController _authController;
 
@@ -26,8 +28,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   void register() async {
     final success = await _authController.register(
-      _loginController.text,
-      _passwordController.text,
+      RegisterReq(login: loginController.text, password: passwordController.text, userName: userNameController.text)
     );
 
     if (success) {
@@ -46,12 +47,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: Column(
           children: [
             InputTextField(
-              controller: _loginController, 
+              controller: loginController, 
               labelText: 'Login'),
             InputTextField(
-            controller: _passwordController, 
+            controller: passwordController, 
             labelText: 'Hasło',
             hideText: true,),
+            InputTextField(
+              controller: userNameController, 
+              labelText: 'Nazwa użytkownika'),
             CustomButton(
               labelText: 'Zarejestruj się',
               onPressed: register,)

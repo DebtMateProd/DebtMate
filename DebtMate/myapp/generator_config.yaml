@@ -1,0 +1,6 @@
+input_spec: swagger.json 
+generator_name: dart-dio
+output_dir: lib/api
+additional_properties:
+  pubName: debtmate_api
+  useEnumExtension: true

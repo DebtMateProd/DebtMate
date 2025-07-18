@@ -3,14 +3,6 @@
   "WorkspaceRootPath": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7AC36373-ABC0-44E2-A337-D72B551ECE8D}|DebtMateAPI\\DebtMateAPI.csproj|d:\\moje\\projekty\\debtmate\\debtmateapi\\debtmateapi\\debtmateapi\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7AC36373-ABC0-44E2-A337-D72B551ECE8D}|DebtMateAPI\\DebtMateAPI.csproj|solutionrelative:debtmateapi\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7AC36373-ABC0-44E2-A337-D72B551ECE8D}|DebtMateAPI\\DebtMateAPI.csproj|d:\\moje\\projekty\\debtmate\\debtmateapi\\debtmateapi\\debtmateapi\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7AC36373-ABC0-44E2-A337-D72B551ECE8D}|DebtMateAPI\\DebtMateAPI.csproj|solutionrelative:debtmateapi\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{7AC36373-ABC0-44E2-A337-D72B551ECE8D}|DebtMateAPI\\DebtMateAPI.csproj|d:\\moje\\projekty\\debtmate\\debtmateapi\\debtmateapi\\debtmateapi\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7AC36373-ABC0-44E2-A337-D72B551ECE8D}|DebtMateAPI\\DebtMateAPI.csproj|solutionrelative:debtmateapi\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -19,16 +11,28 @@
       "RelativeMoniker": "D:0:0:{7AC36373-ABC0-44E2-A337-D72B551ECE8D}|DebtMateAPI\\DebtMateAPI.csproj|solutionrelative:debtmateapi\\responses\\user\\loginresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{7AC36373-ABC0-44E2-A337-D72B551ECE8D}|DebtMateAPI\\DebtMateAPI.csproj|d:\\moje\\projekty\\debtmate\\debtmateapi\\debtmateapi\\debtmateapi\\responses\\user\\registerresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7AC36373-ABC0-44E2-A337-D72B551ECE8D}|DebtMateAPI\\DebtMateAPI.csproj|solutionrelative:debtmateapi\\responses\\user\\registerresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{7AC36373-ABC0-44E2-A337-D72B551ECE8D}|DebtMateAPI\\DebtMateAPI.csproj|d:\\moje\\projekty\\debtmate\\debtmateapi\\debtmateapi\\debtmateapi\\responses\\baseresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7AC36373-ABC0-44E2-A337-D72B551ECE8D}|DebtMateAPI\\DebtMateAPI.csproj|solutionrelative:debtmateapi\\responses\\baseresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7AC36373-ABC0-44E2-A337-D72B551ECE8D}|DebtMateAPI\\DebtMateAPI.csproj|d:\\moje\\projekty\\debtmate\\debtmateapi\\debtmateapi\\debtmateapi\\services\\users\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7AC36373-ABC0-44E2-A337-D72B551ECE8D}|DebtMateAPI\\DebtMateAPI.csproj|solutionrelative:debtmateapi\\services\\users\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7AC36373-ABC0-44E2-A337-D72B551ECE8D}|DebtMateAPI\\DebtMateAPI.csproj|d:\\moje\\projekty\\debtmate\\debtmateapi\\debtmateapi\\debtmateapi\\entities\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7AC36373-ABC0-44E2-A337-D72B551ECE8D}|DebtMateAPI\\DebtMateAPI.csproj|solutionrelative:debtmateapi\\entities\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7AC36373-ABC0-44E2-A337-D72B551ECE8D}|DebtMateAPI\\DebtMateAPI.csproj|d:\\moje\\projekty\\debtmate\\debtmateapi\\debtmateapi\\debtmateapi\\responses\\user\\registerresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7AC36373-ABC0-44E2-A337-D72B551ECE8D}|DebtMateAPI\\DebtMateAPI.csproj|solutionrelative:debtmateapi\\responses\\user\\registerresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7AC36373-ABC0-44E2-A337-D72B551ECE8D}|DebtMateAPI\\DebtMateAPI.csproj|d:\\moje\\projekty\\debtmate\\debtmateapi\\debtmateapi\\debtmateapi\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7AC36373-ABC0-44E2-A337-D72B551ECE8D}|DebtMateAPI\\DebtMateAPI.csproj|solutionrelative:debtmateapi\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7AC36373-ABC0-44E2-A337-D72B551ECE8D}|DebtMateAPI\\DebtMateAPI.csproj|d:\\moje\\projekty\\debtmate\\debtmateapi\\debtmateapi\\debtmateapi\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7AC36373-ABC0-44E2-A337-D72B551ECE8D}|DebtMateAPI\\DebtMateAPI.csproj|solutionrelative:debtmateapi\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7AC36373-ABC0-44E2-A337-D72B551ECE8D}|DebtMateAPI\\DebtMateAPI.csproj|d:\\moje\\projekty\\debtmate\\debtmateapi\\debtmateapi\\debtmateapi\\services\\users\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7AC36373-ABC0-44E2-A337-D72B551ECE8D}|DebtMateAPI\\DebtMateAPI.csproj|solutionrelative:debtmateapi\\services\\users\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7AC36373-ABC0-44E2-A337-D72B551ECE8D}|DebtMateAPI\\DebtMateAPI.csproj|d:\\moje\\projekty\\debtmate\\debtmateapi\\debtmateapi\\debtmateapi\\requests\\user\\registerrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -37,10 +41,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{7AC36373-ABC0-44E2-A337-D72B551ECE8D}|DebtMateAPI\\DebtMateAPI.csproj|d:\\moje\\projekty\\debtmate\\debtmateapi\\debtmateapi\\debtmateapi\\services\\users\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7AC36373-ABC0-44E2-A337-D72B551ECE8D}|DebtMateAPI\\DebtMateAPI.csproj|solutionrelative:debtmateapi\\services\\users\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7AC36373-ABC0-44E2-A337-D72B551ECE8D}|DebtMateAPI\\DebtMateAPI.csproj|d:\\moje\\projekty\\debtmate\\debtmateapi\\debtmateapi\\debtmateapi\\entities\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7AC36373-ABC0-44E2-A337-D72B551ECE8D}|DebtMateAPI\\DebtMateAPI.csproj|solutionrelative:debtmateapi\\entities\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7AC36373-ABC0-44E2-A337-D72B551ECE8D}|DebtMateAPI\\DebtMateAPI.csproj|d:\\moje\\projekty\\debtmate\\debtmateapi\\debtmateapi\\debtmateapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -90,30 +90,103 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "BaseEntity.cs",
-              "DocumentMoniker": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Entities\\BaseEntity.cs",
-              "RelativeDocumentMoniker": "DebtMateAPI\\Entities\\BaseEntity.cs",
-              "ToolTip": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Entities\\BaseEntity.cs",
-              "RelativeToolTip": "DebtMateAPI\\Entities\\BaseEntity.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAwAAAAAAAAAA==",
+              "DocumentIndex": 8,
+              "Title": "RegisterRequest.cs",
+              "DocumentMoniker": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Requests\\User\\RegisterRequest.cs",
+              "RelativeDocumentMoniker": "DebtMateAPI\\Requests\\User\\RegisterRequest.cs",
+              "ToolTip": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Requests\\User\\RegisterRequest.cs",
+              "RelativeToolTip": "DebtMateAPI\\Requests\\User\\RegisterRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAIAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-18T08:26:01.845Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-15T08:40:49.346Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "IUserService.cs",
+              "DocumentMoniker": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Services\\Users\\IUserService.cs",
+              "RelativeDocumentMoniker": "DebtMateAPI\\Services\\Users\\IUserService.cs",
+              "ToolTip": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Services\\Users\\IUserService.cs",
+              "RelativeToolTip": "DebtMateAPI\\Services\\Users\\IUserService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAYAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-15T08:44:30.232Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "User.cs",
+              "DocumentMoniker": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Entities\\User.cs",
+              "RelativeDocumentMoniker": "DebtMateAPI\\Entities\\User.cs",
+              "ToolTip": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Entities\\User.cs",
+              "RelativeToolTip": "DebtMateAPI\\Entities\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-15T08:36:52.55Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "RegisterResponse.cs",
+              "DocumentMoniker": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Responses\\User\\RegisterResponse.cs",
+              "RelativeDocumentMoniker": "DebtMateAPI\\Responses\\User\\RegisterResponse.cs",
+              "ToolTip": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Responses\\User\\RegisterResponse.cs",
+              "RelativeToolTip": "DebtMateAPI\\Responses\\User\\RegisterResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAIAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-18T08:36:57.085Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "UserService.cs",
+              "DocumentMoniker": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Services\\Users\\UserService.cs",
+              "RelativeDocumentMoniker": "DebtMateAPI\\Services\\Users\\UserService.cs",
+              "ToolTip": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Services\\Users\\UserService.cs",
+              "RelativeToolTip": "DebtMateAPI\\Services\\Users\\UserService.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAAWwDIAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-15T17:31:45.072Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AppDBContext.cs",
+              "DocumentMoniker": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Data\\AppDBContext.cs",
+              "RelativeDocumentMoniker": "DebtMateAPI\\Data\\AppDBContext.cs",
+              "ToolTip": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Data\\AppDBContext.cs",
+              "RelativeToolTip": "DebtMateAPI\\Data\\AppDBContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-15T16:56:32.514Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "BaseResponse.cs",
+              "DocumentMoniker": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Responses\\BaseResponse.cs",
+              "RelativeDocumentMoniker": "DebtMateAPI\\Responses\\BaseResponse.cs",
+              "ToolTip": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Responses\\BaseResponse.cs",
+              "RelativeToolTip": "DebtMateAPI\\Responses\\BaseResponse.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAqwBEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-18T08:35:14.291Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
               "Title": "AuthController.cs",
               "DocumentMoniker": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "DebtMateAPI\\Controllers\\AuthController.cs",
               "ToolTip": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Controllers\\AuthController.cs",
               "RelativeToolTip": "DebtMateAPI\\Controllers\\AuthController.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAYwBwAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAA6wBEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-15T08:50:09.11Z",
               "EditorCaption": ""
@@ -132,104 +205,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "RegisterRequest.cs",
-              "DocumentMoniker": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Requests\\User\\RegisterRequest.cs",
-              "RelativeDocumentMoniker": "DebtMateAPI\\Requests\\User\\RegisterRequest.cs",
-              "ToolTip": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Requests\\User\\RegisterRequest.cs",
-              "RelativeToolTip": "DebtMateAPI\\Requests\\User\\RegisterRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAIAAAARAAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "BaseEntity.cs",
+              "DocumentMoniker": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Entities\\BaseEntity.cs",
+              "RelativeDocumentMoniker": "DebtMateAPI\\Entities\\BaseEntity.cs",
+              "ToolTip": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Entities\\BaseEntity.cs",
+              "RelativeToolTip": "DebtMateAPI\\Entities\\BaseEntity.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-15T08:40:49.346Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "IUserService.cs",
-              "DocumentMoniker": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Services\\Users\\IUserService.cs",
-              "RelativeDocumentMoniker": "DebtMateAPI\\Services\\Users\\IUserService.cs",
-              "ToolTip": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Services\\Users\\IUserService.cs",
-              "RelativeToolTip": "DebtMateAPI\\Services\\Users\\IUserService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAYAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-15T08:44:30.232Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "User.cs",
-              "DocumentMoniker": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Entities\\User.cs",
-              "RelativeDocumentMoniker": "DebtMateAPI\\Entities\\User.cs",
-              "ToolTip": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Entities\\User.cs",
-              "RelativeToolTip": "DebtMateAPI\\Entities\\User.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-15T08:36:52.55Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "RegisterResponse.cs",
-              "DocumentMoniker": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Responses\\User\\RegisterResponse.cs",
-              "RelativeDocumentMoniker": "DebtMateAPI\\Responses\\User\\RegisterResponse.cs",
-              "ToolTip": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Responses\\User\\RegisterResponse.cs",
-              "RelativeToolTip": "DebtMateAPI\\Responses\\User\\RegisterResponse.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAIAAAAnAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-18T08:36:57.085Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "UserService.cs",
-              "DocumentMoniker": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Services\\Users\\UserService.cs",
-              "RelativeDocumentMoniker": "DebtMateAPI\\Services\\Users\\UserService.cs",
-              "ToolTip": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Services\\Users\\UserService.cs",
-              "RelativeToolTip": "DebtMateAPI\\Services\\Users\\UserService.cs",
-              "ViewState": "AgIAABoAAAAAAAAAAAAWwDIAAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-15T17:31:45.072Z",
+              "WhenOpened": "2025-07-18T08:26:01.845Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "AppDBContext.cs",
-              "DocumentMoniker": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Data\\AppDBContext.cs",
-              "RelativeDocumentMoniker": "DebtMateAPI\\Data\\AppDBContext.cs",
-              "ToolTip": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Data\\AppDBContext.cs",
-              "RelativeToolTip": "DebtMateAPI\\Data\\AppDBContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-15T16:56:32.514Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "BaseResponse.cs",
-              "DocumentMoniker": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Responses\\BaseResponse.cs",
-              "RelativeDocumentMoniker": "DebtMateAPI\\Responses\\BaseResponse.cs",
-              "ToolTip": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Responses\\BaseResponse.cs",
-              "RelativeToolTip": "DebtMateAPI\\Responses\\BaseResponse.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAqwAoAAAA9AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-18T08:35:14.291Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
               "Title": "LoginResponse.cs",
               "DocumentMoniker": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Responses\\User\\LoginResponse.cs",
               "RelativeDocumentMoniker": "DebtMateAPI\\Responses\\User\\LoginResponse.cs",
               "ToolTip": "D:\\moje\\projekty\\DebtMate\\DebtMateAPI\\DebtMateAPI\\DebtMateAPI\\Responses\\User\\LoginResponse.cs",
               "RelativeToolTip": "DebtMateAPI\\Responses\\User\\LoginResponse.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAQAAAAYAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-16T15:46:10.824Z",
               "EditorCaption": ""

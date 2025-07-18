@@ -1,11 +1,7 @@
-class RegisterRequest {
+class RegisterReq {
   final String login;
   final String password;
+  final String userName;
 
-  RegisterRequest({required this.login, required this.password});
-
-  Map<String, dynamic> toJson() => {
-    'login': login,
-    'password': password,
-  };
+  RegisterReq({required this.login, required this.password, required this.userName});
 }

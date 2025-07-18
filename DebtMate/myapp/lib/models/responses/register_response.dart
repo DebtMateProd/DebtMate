@@ -1,9 +1,6 @@
 class RegisterResponse {
   final bool isSuccess;
+  final String message;
 
-  RegisterResponse({required this.isSuccess});
-
-  factory RegisterResponse.fromJson(Map<String, dynamic> json) {
-    return RegisterResponse(isSuccess: json['isSuccess']);
-  }
+  RegisterResponse({required this.isSuccess, required this.message});
 }
