@@ -41,25 +41,44 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Rejestracja')),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            InputTextField(
-              controller: loginController, 
-              labelText: 'Login'),
-            InputTextField(
-            controller: passwordController, 
-            labelText: 'Hasło',
-            hideText: true,),
-            InputTextField(
-              controller: userNameController, 
-              labelText: 'Nazwa użytkownika'),
-            CustomButton(
-              labelText: 'Zarejestruj się',
-              onPressed: register,)
-          ],
+      appBar: AppBar(
+        title: const Text('Rejestracja', style: TextStyle(color: Colors.white)),
+        backgroundColor: Colors.cyan,
+        iconTheme: IconThemeData(color: Colors.white),
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.blue, Colors.black],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            spacing: 20,
+            children: [
+              Column(
+                spacing: 10,
+                children: [
+                  InputTextField(
+                    controller: loginController, 
+                    labelText: 'Login'),
+                  InputTextField(
+                    controller: passwordController, 
+                    labelText: 'Hasło',
+                    hideText: true,),
+                  InputTextField(
+                    controller: userNameController, 
+                    labelText: 'Nazwa użytkownika'),
+                ],
+              ),
+              CustomButton(
+                labelText: 'Zarejestruj się',
+                onPressed: register,)
+            ],
+          ),
         ),
       ),
     );

@@ -41,22 +41,50 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Logowanie')),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            InputTextField(
-              controller: _loginController, 
-              labelText: 'Login'),
-            InputTextField(
-            controller: _passwordController, 
-            labelText: 'Hasło',
-            hideText: true,),
-            CustomButton(
-              labelText: 'Zaloguj się',
-              onPressed: login,)
-          ],
+      appBar: AppBar(
+        title: const Text('Logowanie', style:  TextStyle(color: Colors.white),),
+        backgroundColor: Colors.cyan,
+        iconTheme: IconThemeData(color: Colors.white),
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.blue, Colors.black],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            spacing: 20,
+            children: [
+              Column(
+                spacing: 10,
+                children: [
+                  InputTextField(
+                    controller: _loginController, 
+                    labelText: 'Login'),
+                  InputTextField(
+                    controller: _passwordController, 
+                    labelText: 'Hasło',
+                    hideText: true,),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: CustomButton(
+                        labelText: 'Zaloguj się',
+                        onPressed: login,),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
