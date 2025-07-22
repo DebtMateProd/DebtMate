@@ -1,6 +1,8 @@
 ﻿using DebtMateAPI.Data;
 using DebtMateAPI.Helper;
+using DebtMateAPI.Repositories.Friendships;
 using DebtMateAPI.Repositories.Users;
+using DebtMateAPI.Services.Friendships;
 using DebtMateAPI.Services.Users;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +20,9 @@ namespace DebtMateAPI.Extensions
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<JwtHelper>();
+            services.AddScoped<IFriendshipService, FriendshipService>();
+            services.AddScoped<IFriendshipRepository, FriendshipRepository>();
+            
 
             return services;
         }

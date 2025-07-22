@@ -22,6 +22,27 @@ namespace DebtMateAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("DebtMateAPI.Entities.Friendship", b =>
+                {
+                    b.Property<Guid>("UserId1")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId2")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsAccepted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("RequestSenderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("UserId1", "UserId2");
+
+                    b.HasIndex("UserId2");
+
+                    b.ToTable("Friendships");
+                });
+
             modelBuilder.Entity("DebtMateAPI.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -52,6 +73,25 @@ namespace DebtMateAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("DebtMateAPI.Entities.Friendship", b =>
+                {
+                    b.HasOne("DebtMateAPI.Entities.User", "User1")
+                        .WithMany()
+                        .HasForeignKey("UserId1")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DebtMateAPI.Entities.User", "User2")
+                        .WithMany()
+                        .HasForeignKey("UserId2")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User1");
+
+                    b.Navigation("User2");
                 });
 #pragma warning restore 612, 618
         }
