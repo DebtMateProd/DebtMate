@@ -1,15 +1,11 @@
-import 'package:flutter/material.dart';
+import 'package:myapp/utils/navigator_key.dart';
 
 class RouteHelper {
-  static void getTo(BuildContext context, String routeName) {
-    Navigator.pushNamed(context, routeName);
+  static void getTo(String routeName) {
+    navigatorKey.currentState?.pushNamed(routeName);
   }
 
-  static void getToReplace(BuildContext context, String routeName) {
-    Navigator.pushReplacementNamed(context, routeName);
-  }
-
-  static void getBack(BuildContext context) {
-    Navigator.pop(context);
+  static void getBack() {
+    navigatorKey.currentState?.pop();
   }
 }

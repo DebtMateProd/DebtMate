@@ -14,18 +14,40 @@ import 'package:built_value/iso_8601_date_time_serializer.dart';
 import 'package:openapi/src/date_serializer.dart';
 import 'package:openapi/src/model/date.dart';
 
+import 'package:openapi/src/model/accept_friendship_request.dart';
+import 'package:openapi/src/model/accept_friendship_response.dart';
+import 'package:openapi/src/model/add_friendship_request.dart';
+import 'package:openapi/src/model/add_friendship_response.dart';
+import 'package:openapi/src/model/get_all_response.dart';
+import 'package:openapi/src/model/get_user_friend_list_response.dart';
+import 'package:openapi/src/model/get_user_friend_requests_list_response.dart';
+import 'package:openapi/src/model/get_user_pending_friend_list_response.dart';
 import 'package:openapi/src/model/login_request.dart';
 import 'package:openapi/src/model/login_response.dart';
 import 'package:openapi/src/model/register_request.dart';
 import 'package:openapi/src/model/register_response.dart';
+import 'package:openapi/src/model/remove_friendship_request.dart';
+import 'package:openapi/src/model/remove_friendship_response.dart';
+import 'package:openapi/src/model/user_response.dart';
 
 part 'serializers.g.dart';
 
 @SerializersFor([
+  AcceptFriendshipRequest,
+  AcceptFriendshipResponse,
+  AddFriendshipRequest,
+  AddFriendshipResponse,
+  GetAllResponse,
+  GetUserFriendListResponse,
+  GetUserFriendRequestsListResponse,
+  GetUserPendingFriendListResponse,
   LoginRequest,
   LoginResponse,
   RegisterRequest,
   RegisterResponse,
+  RemoveFriendshipRequest,
+  RemoveFriendshipResponse,
+  UserResponse,
 ])
 Serializers serializers = (_$serializers.toBuilder()
       ..add(const OneOfSerializer())

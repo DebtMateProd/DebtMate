@@ -100,10 +100,445 @@
           }
         }
       }
+    },
+    "/api/Friendship/add": {
+      "post": {
+        "tags": [
+          "Friendship"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddFriendshipRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddFriendshipRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddFriendshipRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddFriendshipResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddFriendshipResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddFriendshipResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Friendship/remove": {
+      "post": {
+        "tags": [
+          "Friendship"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveFriendshipRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveFriendshipRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveFriendshipRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoveFriendshipResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoveFriendshipResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoveFriendshipResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Friendship/accept": {
+      "post": {
+        "tags": [
+          "Friendship"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcceptFriendshipRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcceptFriendshipRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcceptFriendshipRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcceptFriendshipResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcceptFriendshipResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcceptFriendshipResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Friendship/friends/{userId}": {
+      "get": {
+        "tags": [
+          "Friendship"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserFriendListResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserFriendListResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserFriendListResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Friendship/pendingfriends/{userId}": {
+      "get": {
+        "tags": [
+          "Friendship"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserPendingFriendListResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserPendingFriendListResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserPendingFriendListResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Friendship/friendrequests/{userId}": {
+      "get": {
+        "tags": [
+          "Friendship"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserFriendRequestsListResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserFriendRequestsListResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserFriendRequestsListResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/User/getAllUsers": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "AcceptFriendshipRequest": {
+        "required": [
+          "user1Id",
+          "user2Id"
+        ],
+        "type": "object",
+        "properties": {
+          "user1Id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "user2Id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AcceptFriendshipResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AddFriendshipRequest": {
+        "required": [
+          "user1Id",
+          "user2Id"
+        ],
+        "type": "object",
+        "properties": {
+          "user1Id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "user2Id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AddFriendshipResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetAllResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserResponse"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetUserFriendListResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserResponse"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetUserFriendRequestsListResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserResponse"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetUserPendingFriendListResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserResponse"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "LoginRequest": {
         "required": [
           "login",
@@ -173,6 +608,51 @@
             "type": "boolean"
           },
           "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RemoveFriendshipRequest": {
+        "required": [
+          "user1Id",
+          "user2Id"
+        ],
+        "type": "object",
+        "properties": {
+          "user1Id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "user2Id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RemoveFriendshipResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserResponse": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userName": {
             "type": "string",
             "nullable": true
           }

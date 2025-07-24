@@ -9,6 +9,8 @@ class ApiService {
 
   static ApiService get instance => _instance;
 
+  String? userId;
+
   final Dio _dio = Dio(BaseOptions(
     baseUrl: ApiConfig.baseUrl,
     connectTimeout: const Duration(seconds: 5),
@@ -21,4 +23,6 @@ class ApiService {
   );
 
   late final AuthApi authApi = AuthApi(_client.dio, _client.serializers);
+  late final UserApi userApi = UserApi(_client.dio, _client.serializers);
+  late final FriendshipApi friendApi = FriendshipApi(_client.dio, _client.serializers);
 }

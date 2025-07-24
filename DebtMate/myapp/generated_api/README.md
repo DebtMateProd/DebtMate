@@ -67,14 +67,32 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 [*AuthApi*](doc/AuthApi.md) | [**apiAuthLoginPost**](doc/AuthApi.md#apiauthloginpost) | **POST** /api/Auth/login | 
 [*AuthApi*](doc/AuthApi.md) | [**apiAuthRegisterPost**](doc/AuthApi.md#apiauthregisterpost) | **POST** /api/Auth/register | 
+[*FriendshipApi*](doc/FriendshipApi.md) | [**apiFriendshipAcceptPost**](doc/FriendshipApi.md#apifriendshipacceptpost) | **POST** /api/Friendship/accept | 
+[*FriendshipApi*](doc/FriendshipApi.md) | [**apiFriendshipAddPost**](doc/FriendshipApi.md#apifriendshipaddpost) | **POST** /api/Friendship/add | 
+[*FriendshipApi*](doc/FriendshipApi.md) | [**apiFriendshipFriendrequestsUserIdGet**](doc/FriendshipApi.md#apifriendshipfriendrequestsuseridget) | **GET** /api/Friendship/friendrequests/{userId} | 
+[*FriendshipApi*](doc/FriendshipApi.md) | [**apiFriendshipFriendsUserIdGet**](doc/FriendshipApi.md#apifriendshipfriendsuseridget) | **GET** /api/Friendship/friends/{userId} | 
+[*FriendshipApi*](doc/FriendshipApi.md) | [**apiFriendshipPendingfriendsUserIdGet**](doc/FriendshipApi.md#apifriendshippendingfriendsuseridget) | **GET** /api/Friendship/pendingfriends/{userId} | 
+[*FriendshipApi*](doc/FriendshipApi.md) | [**apiFriendshipRemovePost**](doc/FriendshipApi.md#apifriendshipremovepost) | **POST** /api/Friendship/remove | 
+[*UserApi*](doc/UserApi.md) | [**apiUserGetAllUsersGet**](doc/UserApi.md#apiusergetallusersget) | **GET** /api/User/getAllUsers | 
 
 
 ## Documentation For Models
 
+ - [AcceptFriendshipRequest](doc/AcceptFriendshipRequest.md)
+ - [AcceptFriendshipResponse](doc/AcceptFriendshipResponse.md)
+ - [AddFriendshipRequest](doc/AddFriendshipRequest.md)
+ - [AddFriendshipResponse](doc/AddFriendshipResponse.md)
+ - [GetAllResponse](doc/GetAllResponse.md)
+ - [GetUserFriendListResponse](doc/GetUserFriendListResponse.md)
+ - [GetUserFriendRequestsListResponse](doc/GetUserFriendRequestsListResponse.md)
+ - [GetUserPendingFriendListResponse](doc/GetUserPendingFriendListResponse.md)
  - [LoginRequest](doc/LoginRequest.md)
  - [LoginResponse](doc/LoginResponse.md)
  - [RegisterRequest](doc/RegisterRequest.md)
  - [RegisterResponse](doc/RegisterResponse.md)
+ - [RemoveFriendshipRequest](doc/RemoveFriendshipRequest.md)
+ - [RemoveFriendshipResponse](doc/RemoveFriendshipResponse.md)
+ - [UserResponse](doc/UserResponse.md)
 
 
 ## Documentation For Authorization

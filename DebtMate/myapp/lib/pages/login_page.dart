@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/models/requests/login_request.dart';
+import 'package:myapp/utils/api_service.dart';
+import 'package:myapp/utils/route_helper.dart';
 import 'package:myapp/widgets/button.dart';
 import 'package:myapp/widgets/text_field.dart';
 import 'package:myapp/utils/toast.dart';
@@ -25,16 +27,28 @@ class _LoginScreenState extends State<LoginScreen> {
     _authController = AuthController(AuthRepository());
   }
 
-  void login() async {
+  Future<bool> login() async {
     final success = await _authController.login(LoginReq(
       login: _loginController.text, 
       password: _passwordController.text)
     );
 
     if (success.token != '' ) {
-      showToast("successful");
+      ApiService.instance.userId = success.userId;
+      return true;
+
     } else {
-      showToast("unsuccessful");
+      return false;
+    }
+  }
+
+  void handleLogin() async {
+    bool success = await login();
+
+    if(success){
+      RouteHelper.getTo('/main');
+    }else{
+      showToast("Logowanie nie powiodło się. Sprawdź dane i spróbuj ponownie.");
     }
   }
 
@@ -78,8 +92,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     Expanded(
                       child: CustomButton(
                         labelText: 'Zaloguj się',
-                        onPressed: login,),
-                    ),
+                        onPressed: () {
+                          handleLogin();
+                        }
+                    ))
                   ],
                 ),
               )

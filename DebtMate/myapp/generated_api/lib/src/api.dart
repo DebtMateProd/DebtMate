@@ -10,6 +10,8 @@ import 'package:openapi/src/auth/basic_auth.dart';
 import 'package:openapi/src/auth/bearer_auth.dart';
 import 'package:openapi/src/auth/oauth.dart';
 import 'package:openapi/src/api/auth_api.dart';
+import 'package:openapi/src/api/friendship_api.dart';
+import 'package:openapi/src/api/user_api.dart';
 
 class Openapi {
   static const String basePath = r'http://localhost';
@@ -69,5 +71,17 @@ class Openapi {
   /// by doing that all interceptors will not be executed
   AuthApi getAuthApi() {
     return AuthApi(dio, serializers);
+  }
+
+  /// Get FriendshipApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
+  FriendshipApi getFriendshipApi() {
+    return FriendshipApi(dio, serializers);
+  }
+
+  /// Get UserApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
+  UserApi getUserApi() {
+    return UserApi(dio, serializers);
   }
 }

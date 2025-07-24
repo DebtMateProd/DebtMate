@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myapp/pages/home_page.dart';
+import 'package:myapp/utils/navigator_key.dart';
 import 'package:myapp/utils/routes.dart';
 import 'package:toast/toast.dart';
 
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
     ToastContext().init(context);
     return MaterialApp(
       title: 'DebtMate',
+      navigatorKey: navigatorKey,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       ),
