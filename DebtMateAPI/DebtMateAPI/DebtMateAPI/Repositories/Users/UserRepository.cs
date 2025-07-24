@@ -28,5 +28,10 @@ namespace DebtMateAPI.Repositories.Users
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Login == login);
         }
+
+        public async Task<List<User>> GetAllAsync()
+        {
+            return await _context.Users.ToListAsync();
+        }
     }
 }
