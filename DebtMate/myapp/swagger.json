@@ -365,6 +365,100 @@
         }
       }
     },
+    "/api/Reckoning/addNewReckoning": {
+      "post": {
+        "tags": [
+          "Reckoning"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddNewReckoningRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddNewReckoningRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddNewReckoningRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddNewReckoningResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddNewReckoningResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddNewReckoningResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Reckoning/getUserDebts": {
+      "get": {
+        "tags": [
+          "Reckoning"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "isPaid",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserDebtResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserDebtResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserDebtResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/User/getAllUsers": {
       "get": {
         "tags": [
@@ -459,6 +553,48 @@
         },
         "additionalProperties": false
       },
+      "AddNewReckoningRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalCost": {
+            "type": "number",
+            "format": "float"
+          },
+          "payerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "debts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserDebt"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AddNewReckoningResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "GetAllResponse": {
         "type": "object",
         "properties": {
@@ -473,6 +609,26 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/UserResponse"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetUserDebtResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "userDebts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserDebtResponse"
             },
             "nullable": true
           }
@@ -641,6 +797,45 @@
           "message": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserDebt": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "owedAmount": {
+            "type": "number",
+            "format": "float"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserDebtResponse": {
+        "type": "object",
+        "properties": {
+          "reckoningId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "reckoningName": {
+            "type": "string",
+            "nullable": true
+          },
+          "owedAmount": {
+            "type": "number",
+            "format": "float"
+          },
+          "isPaid": {
+            "type": "boolean"
+          },
+          "payerId": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false

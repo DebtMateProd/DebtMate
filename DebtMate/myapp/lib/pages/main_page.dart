@@ -138,6 +138,7 @@ class _MainPageState extends State<MainPage> {
                 CustomButton(
                   labelText: 'Dodaj rozliczenie',
                   onPressed: () {
+                     RouteHelper.getTo('/addreckoning');
                   },
                 ),
               ],

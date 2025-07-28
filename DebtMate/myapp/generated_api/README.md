@@ -73,6 +73,8 @@ Class | Method | HTTP request | Description
 [*FriendshipApi*](doc/FriendshipApi.md) | [**apiFriendshipFriendsUserIdGet**](doc/FriendshipApi.md#apifriendshipfriendsuseridget) | **GET** /api/Friendship/friends/{userId} | 
 [*FriendshipApi*](doc/FriendshipApi.md) | [**apiFriendshipPendingfriendsUserIdGet**](doc/FriendshipApi.md#apifriendshippendingfriendsuseridget) | **GET** /api/Friendship/pendingfriends/{userId} | 
 [*FriendshipApi*](doc/FriendshipApi.md) | [**apiFriendshipRemovePost**](doc/FriendshipApi.md#apifriendshipremovepost) | **POST** /api/Friendship/remove | 
+[*ReckoningApi*](doc/ReckoningApi.md) | [**apiReckoningAddNewReckoningPost**](doc/ReckoningApi.md#apireckoningaddnewreckoningpost) | **POST** /api/Reckoning/addNewReckoning | 
+[*ReckoningApi*](doc/ReckoningApi.md) | [**apiReckoningGetUserDebtsGet**](doc/ReckoningApi.md#apireckoninggetuserdebtsget) | **GET** /api/Reckoning/getUserDebts | 
 [*UserApi*](doc/UserApi.md) | [**apiUserGetAllUsersGet**](doc/UserApi.md#apiusergetallusersget) | **GET** /api/User/getAllUsers | 
 
 
@@ -82,7 +84,10 @@ Class | Method | HTTP request | Description
  - [AcceptFriendshipResponse](doc/AcceptFriendshipResponse.md)
  - [AddFriendshipRequest](doc/AddFriendshipRequest.md)
  - [AddFriendshipResponse](doc/AddFriendshipResponse.md)
+ - [AddNewReckoningRequest](doc/AddNewReckoningRequest.md)
+ - [AddNewReckoningResponse](doc/AddNewReckoningResponse.md)
  - [GetAllResponse](doc/GetAllResponse.md)
+ - [GetUserDebtResponse](doc/GetUserDebtResponse.md)
  - [GetUserFriendListResponse](doc/GetUserFriendListResponse.md)
  - [GetUserFriendRequestsListResponse](doc/GetUserFriendRequestsListResponse.md)
  - [GetUserPendingFriendListResponse](doc/GetUserPendingFriendListResponse.md)
@@ -92,6 +97,8 @@ Class | Method | HTTP request | Description
  - [RegisterResponse](doc/RegisterResponse.md)
  - [RemoveFriendshipRequest](doc/RemoveFriendshipRequest.md)
  - [RemoveFriendshipResponse](doc/RemoveFriendshipResponse.md)
+ - [UserDebt](doc/UserDebt.md)
+ - [UserDebtResponse](doc/UserDebtResponse.md)
  - [UserResponse](doc/UserResponse.md)
 
 

@@ -1,0 +1,19 @@
+# openapi.model.AddNewReckoningRequest
+
+## Load the model package
+```dart
+import 'package:openapi/api.dart';
+```
+
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**name** | **String** |  | [optional] 
+**description** | **String** |  | [optional] 
+**totalCost** | **double** |  | [optional] 
+**payerId** | **String** |  | [optional] 
+**debts** | [**BuiltList&lt;UserDebt&gt;**](UserDebt.md) |  | [optional] 
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

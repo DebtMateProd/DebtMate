@@ -11,6 +11,7 @@ import 'package:openapi/src/auth/bearer_auth.dart';
 import 'package:openapi/src/auth/oauth.dart';
 import 'package:openapi/src/api/auth_api.dart';
 import 'package:openapi/src/api/friendship_api.dart';
+import 'package:openapi/src/api/reckoning_api.dart';
 import 'package:openapi/src/api/user_api.dart';
 
 class Openapi {
@@ -77,6 +78,12 @@ class Openapi {
   /// by doing that all interceptors will not be executed
   FriendshipApi getFriendshipApi() {
     return FriendshipApi(dio, serializers);
+  }
+
+  /// Get ReckoningApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
+  ReckoningApi getReckoningApi() {
+    return ReckoningApi(dio, serializers);
   }
 
   /// Get UserApi instance, base route and serializer can be overridden by a given but be careful,

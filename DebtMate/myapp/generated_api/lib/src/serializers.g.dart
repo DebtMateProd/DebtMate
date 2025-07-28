@@ -11,7 +11,10 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(AcceptFriendshipResponse.serializer)
       ..add(AddFriendshipRequest.serializer)
       ..add(AddFriendshipResponse.serializer)
+      ..add(AddNewReckoningRequest.serializer)
+      ..add(AddNewReckoningResponse.serializer)
       ..add(GetAllResponse.serializer)
+      ..add(GetUserDebtResponse.serializer)
       ..add(GetUserFriendListResponse.serializer)
       ..add(GetUserFriendRequestsListResponse.serializer)
       ..add(GetUserPendingFriendListResponse.serializer)
@@ -21,7 +24,15 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(RegisterResponse.serializer)
       ..add(RemoveFriendshipRequest.serializer)
       ..add(RemoveFriendshipResponse.serializer)
+      ..add(UserDebt.serializer)
+      ..add(UserDebtResponse.serializer)
       ..add(UserResponse.serializer)
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(UserDebt)]),
+          () => ListBuilder<UserDebt>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(UserDebtResponse)]),
+          () => ListBuilder<UserDebtResponse>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(UserResponse)]),
           () => ListBuilder<UserResponse>())

@@ -12,13 +12,17 @@ export 'package:openapi/src/model/date.dart';
 
 export 'package:openapi/src/api/auth_api.dart';
 export 'package:openapi/src/api/friendship_api.dart';
+export 'package:openapi/src/api/reckoning_api.dart';
 export 'package:openapi/src/api/user_api.dart';
 
 export 'package:openapi/src/model/accept_friendship_request.dart';
 export 'package:openapi/src/model/accept_friendship_response.dart';
 export 'package:openapi/src/model/add_friendship_request.dart';
 export 'package:openapi/src/model/add_friendship_response.dart';
+export 'package:openapi/src/model/add_new_reckoning_request.dart';
+export 'package:openapi/src/model/add_new_reckoning_response.dart';
 export 'package:openapi/src/model/get_all_response.dart';
+export 'package:openapi/src/model/get_user_debt_response.dart';
 export 'package:openapi/src/model/get_user_friend_list_response.dart';
 export 'package:openapi/src/model/get_user_friend_requests_list_response.dart';
 export 'package:openapi/src/model/get_user_pending_friend_list_response.dart';
@@ -28,5 +32,7 @@ export 'package:openapi/src/model/register_request.dart';
 export 'package:openapi/src/model/register_response.dart';
 export 'package:openapi/src/model/remove_friendship_request.dart';
 export 'package:openapi/src/model/remove_friendship_response.dart';
+export 'package:openapi/src/model/user_debt.dart';
+export 'package:openapi/src/model/user_debt_response.dart';
 export 'package:openapi/src/model/user_response.dart';
 

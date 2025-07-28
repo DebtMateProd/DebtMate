@@ -25,4 +25,5 @@ class ApiService {
   late final AuthApi authApi = AuthApi(_client.dio, _client.serializers);
   late final UserApi userApi = UserApi(_client.dio, _client.serializers);
   late final FriendshipApi friendApi = FriendshipApi(_client.dio, _client.serializers);
+  late final ReckoningApi reckoningApi = ReckoningApi(_client.dio, _client.serializers);
 }
