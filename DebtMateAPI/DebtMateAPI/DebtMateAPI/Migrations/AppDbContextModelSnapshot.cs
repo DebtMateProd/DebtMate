@@ -43,6 +43,59 @@ namespace DebtMateAPI.Migrations
                     b.ToTable("Friendships");
                 });
 
+            modelBuilder.Entity("DebtMateAPI.Entities.Reckoning", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("PayerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float>("TotalCost")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PayerId");
+
+                    b.ToTable("Reckonings");
+                });
+
+            modelBuilder.Entity("DebtMateAPI.Entities.ReckoningUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("bit");
+
+                    b.Property<float>("OwedAmount")
+                        .HasColumnType("real");
+
+                    b.Property<Guid>("ReckoningId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReckoningId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ReckoningUser");
+                });
+
             modelBuilder.Entity("DebtMateAPI.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -92,6 +145,41 @@ namespace DebtMateAPI.Migrations
                     b.Navigation("User1");
 
                     b.Navigation("User2");
+                });
+
+            modelBuilder.Entity("DebtMateAPI.Entities.Reckoning", b =>
+                {
+                    b.HasOne("DebtMateAPI.Entities.User", "Payer")
+                        .WithMany()
+                        .HasForeignKey("PayerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Payer");
+                });
+
+            modelBuilder.Entity("DebtMateAPI.Entities.ReckoningUser", b =>
+                {
+                    b.HasOne("DebtMateAPI.Entities.Reckoning", "Reckoning")
+                        .WithMany("Users")
+                        .HasForeignKey("ReckoningId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DebtMateAPI.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Reckoning");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DebtMateAPI.Entities.Reckoning", b =>
+                {
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

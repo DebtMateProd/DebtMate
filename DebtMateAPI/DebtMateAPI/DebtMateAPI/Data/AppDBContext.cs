@@ -9,6 +9,8 @@ namespace DebtMateAPI.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<Friendship> Friendships { get; set; }
+        public DbSet<Reckoning> Reckonings { get; set; }
+        public DbSet<ReckoningUser> ReckoningUser { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -27,6 +29,25 @@ namespace DebtMateAPI.Data
                 .WithMany()
                 .HasForeignKey(f => f.UserId2)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Reckoning>()
+                .HasOne(r => r.Payer)
+                .WithMany()
+                .HasForeignKey(r => r.PayerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ReckoningUser>()
+                .HasKey(ru => ru.Id);
+
+            modelBuilder.Entity<ReckoningUser>()
+                .HasOne(ru => ru.Reckoning)
+                .WithMany(r => r.Users)
+                .HasForeignKey(ru => ru.ReckoningId);
+
+            modelBuilder.Entity<ReckoningUser>()
+                .HasOne(ru => ru.User)
+                .WithMany()
+                .HasForeignKey(ru => ru.UserId);
         }
     }
 }

@@ -1,9 +1,6 @@
 ﻿using DebtMateAPI.Requests.Friendship;
-using DebtMateAPI.Requests.User;
 using DebtMateAPI.Responses.Friendship;
-using DebtMateAPI.Responses.User;
 using DebtMateAPI.Services.Friendships;
-using DebtMateAPI.Services.Users;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DebtMateAPI.Controllers

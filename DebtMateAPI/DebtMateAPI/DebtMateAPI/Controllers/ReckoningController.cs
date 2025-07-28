@@ -1,0 +1,41 @@
+﻿using DebtMateAPI.Requests.Reckoning;
+using DebtMateAPI.Responses.Reckoning;
+using DebtMateAPI.Services.Reckonings;
+using Microsoft.AspNetCore.Mvc;
+
+namespace DebtMateAPI.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ReckoningController : ControllerBase
+    {
+        private readonly IReckoningService _reckoningService;
+
+        public ReckoningController(IReckoningService reckoningService)
+        {
+            _reckoningService = reckoningService;
+        }
+
+        [HttpPost("addNewReckoning")]
+        public async Task<AddNewReckoningResponse> AddNewReckoning(AddNewReckoningRequest addNewReckoningRequest)
+        {
+            bool success = await _reckoningService.AddNewReckoning(addNewReckoningRequest);
+
+            if (success)
+                return new AddNewReckoningResponse { Message = "Added successfully", Success = true };
+
+            return new AddNewReckoningResponse { Message = "Could not add", Success = false };
+        }
+
+        [HttpGet("getUserDebts")]
+        public async Task<GetUserDebtResponse> GetUserDebts(Guid userId, bool isPaid)
+        {
+            List<UserDebtResponse> userDebts = await _reckoningService.GetUserDebts(userId, isPaid);
+
+            if (userDebts != null)
+                return new GetUserDebtResponse { Message = "Get succeeded", Success = true, UserDebts = userDebts};
+
+            return new GetUserDebtResponse { Message = "Could not succeed", Success = false };
+        }
+    }
+}
