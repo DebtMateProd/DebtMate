@@ -13,9 +13,11 @@ part 'user_debt_response.g.dart';
 /// Properties:
 /// * [reckoningId] 
 /// * [reckoningName] 
+/// * [description] 
 /// * [owedAmount] 
 /// * [isPaid] 
 /// * [payerId] 
+/// * [payerName] 
 @BuiltValue()
 abstract class UserDebtResponse implements Built<UserDebtResponse, UserDebtResponseBuilder> {
   @BuiltValueField(wireName: r'reckoningId')
@@ -23,6 +25,9 @@ abstract class UserDebtResponse implements Built<UserDebtResponse, UserDebtRespo
 
   @BuiltValueField(wireName: r'reckoningName')
   String? get reckoningName;
+
+  @BuiltValueField(wireName: r'description')
+  String? get description;
 
   @BuiltValueField(wireName: r'owedAmount')
   double? get owedAmount;
@@ -32,6 +37,9 @@ abstract class UserDebtResponse implements Built<UserDebtResponse, UserDebtRespo
 
   @BuiltValueField(wireName: r'payerId')
   String? get payerId;
+
+  @BuiltValueField(wireName: r'payerName')
+  String? get payerName;
 
   UserDebtResponse._();
 
@@ -70,6 +78,13 @@ class _$UserDebtResponseSerializer implements PrimitiveSerializer<UserDebtRespon
         specifiedType: const FullType.nullable(String),
       );
     }
+    if (object.description != null) {
+      yield r'description';
+      yield serializers.serialize(
+        object.description,
+        specifiedType: const FullType.nullable(String),
+      );
+    }
     if (object.owedAmount != null) {
       yield r'owedAmount';
       yield serializers.serialize(
@@ -89,6 +104,13 @@ class _$UserDebtResponseSerializer implements PrimitiveSerializer<UserDebtRespon
       yield serializers.serialize(
         object.payerId,
         specifiedType: const FullType(String),
+      );
+    }
+    if (object.payerName != null) {
+      yield r'payerName';
+      yield serializers.serialize(
+        object.payerName,
+        specifiedType: const FullType.nullable(String),
       );
     }
   }
@@ -129,6 +151,14 @@ class _$UserDebtResponseSerializer implements PrimitiveSerializer<UserDebtRespon
           if (valueDes == null) continue;
           result.reckoningName = valueDes;
           break;
+        case r'description':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
+          result.description = valueDes;
+          break;
         case r'owedAmount':
           final valueDes = serializers.deserialize(
             value,
@@ -149,6 +179,14 @@ class _$UserDebtResponseSerializer implements PrimitiveSerializer<UserDebtRespon
             specifiedType: const FullType(String),
           ) as String;
           result.payerId = valueDes;
+          break;
+        case r'payerName':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
+          result.payerName = valueDes;
           break;
         default:
           unhandled.add(key);

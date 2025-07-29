@@ -61,9 +61,3 @@ lib/src/model/user_debt_response.dart
 lib/src/model/user_response.dart
 lib/src/serializers.dart
 pubspec.yaml
-test/add_new_reckoning_request_test.dart
-test/add_new_reckoning_response_test.dart
-test/get_user_debt_response_test.dart
-test/reckoning_api_test.dart
-test/user_debt_response_test.dart
-test/user_debt_test.dart

@@ -235,7 +235,7 @@ class _AddReckoningPageState extends State<AddReckoningPage> {
                                 Expanded(
                                   child: InputTextField(
                                     controller: _debtControllers[friend]!,
-                                    labelText: 'Kwota długu',
+                                    labelText: 'Kwota osoby',
                                     numberKeyboard: true,
                                     onChanged: (val) {
                                       setState(() {

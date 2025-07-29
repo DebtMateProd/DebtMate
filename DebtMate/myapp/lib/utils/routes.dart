@@ -6,6 +6,7 @@ import 'package:myapp/pages/friends_page.dart';
 import 'package:myapp/pages/home_page.dart';
 import 'package:myapp/pages/login_page.dart';
 import 'package:myapp/pages/main_page.dart';
+import 'package:myapp/pages/reckonings_page.dart';
 import 'package:myapp/pages/register_page.dart';
 
 final Map<String, WidgetBuilder> appRoutes = {
@@ -17,4 +18,5 @@ final Map<String, WidgetBuilder> appRoutes = {
   '/friendrequests': (context) => const FriendRequestsPage(),
   '/friends': (context) => const FriendsPage(),
   '/addreckoning': (context) => const AddReckoningPage(),
+  '/reckonings': (context) => const ReckoningsPage(),
 };

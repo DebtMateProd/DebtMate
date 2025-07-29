@@ -1,5 +1,6 @@
 import 'package:built_collection/src/list.dart';
 import 'package:myapp/models/requests/add_new_reckoning_request.dart';
+import 'package:myapp/models/responses/user_debt_response.dart';
 import 'package:myapp/repositories/reckoning_repository.dart';
 import 'package:openapi/openapi.dart';
 
@@ -23,5 +24,23 @@ class ReckoningController {
     });
 
     return await _repository.addNewReckoning(addNewReckoningRequest);
+  }
+
+  Future<List<UserDebtResp>> getUserDebts(String userId) async {
+    List<UserDebtResponse> userDebts = await _repository.getUserDebts(userId);
+
+    List<UserDebtResp> debts = userDebts.map((debt) {
+      return UserDebtResp(
+        reckoningId: debt.reckoningId ?? "",
+        reckoningName: debt.reckoningName ?? "",
+        description: debt.description,
+        owedAmount: debt.owedAmount ?? 0.0,
+        isPaid: debt.isPaid ?? false,
+        payerId: debt.payerId ?? "",
+        payerName: debt.payerName ?? "",
+      );
+    }).toList();
+
+    return debts;
   }
 }

@@ -826,6 +826,10 @@
             "type": "string",
             "nullable": true
           },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
           "owedAmount": {
             "type": "number",
             "format": "float"
@@ -836,6 +840,10 @@
           "payerId": {
             "type": "string",
             "format": "uuid"
+          },
+          "payerName": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

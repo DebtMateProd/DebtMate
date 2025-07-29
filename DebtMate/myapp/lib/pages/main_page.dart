@@ -132,6 +132,7 @@ class _MainPageState extends State<MainPage> {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
+              spacing: 16.0,
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -139,6 +140,12 @@ class _MainPageState extends State<MainPage> {
                   labelText: 'Dodaj rozliczenie',
                   onPressed: () {
                      RouteHelper.getTo('/addreckoning');
+                  },
+                ),
+                CustomButton(
+                  labelText: 'Wyświetl swoje rozliczenia',
+                  onPressed: () {
+                     RouteHelper.getTo('/reckonings');
                   },
                 ),
               ],
