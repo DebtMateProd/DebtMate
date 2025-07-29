@@ -9,9 +9,11 @@
     {
         public Guid ReckoningId { get; set; }
         public string ReckoningName { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
         public float OwedAmount { get; set; }
         public bool IsPaid { get; set; }
 
         public Guid PayerId { get; set; }
+        public string PayerName { get; set; } = string.Empty;
     }
 }

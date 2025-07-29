@@ -16,7 +16,7 @@ namespace DebtMateAPI.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Friendship>()
-                .HasKey(f => new { f.UserId1, f.UserId2 }); // Composite PK
+                .HasKey(f => new { f.UserId1, f.UserId2 });
 
             modelBuilder.Entity<Friendship>()
                 .HasOne(f => f.User1)

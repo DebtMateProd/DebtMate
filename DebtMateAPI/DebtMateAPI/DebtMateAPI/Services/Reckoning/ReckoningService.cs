@@ -51,9 +51,11 @@ namespace DebtMateAPI.Services.Reckonings
             {
                 ReckoningId = ru.ReckoningId,
                 ReckoningName = ru.Reckoning.Name,
+                Description = ru.Reckoning.Description ?? "",
                 OwedAmount = ru.OwedAmount,
                 IsPaid = ru.IsPaid,
-                PayerId = ru.Reckoning.PayerId
+                PayerId = ru.Reckoning.PayerId,
+                PayerName = ru.Reckoning.Payer.UserName
             }).ToList();
 
             return userDebts;

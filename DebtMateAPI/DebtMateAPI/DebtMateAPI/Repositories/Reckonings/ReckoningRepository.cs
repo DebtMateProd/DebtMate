@@ -24,8 +24,10 @@ namespace DebtMateAPI.Repositories.Reckonings
         public async Task<List<ReckoningUser>> GetUserDebts(Guid userId, bool isPaid)
         {
             var userDebts = await _context.ReckoningUser
-                .Where(ru => ru.UserId == userId && ru.IsPaid == isPaid)
+                .Where(ru => ru.UserId == userId && ru.IsPaid == isPaid && ru.Reckoning.PayerId != userId)
                 .Include(ru => ru.Reckoning)
+                .Include(ru => ru.User)
+                .Include(ru => ru.Reckoning.Payer)
                 .ToListAsync();
 
             if(userDebts == null)
