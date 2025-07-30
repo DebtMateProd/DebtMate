@@ -1,12 +1,14 @@
 ﻿using DebtMateAPI.Requests.Friendship;
 using DebtMateAPI.Responses.Friendship;
 using DebtMateAPI.Services.Friendships;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DebtMateAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class FriendshipController : ControllerBase
     {
         private readonly IFriendshipService _friendshipService;

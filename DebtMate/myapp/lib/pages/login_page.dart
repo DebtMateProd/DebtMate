@@ -35,6 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (success.token != '' ) {
       ApiService.instance.userId = success.userId;
+      ApiService.instance.token = success.token;
       return true;
 
     } else {

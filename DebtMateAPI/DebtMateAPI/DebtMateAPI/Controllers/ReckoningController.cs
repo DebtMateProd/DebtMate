@@ -1,12 +1,14 @@
 ﻿using DebtMateAPI.Requests.Reckoning;
 using DebtMateAPI.Responses.Reckoning;
 using DebtMateAPI.Services.Reckonings;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DebtMateAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class ReckoningController : ControllerBase
     {
         private readonly IReckoningService _reckoningService;

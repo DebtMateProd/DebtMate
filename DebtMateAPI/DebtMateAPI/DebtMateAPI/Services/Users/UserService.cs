@@ -46,7 +46,7 @@ namespace DebtMateAPI.Services.Users
             var hash = HashPassword(password);
             if (user.PasswordHash != hash) return null;
 
-            string token = _jwtHelper.GenerateJwtToken(user.Login);
+            string token = _jwtHelper.GenerateJwtToken(user);
 
             return new LoginResponse
             {
