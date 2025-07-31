@@ -1,0 +1,110 @@
+import 'package:flutter/material.dart';
+import 'package:myapp/controllers/reckoning_controller.dart';
+import 'package:myapp/models/responses/user_balance_response.dart';
+import 'package:myapp/repositories/reckoning_repository.dart';
+import 'package:myapp/utils/api_service.dart';
+import 'package:myapp/utils/toast.dart';
+
+class BalancePage extends StatefulWidget {
+  final bool showDebts; // true: you owe, false: others owe you
+
+  const BalancePage({super.key, required this.showDebts});
+
+  @override
+  State<BalancePage> createState() => _BalancePageState();
+}
+
+
+class _BalancePageState extends State<BalancePage> {
+  final ReckoningController reckoningController = ReckoningController(ReckoningRepository());
+  List<UserBalanceResp> balances = [];
+  bool _loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    loadBalances();
+  }
+
+  Future<void> loadBalances() async {
+    final userId = ApiService.instance.userId;
+    if (userId == null) {
+      showToast('Nie udało się pobrać ID użytkownika.');
+      return;
+    }
+
+    final result = await reckoningController.getUserBalance(userId);
+    setState(() {
+      balances = widget.showDebts
+          ? result.where((b) => b.balance < 0).toList()
+          : result.where((b) => b.balance > 0).toList();
+      _loading = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isDebts = widget.showDebts;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          isDebts ? 'Twoje długi' : 'Kto jest ci winien',
+          style: const TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.cyan,
+        iconTheme: const IconThemeData(color: Colors.white),
+      ),
+      body: _loading
+          ? const Center(child: CircularProgressIndicator())
+          : Container(
+              padding: const EdgeInsets.all(16.0),
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.blue, Colors.black],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
+              child: balances.isEmpty
+                  ? Center(
+                      child: Text(
+                        isDebts
+                            ? 'Nie masz żadnych długów 🎉'
+                            : 'Nikt nie jest ci winien 💸',
+                        style: const TextStyle(color: Colors.white, fontSize: 18),
+                      ),
+                    )
+                  : ListView(
+                      children: balances.map((b) => _buildBalanceCard(b, isDebts)).toList(),
+                    ),
+            ),
+    );
+  }
+
+  Widget _buildBalanceCard(UserBalanceResp b, bool isDebts) {
+    return Card(
+      color: Colors.cyan,
+      margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+      elevation: 3,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: ListTile(
+        leading: Icon(
+          isDebts ? Icons.money_off : Icons.attach_money,
+          color: Colors.white,
+        ),
+        title: Text(
+          b.user2.username,
+          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        subtitle: Text(
+          isDebts
+              ? 'Jesteś mu winien: ${b.balance.abs().toStringAsFixed(2)} zł'
+              : 'Jest ci winien: ${b.balance.toStringAsFixed(2)} zł',
+          style: const TextStyle(color: Colors.white),
+        ),
+      ),
+    );
+  }
+}
+

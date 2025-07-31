@@ -8,4 +8,15 @@ class RouteHelper {
   static void getBack() {
     navigatorKey.currentState?.pop();
   }
+
+  static void popUntilHome() {
+    navigatorKey.currentState?.pushNamedAndRemoveUntil(
+      '/home',
+      (route) => false,
+    );
+  }
+
+  static void getToWithArgs(String routeName, Object args) {
+    navigatorKey.currentState?.pushNamed(routeName, arguments: args);
+  }
 }

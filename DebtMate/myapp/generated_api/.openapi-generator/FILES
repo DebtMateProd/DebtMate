@@ -8,6 +8,8 @@ doc/AddFriendshipResponse.md
 doc/AddNewReckoningRequest.md
 doc/AddNewReckoningResponse.md
 doc/AuthApi.md
+doc/BalanceUser.md
+doc/BalanceUserResponse.md
 doc/FriendshipApi.md
 doc/GetAllResponse.md
 doc/GetUserDebtResponse.md
@@ -16,6 +18,8 @@ doc/GetUserFriendRequestsListResponse.md
 doc/GetUserPendingFriendListResponse.md
 doc/LoginRequest.md
 doc/LoginResponse.md
+doc/PayUserDebtRequest.md
+doc/PayUserDebtResponse.md
 doc/ReckoningApi.md
 doc/RegisterRequest.md
 doc/RegisterResponse.md
@@ -44,6 +48,8 @@ lib/src/model/add_friendship_request.dart
 lib/src/model/add_friendship_response.dart
 lib/src/model/add_new_reckoning_request.dart
 lib/src/model/add_new_reckoning_response.dart
+lib/src/model/balance_user.dart
+lib/src/model/balance_user_response.dart
 lib/src/model/date.dart
 lib/src/model/get_all_response.dart
 lib/src/model/get_user_debt_response.dart
@@ -52,6 +58,8 @@ lib/src/model/get_user_friend_requests_list_response.dart
 lib/src/model/get_user_pending_friend_list_response.dart
 lib/src/model/login_request.dart
 lib/src/model/login_response.dart
+lib/src/model/pay_user_debt_request.dart
+lib/src/model/pay_user_debt_response.dart
 lib/src/model/register_request.dart
 lib/src/model/register_response.dart
 lib/src/model/remove_friendship_request.dart
@@ -61,3 +69,5 @@ lib/src/model/user_debt_response.dart
 lib/src/model/user_response.dart
 lib/src/serializers.dart
 pubspec.yaml
+test/balance_user_response_test.dart
+test/balance_user_test.dart

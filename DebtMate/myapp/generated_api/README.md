@@ -74,7 +74,9 @@ Class | Method | HTTP request | Description
 [*FriendshipApi*](doc/FriendshipApi.md) | [**apiFriendshipPendingfriendsUserIdGet**](doc/FriendshipApi.md#apifriendshippendingfriendsuseridget) | **GET** /api/Friendship/pendingfriends/{userId} | 
 [*FriendshipApi*](doc/FriendshipApi.md) | [**apiFriendshipRemovePost**](doc/FriendshipApi.md#apifriendshipremovepost) | **POST** /api/Friendship/remove | 
 [*ReckoningApi*](doc/ReckoningApi.md) | [**apiReckoningAddNewReckoningPost**](doc/ReckoningApi.md#apireckoningaddnewreckoningpost) | **POST** /api/Reckoning/addNewReckoning | 
+[*ReckoningApi*](doc/ReckoningApi.md) | [**apiReckoningGetUserBalanceGet**](doc/ReckoningApi.md#apireckoninggetuserbalanceget) | **GET** /api/Reckoning/getUserBalance | 
 [*ReckoningApi*](doc/ReckoningApi.md) | [**apiReckoningGetUserDebtsGet**](doc/ReckoningApi.md#apireckoninggetuserdebtsget) | **GET** /api/Reckoning/getUserDebts | 
+[*ReckoningApi*](doc/ReckoningApi.md) | [**apiReckoningPayUserDebtPost**](doc/ReckoningApi.md#apireckoningpayuserdebtpost) | **POST** /api/Reckoning/payUserDebt | 
 [*UserApi*](doc/UserApi.md) | [**apiUserGetAllUsersGet**](doc/UserApi.md#apiusergetallusersget) | **GET** /api/User/getAllUsers | 
 
 
@@ -86,6 +88,8 @@ Class | Method | HTTP request | Description
  - [AddFriendshipResponse](doc/AddFriendshipResponse.md)
  - [AddNewReckoningRequest](doc/AddNewReckoningRequest.md)
  - [AddNewReckoningResponse](doc/AddNewReckoningResponse.md)
+ - [BalanceUser](doc/BalanceUser.md)
+ - [BalanceUserResponse](doc/BalanceUserResponse.md)
  - [GetAllResponse](doc/GetAllResponse.md)
  - [GetUserDebtResponse](doc/GetUserDebtResponse.md)
  - [GetUserFriendListResponse](doc/GetUserFriendListResponse.md)
@@ -93,6 +97,8 @@ Class | Method | HTTP request | Description
  - [GetUserPendingFriendListResponse](doc/GetUserPendingFriendListResponse.md)
  - [LoginRequest](doc/LoginRequest.md)
  - [LoginResponse](doc/LoginResponse.md)
+ - [PayUserDebtRequest](doc/PayUserDebtRequest.md)
+ - [PayUserDebtResponse](doc/PayUserDebtResponse.md)
  - [RegisterRequest](doc/RegisterRequest.md)
  - [RegisterResponse](doc/RegisterResponse.md)
  - [RemoveFriendshipRequest](doc/RemoveFriendshipRequest.md)
@@ -104,7 +110,11 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Authorization
 
-Endpoints do not require authorization.
+
+Authentication schemes defined for the API:
+### Bearer
+
+- **Type**: HTTP Bearer Token authentication (JWT)
 
 
 ## Author

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/utils/api_service.dart';
 import 'package:myapp/utils/route_helper.dart';
+import 'package:myapp/utils/toast.dart';
 import 'package:myapp/widgets/button.dart';
 import 'package:toast/toast.dart';
 
@@ -47,6 +49,7 @@ class _MainPageState extends State<MainPage> {
               ),
             ),
             ExpansionTile(
+              shape: Border(),
               leading: CircleAvatar(
                 backgroundColor: Colors.cyan,
                 child: Icon(Icons.people, color: Colors.white),
@@ -117,6 +120,20 @@ class _MainPageState extends State<MainPage> {
                 ),
               ],
             ),
+            ListTile(
+              leading: CircleAvatar(
+                backgroundColor: Colors.cyan,
+                child: Icon(Icons.logout, color: Colors.white),
+              ),
+              title: Text('Wyloguj', style: TextStyle(color: Colors.black87, fontSize: 18, fontWeight: FontWeight.bold)),
+              onTap: () {
+                ApiService.instance.token = null;
+                ApiService.instance.userId = null;
+
+                showToast("Wylogowano pomyślnie");
+                RouteHelper.popUntilHome();
+              },
+            ),
           ],
         ),
       ),
@@ -148,6 +165,19 @@ class _MainPageState extends State<MainPage> {
                      RouteHelper.getTo('/reckonings');
                   },
                 ),
+                CustomButton(
+                  labelText: 'Sprawdź komu wisisz pieniądze',
+                  onPressed: () {
+                     RouteHelper.getToWithArgs('/balance', true);
+                  },
+                ),
+                CustomButton(
+                  labelText: 'Sprawdź kto ci wisi pieniądze',
+                  onPressed: () {
+                     RouteHelper.getToWithArgs('/balance', false);
+                  },
+                ),
+
               ],
             ),
           ),

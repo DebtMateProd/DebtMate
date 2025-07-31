@@ -20,6 +20,8 @@ import 'package:openapi/src/model/add_friendship_request.dart';
 import 'package:openapi/src/model/add_friendship_response.dart';
 import 'package:openapi/src/model/add_new_reckoning_request.dart';
 import 'package:openapi/src/model/add_new_reckoning_response.dart';
+import 'package:openapi/src/model/balance_user.dart';
+import 'package:openapi/src/model/balance_user_response.dart';
 import 'package:openapi/src/model/get_all_response.dart';
 import 'package:openapi/src/model/get_user_debt_response.dart';
 import 'package:openapi/src/model/get_user_friend_list_response.dart';
@@ -27,6 +29,8 @@ import 'package:openapi/src/model/get_user_friend_requests_list_response.dart';
 import 'package:openapi/src/model/get_user_pending_friend_list_response.dart';
 import 'package:openapi/src/model/login_request.dart';
 import 'package:openapi/src/model/login_response.dart';
+import 'package:openapi/src/model/pay_user_debt_request.dart';
+import 'package:openapi/src/model/pay_user_debt_response.dart';
 import 'package:openapi/src/model/register_request.dart';
 import 'package:openapi/src/model/register_response.dart';
 import 'package:openapi/src/model/remove_friendship_request.dart';
@@ -44,6 +48,8 @@ part 'serializers.g.dart';
   AddFriendshipResponse,
   AddNewReckoningRequest,
   AddNewReckoningResponse,
+  BalanceUser,
+  BalanceUserResponse,
   GetAllResponse,
   GetUserDebtResponse,
   GetUserFriendListResponse,
@@ -51,6 +57,8 @@ part 'serializers.g.dart';
   GetUserPendingFriendListResponse,
   LoginRequest,
   LoginResponse,
+  PayUserDebtRequest,
+  PayUserDebtResponse,
   RegisterRequest,
   RegisterResponse,
   RemoveFriendshipRequest,

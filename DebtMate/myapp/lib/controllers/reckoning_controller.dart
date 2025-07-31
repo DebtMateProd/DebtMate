@@ -1,6 +1,9 @@
 import 'package:built_collection/src/list.dart';
 import 'package:myapp/models/requests/add_new_reckoning_request.dart';
+import 'package:myapp/models/requests/pay_user_debt_request.dart';
+import 'package:myapp/models/responses/user_balance_response.dart';
 import 'package:myapp/models/responses/user_debt_response.dart';
+import 'package:myapp/models/responses/user_response.dart';
 import 'package:myapp/repositories/reckoning_repository.dart';
 import 'package:openapi/openapi.dart';
 
@@ -26,8 +29,8 @@ class ReckoningController {
     return await _repository.addNewReckoning(addNewReckoningRequest);
   }
 
-  Future<List<UserDebtResp>> getUserDebts(String userId) async {
-    List<UserDebtResponse> userDebts = await _repository.getUserDebts(userId);
+  Future<List<UserDebtResp>> getUserDebts(String userId, bool isPaid) async {
+    List<UserDebtResponse> userDebts = await _repository.getUserDebts(userId, isPaid);
 
     List<UserDebtResp> debts = userDebts.map((debt) {
       return UserDebtResp(
@@ -42,5 +45,32 @@ class ReckoningController {
     }).toList();
 
     return debts;
+  }
+
+  Future<bool> payUserDebt(PayUserDebtReq request) async {
+    PayUserDebtRequest payUserDebtReq = PayUserDebtRequest((b) {
+      b.userId = request.userId;
+      b.reckoningId = request.reckoningId;
+    });
+
+    return await _repository.payUserDebt(payUserDebtReq);
+  }
+
+  Future<List<UserBalanceResp>> getUserBalance(String userId) async {
+    List<BalanceUser> userBalances = await _repository.getUserBalances(userId);
+
+    return userBalances.map((balance) {
+      return UserBalanceResp(
+        user1: UserResp(
+          userId: balance.user1?.userId ?? "",
+          username: balance.user1?.userName ?? "",
+        ),
+        user2: UserResp(
+          userId: balance.user2?.userId ?? "",
+          username: balance.user2?.userName ?? "",
+        ),
+        balance: balance.balance ?? 0.0,
+      );
+    }).toList();
   }
 }
