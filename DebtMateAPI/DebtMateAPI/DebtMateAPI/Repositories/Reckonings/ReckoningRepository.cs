@@ -37,5 +37,36 @@ namespace DebtMateAPI.Repositories.Reckonings
 
             return userDebts;
         }
+
+        public async Task<bool> PayUserDebt(Guid userId, Guid reckoningId)
+        {
+            var userDebt = await _context.ReckoningUser
+                .Where(ru => ru.UserId == userId && ru.ReckoningId == reckoningId)
+                .FirstOrDefaultAsync();
+
+            if (userDebt == null)
+                return false;
+
+            if (userDebt.IsPaid)
+                return true;
+
+            userDebt.IsPaid = true;
+
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<List<ReckoningUser>> GetAllUnPaidUserReckonings(Guid userId)
+        {
+            return  await _context.ReckoningUser
+                .Include(ru => ru.Reckoning)
+                    .ThenInclude(r => r.Payer)
+                .Include(ru => ru.User)
+                .Where(ru => (ru.UserId == userId || ru.Reckoning.PayerId == userId) && !ru.IsPaid)
+                .ToListAsync();
+        }
+
+        
     }
 }

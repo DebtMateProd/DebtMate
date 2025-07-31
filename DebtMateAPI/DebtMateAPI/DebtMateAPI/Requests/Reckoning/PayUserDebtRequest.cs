@@ -1,8 +1,8 @@
 ﻿namespace DebtMateAPI.Requests.Reckoning
 {
-    public class GetUserDebtsRequest
+    public class PayUserDebtRequest
     {
         public Guid UserId { get; set; }
-        public bool IsDebtPaid { get; set; }
+        public Guid ReckoningId { get; set; }
     }
 }

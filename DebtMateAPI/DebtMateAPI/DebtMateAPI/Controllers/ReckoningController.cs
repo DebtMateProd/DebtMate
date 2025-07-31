@@ -3,6 +3,7 @@ using DebtMateAPI.Responses.Reckoning;
 using DebtMateAPI.Services.Reckonings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static DebtMateAPI.Requests.Reckoning.AddNewReckoningRequest;
 
 namespace DebtMateAPI.Controllers
 {
@@ -39,5 +40,28 @@ namespace DebtMateAPI.Controllers
 
             return new GetUserDebtResponse { Message = "Could not succeed", Success = false };
         }
+
+        [HttpPost("payUserDebt")]
+        public async Task<PayUserDebtResponse> PayUserDebt(PayUserDebtRequest request)
+        {
+            bool success = await _reckoningService.PayUserDebt(request: request);
+
+            if (success)
+                return new PayUserDebtResponse { Message = "Pay succeeded", Success = true };
+
+            return new PayUserDebtResponse { Message = "Pay could not succeed", Success = false };
+        }
+
+        [HttpGet("getUserBalance")]
+        public async Task<BalanceUserResponse> GetUserBalances(Guid userId)
+        {
+            List<BalanceUser> result = await _reckoningService.GetUserBalances(userId);
+
+            if (result != null)
+                return new BalanceUserResponse { Message = "Get succeeded", Success = true,  BalanceUsers = result};
+
+            return new BalanceUserResponse { Message = "Get could not succeed", Success = false };
+
+        } 
     }
 }
