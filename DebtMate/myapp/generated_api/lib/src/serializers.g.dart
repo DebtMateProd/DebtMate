@@ -15,8 +15,10 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(AddNewReckoningResponse.serializer)
       ..add(BalanceUser.serializer)
       ..add(BalanceUserResponse.serializer)
+      ..add(DebtorInfo.serializer)
       ..add(GetAllResponse.serializer)
       ..add(GetUserDebtResponse.serializer)
+      ..add(GetUserDebtorDebtsResponse.serializer)
       ..add(GetUserFriendListResponse.serializer)
       ..add(GetUserFriendRequestsListResponse.serializer)
       ..add(GetUserPendingFriendListResponse.serializer)
@@ -30,16 +32,23 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(RemoveFriendshipResponse.serializer)
       ..add(UserDebt.serializer)
       ..add(UserDebtResponse.serializer)
+      ..add(UserDebtorDebts.serializer)
       ..add(UserResponse.serializer)
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(BalanceUser)]),
           () => ListBuilder<BalanceUser>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(DebtorInfo)]),
+          () => ListBuilder<DebtorInfo>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(UserDebt)]),
           () => ListBuilder<UserDebt>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(UserDebtResponse)]),
           () => ListBuilder<UserDebtResponse>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(UserDebtorDebts)]),
+          () => ListBuilder<UserDebtorDebts>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(UserResponse)]),
           () => ListBuilder<UserResponse>())

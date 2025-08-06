@@ -23,8 +23,10 @@ export 'package:openapi/src/model/add_new_reckoning_request.dart';
 export 'package:openapi/src/model/add_new_reckoning_response.dart';
 export 'package:openapi/src/model/balance_user.dart';
 export 'package:openapi/src/model/balance_user_response.dart';
+export 'package:openapi/src/model/debtor_info.dart';
 export 'package:openapi/src/model/get_all_response.dart';
 export 'package:openapi/src/model/get_user_debt_response.dart';
+export 'package:openapi/src/model/get_user_debtor_debts_response.dart';
 export 'package:openapi/src/model/get_user_friend_list_response.dart';
 export 'package:openapi/src/model/get_user_friend_requests_list_response.dart';
 export 'package:openapi/src/model/get_user_pending_friend_list_response.dart';
@@ -38,5 +40,6 @@ export 'package:openapi/src/model/remove_friendship_request.dart';
 export 'package:openapi/src/model/remove_friendship_response.dart';
 export 'package:openapi/src/model/user_debt.dart';
 export 'package:openapi/src/model/user_debt_response.dart';
+export 'package:openapi/src/model/user_debtor_debts.dart';
 export 'package:openapi/src/model/user_response.dart';
 

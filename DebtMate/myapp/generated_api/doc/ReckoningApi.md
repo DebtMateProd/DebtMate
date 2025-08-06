@@ -11,6 +11,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**apiReckoningAddNewReckoningPost**](ReckoningApi.md#apireckoningaddnewreckoningpost) | **POST** /api/Reckoning/addNewReckoning | 
 [**apiReckoningGetUserBalanceGet**](ReckoningApi.md#apireckoninggetuserbalanceget) | **GET** /api/Reckoning/getUserBalance | 
+[**apiReckoningGetUserDebtorsDebtsGet**](ReckoningApi.md#apireckoninggetuserdebtorsdebtsget) | **GET** /api/Reckoning/getUserDebtorsDebts | 
 [**apiReckoningGetUserDebtsGet**](ReckoningApi.md#apireckoninggetuserdebtsget) | **GET** /api/Reckoning/getUserDebts | 
 [**apiReckoningPayUserDebtPost**](ReckoningApi.md#apireckoningpayuserdebtpost) | **POST** /api/Reckoning/payUserDebt | 
 
@@ -85,6 +86,49 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**BalanceUserResponse**](BalanceUserResponse.md)
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain, application/json, text/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiReckoningGetUserDebtorsDebtsGet**
+> GetUserDebtorDebtsResponse apiReckoningGetUserDebtorsDebtsGet(userId, isPaid)
+
+
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+
+final api = Openapi().getReckoningApi();
+final String userId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final bool isPaid = true; // bool | 
+
+try {
+    final response = api.apiReckoningGetUserDebtorsDebtsGet(userId, isPaid);
+    print(response);
+} catch on DioException (e) {
+    print('Exception when calling ReckoningApi->apiReckoningGetUserDebtorsDebtsGet: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **userId** | **String**|  | [optional] 
+ **isPaid** | **bool**|  | [optional] 
+
+### Return type
+
+[**GetUserDebtorDebtsResponse**](GetUserDebtorDebtsResponse.md)
 
 ### Authorization
 

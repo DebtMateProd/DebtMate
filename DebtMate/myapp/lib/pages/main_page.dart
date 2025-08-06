@@ -154,29 +154,72 @@ class _MainPageState extends State<MainPage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 CustomButton(
-                  labelText: 'Dodaj rozliczenie',
+                  labelText: '➕ Dodaj nowe rozliczenie',
                   onPressed: () {
                      RouteHelper.getTo('/addreckoning');
                   },
                 ),
-                CustomButton(
-                  labelText: 'Wyświetl swoje rozliczenia',
-                  onPressed: () {
-                     RouteHelper.getTo('/reckonings');
-                  },
+                Text("Sprawdź rozliczenia, w których", style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                Column(
+                  spacing: 8.0,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: CustomButton(
+                            labelText: '💸 Jesteś dłużnikiem',
+                            onPressed: () {
+                               RouteHelper.getTo('/reckonings');
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: CustomButton(
+                            labelText: '🧾 Jesteś płatnikiem',
+                            onPressed: () {
+                              RouteHelper.getTo('/owedReckonings');
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                CustomButton(
-                  labelText: 'Sprawdź komu wisisz pieniądze',
-                  onPressed: () {
-                     RouteHelper.getToWithArgs('/balance', true);
-                  },
+                Text("Sprawdź bilans wydatków", style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                Column(
+                  spacing: 8.0,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: CustomButton(
+                            labelText: '📉 Komu wiszę kasę',
+                            onPressed: () {
+                               RouteHelper.getToWithArgs('/balance', true);
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: CustomButton(
+                            labelText: '📈 Kto mi wisi kasę',
+                            onPressed: () {
+                              RouteHelper.getToWithArgs('/balance', false);
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                CustomButton(
-                  labelText: 'Sprawdź kto ci wisi pieniądze',
-                  onPressed: () {
-                     RouteHelper.getToWithArgs('/balance', false);
-                  },
-                ),
+                
 
               ],
             ),

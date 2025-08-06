@@ -75,6 +75,7 @@ Class | Method | HTTP request | Description
 [*FriendshipApi*](doc/FriendshipApi.md) | [**apiFriendshipRemovePost**](doc/FriendshipApi.md#apifriendshipremovepost) | **POST** /api/Friendship/remove | 
 [*ReckoningApi*](doc/ReckoningApi.md) | [**apiReckoningAddNewReckoningPost**](doc/ReckoningApi.md#apireckoningaddnewreckoningpost) | **POST** /api/Reckoning/addNewReckoning | 
 [*ReckoningApi*](doc/ReckoningApi.md) | [**apiReckoningGetUserBalanceGet**](doc/ReckoningApi.md#apireckoninggetuserbalanceget) | **GET** /api/Reckoning/getUserBalance | 
+[*ReckoningApi*](doc/ReckoningApi.md) | [**apiReckoningGetUserDebtorsDebtsGet**](doc/ReckoningApi.md#apireckoninggetuserdebtorsdebtsget) | **GET** /api/Reckoning/getUserDebtorsDebts | 
 [*ReckoningApi*](doc/ReckoningApi.md) | [**apiReckoningGetUserDebtsGet**](doc/ReckoningApi.md#apireckoninggetuserdebtsget) | **GET** /api/Reckoning/getUserDebts | 
 [*ReckoningApi*](doc/ReckoningApi.md) | [**apiReckoningPayUserDebtPost**](doc/ReckoningApi.md#apireckoningpayuserdebtpost) | **POST** /api/Reckoning/payUserDebt | 
 [*UserApi*](doc/UserApi.md) | [**apiUserGetAllUsersGet**](doc/UserApi.md#apiusergetallusersget) | **GET** /api/User/getAllUsers | 
@@ -90,8 +91,10 @@ Class | Method | HTTP request | Description
  - [AddNewReckoningResponse](doc/AddNewReckoningResponse.md)
  - [BalanceUser](doc/BalanceUser.md)
  - [BalanceUserResponse](doc/BalanceUserResponse.md)
+ - [DebtorInfo](doc/DebtorInfo.md)
  - [GetAllResponse](doc/GetAllResponse.md)
  - [GetUserDebtResponse](doc/GetUserDebtResponse.md)
+ - [GetUserDebtorDebtsResponse](doc/GetUserDebtorDebtsResponse.md)
  - [GetUserFriendListResponse](doc/GetUserFriendListResponse.md)
  - [GetUserFriendRequestsListResponse](doc/GetUserFriendRequestsListResponse.md)
  - [GetUserPendingFriendListResponse](doc/GetUserPendingFriendListResponse.md)
@@ -105,6 +108,7 @@ Class | Method | HTTP request | Description
  - [RemoveFriendshipResponse](doc/RemoveFriendshipResponse.md)
  - [UserDebt](doc/UserDebt.md)
  - [UserDebtResponse](doc/UserDebtResponse.md)
+ - [UserDebtorDebts](doc/UserDebtorDebts.md)
  - [UserResponse](doc/UserResponse.md)
 
 

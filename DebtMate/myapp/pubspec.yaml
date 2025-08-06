@@ -39,6 +39,7 @@ dependencies:
   openapi_generator: ^6.1.0
   dio: ^5.4.0
   dropdown_button2: ^2.3.9
+  flutter_launcher_icons: ^0.14.4
   openapi:
     path: generated_api
 

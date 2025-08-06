@@ -546,6 +546,52 @@
         }
       }
     },
+    "/api/Reckoning/getUserDebtorsDebts": {
+      "get": {
+        "tags": [
+          "Reckoning"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "isPaid",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserDebtorDebtsResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserDebtorDebtsResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserDebtorDebtsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/User/getAllUsers": {
       "get": {
         "tags": [
@@ -718,6 +764,22 @@
         },
         "additionalProperties": false
       },
+      "DebtorInfo": {
+        "type": "object",
+        "properties": {
+          "debtor": {
+            "$ref": "#/components/schemas/UserResponse"
+          },
+          "owedAmount": {
+            "type": "number",
+            "format": "float"
+          },
+          "isPaid": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
       "GetAllResponse": {
         "type": "object",
         "properties": {
@@ -752,6 +814,26 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/UserDebtResponse"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetUserDebtorDebtsResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "userDebtorDebts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserDebtorDebts"
             },
             "nullable": true
           }
@@ -993,6 +1075,31 @@
           },
           "payerName": {
             "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserDebtorDebts": {
+        "type": "object",
+        "properties": {
+          "reckoningId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "reckoningName": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "debtors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DebtorInfo"
+            },
             "nullable": true
           }
         },

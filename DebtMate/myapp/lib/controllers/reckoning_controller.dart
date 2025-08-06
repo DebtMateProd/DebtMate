@@ -1,6 +1,7 @@
 import 'package:built_collection/src/list.dart';
 import 'package:myapp/models/requests/add_new_reckoning_request.dart';
 import 'package:myapp/models/requests/pay_user_debt_request.dart';
+import 'package:myapp/models/responses/reckoning_debtors_response.dart';
 import 'package:myapp/models/responses/user_balance_response.dart';
 import 'package:myapp/models/responses/user_debt_response.dart';
 import 'package:myapp/models/responses/user_response.dart';
@@ -73,4 +74,24 @@ class ReckoningController {
       );
     }).toList();
   }
+
+  Future<List<ReckoningDebtorsResp>> getDebtsOwedToUser(String userId, bool? isPaid) async {
+    List<UserDebtorDebts> userDebtorsDebts = await _repository.getUserDebtorsDebts(userId, isPaid);
+
+    return userDebtorsDebts.map((debtorDebt) {
+      return ReckoningDebtorsResp(
+        reckoningId: debtorDebt.reckoningId ?? "",
+        reckoningName: debtorDebt.reckoningName ?? "",
+        description: debtorDebt.description,
+        debtors: debtorDebt.debtors!.map((debtor) => DebtorInfoResp(
+          debtorId: debtor.debtor?.userId ?? "",
+          debtorName: debtor.debtor?.userName ?? "",
+          owedAmount: debtor.owedAmount ?? 0.0,
+          isPaid: debtor.isPaid ?? false,
+        )).toList(),
+      );
+
+    }).toList();
+  }
+
 }

@@ -38,6 +38,7 @@ class ReckoningRepository {
       return false;
     }
   }
+
   Future<List<BalanceUser>> getUserBalances(String userId) async {
     try {
       final response = await reckoningApi.apiReckoningGetUserBalanceGet(userId: userId);
@@ -48,4 +49,16 @@ class ReckoningRepository {
       return [];
     }
   }
+
+  Future<List<UserDebtorDebts>> getUserDebtorsDebts(String userId, bool? isPaid) async {
+    try {
+      final response = await reckoningApi.apiReckoningGetUserDebtorsDebtsGet(userId: userId, isPaid: isPaid);
+
+      return response.data?.userDebtorDebts?.toList() ?? [];
+    } catch (e) {
+      log('Get user debtors debts error: $e');
+      return [];
+    }
+  } 
+
 }
