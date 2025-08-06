@@ -8,5 +8,6 @@ namespace DebtMateAPI.Repositories.Reckonings
         Task<List<ReckoningUser>> GetUserDebts(Guid userId, bool isPaid);
         Task<bool> PayUserDebt(Guid userId, Guid reckoningId);
         Task<List<ReckoningUser>> GetAllUnPaidUserReckonings(Guid userId);
+        Task<List<ReckoningUser>> GetUsersDebtorsDebts(Guid userId, bool? isPaid);
     }
 }

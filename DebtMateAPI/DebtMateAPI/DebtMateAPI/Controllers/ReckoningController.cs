@@ -62,6 +62,17 @@ namespace DebtMateAPI.Controllers
 
             return new BalanceUserResponse { Message = "Get could not succeed", Success = false };
 
-        } 
+        }
+
+        [HttpGet("getUserDebtorsDebts")]
+        public async Task<GetUserDebtorDebtsResponse> GetUserDebtorsDebts(Guid userId, bool? isPaid)
+        {
+            List<UserDebtorDebts> userDebtorDebts = await _reckoningService.GetUsersDebtorsDebts(userId, isPaid);
+
+            if (userDebtorDebts != null)
+                return new GetUserDebtorDebtsResponse { Message = "Get succeeded", Success = true, userDebtorDebts = userDebtorDebts };
+
+            return new GetUserDebtorDebtsResponse { Message = "Get could not succeed", Success = false };
+        }
     }
 }

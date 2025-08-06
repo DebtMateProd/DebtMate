@@ -108,6 +108,37 @@ namespace DebtMateAPI.Services.Reckonings
             return GetBalanceListFromDictionary(user, balanceMap);
         }
 
+        public async Task<List<UserDebtorDebts>> GetUsersDebtorsDebts(Guid userId, bool? isPaid)
+        {
+            List<ReckoningUser> reckoningUsers = await _repository.GetUsersDebtorsDebts(userId, isPaid);
+
+            List<UserDebtorDebts> userDebtorsDebts = reckoningUsers
+                .GroupBy(ru => ru.ReckoningId)
+                .Select(group => {
+                    var reckoning = group.First().Reckoning;
+
+                    return new UserDebtorDebts
+                    {
+                        ReckoningId = reckoning.Id,
+                        ReckoningName = reckoning.Name,
+                        Description = reckoning.Description,
+                        Debtors = group.Select(ru => new DebtorInfo
+                        {
+                            Debtor = new UserResponse
+                            {
+                                UserId = ru.User.Id,
+                                UserName = ru.User.UserName,
+                            },
+                            OwedAmount = ru.OwedAmount,
+                            IsPaid = ru.IsPaid
+                        }).ToList()
+                    };
+                }).ToList();
+
+            return userDebtorsDebts;
+        }
+
+
         private List<BalanceUser> GetBalanceListFromDictionary(User user, Dictionary<Guid, (float balance, User otherUser)> map)
         {
             var result = new List<BalanceUser>();
