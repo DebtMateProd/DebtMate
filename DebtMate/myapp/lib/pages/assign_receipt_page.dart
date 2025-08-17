@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/controllers/friend_controller.dart';
+import 'package:myapp/controllers/reckoning_controller.dart';
+import 'package:myapp/models/requests/add_new_reckoning_request.dart';
 import 'package:myapp/models/responses/user_response.dart';
 import 'package:myapp/repositories/friend_repository.dart';
+import 'package:myapp/repositories/reckoning_repository.dart';
 import 'package:myapp/utils/api_service.dart';
+import 'package:myapp/utils/route_helper.dart';
+import 'package:myapp/utils/toast.dart';
 import 'package:myapp/widgets/button.dart';
 import 'package:myapp/widgets/drop_down.dart';
 import 'package:myapp/widgets/text_field.dart';
@@ -19,6 +24,8 @@ class ReceiptAssignPage extends StatefulWidget {
 class _ReceiptAssignPageState extends State<ReceiptAssignPage> {
   final FriendController _friendController = FriendController(FriendRepository());
   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final ReckoningController _reckoningController = ReckoningController(ReckoningRepository());
 
   List<UserResp> _selectedUsers = [];
   List<UserResp> _allUsers = [];
@@ -103,6 +110,14 @@ class _ReceiptAssignPageState extends State<ReceiptAssignPage> {
                   labelText: 'Wprowadź nazwe zakupów',
                 ),
               ),
+              Text('Opis (opcjonalnie)', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: InputTextField(
+                  controller: _descriptionController,
+                  labelText: 'Wprowadź opis',
+                ),
+              ),
               Text('Kto zapłacił?', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
               Padding(
                 padding: const EdgeInsets.only(bottom: 12),
@@ -118,7 +133,7 @@ class _ReceiptAssignPageState extends State<ReceiptAssignPage> {
                   ),
                 ),
               ),
-              Text('Pełna kwota: $_totalCost zł', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+              Text('Pełna kwota: ${_totalCost?.toStringAsFixed(2)} zł', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
               ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
@@ -126,7 +141,7 @@ class _ReceiptAssignPageState extends State<ReceiptAssignPage> {
                 itemBuilder: (context, index) {
                   final split = _splits.elementAt(index);
                   return Card(
-                    color: Colors.cyan,
+                    color: Colors.cyan.shade400,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -141,10 +156,12 @@ class _ReceiptAssignPageState extends State<ReceiptAssignPage> {
                             padding: const EdgeInsets.only(bottom: 12),
                             
                             child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Row(
+                                Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       split.product.name,
@@ -165,7 +182,7 @@ class _ReceiptAssignPageState extends State<ReceiptAssignPage> {
                                   ],
                                 ),
                                 Text(
-                                      "Pozostało: ${(split.product.price - split.userAmounts.values.fold<double>(0.0, (a, b) => a + b)).toStringAsFixed(2)} zł",
+                                      "Rozlicz: ${(split.product.price - split.userAmounts.values.fold<double>(0.0, (a, b) => a + b)).toStringAsFixed(2)} zł",
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 16,
@@ -216,17 +233,31 @@ class _ReceiptAssignPageState extends State<ReceiptAssignPage> {
                               );
                             }).toList(),
                           ),
-                        
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: IconButton(
-                              icon: const Icon(Icons.add, color: Colors.white,),
-                              onPressed: () {
-                                _chooseUsersForProductDialog(
-                                  context,
-                                  _splits[index],
-                                );
-                              },
+
+                          Padding(
+                            padding: const EdgeInsets.only(top: 12.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                CustomButton(labelText: 'Podziel koszt', onPressed: (){
+                                  final equalAmount = _splits[index].product.price / _splits[index].userAmounts.length;
+                                  
+                                  setState(() {                            
+                                    for (var user in _splits[index].userAmounts.keys) {
+                                      split.userAmounts[user] = equalAmount; // każdy nowy startuje od 0 zł
+                                    }
+                                  });
+                                }),
+                                IconButton(
+                                    icon: const Icon(Icons.add, color: Colors.white,),
+                                    onPressed: () {
+                                      _chooseUsersForProductDialog(
+                                        context,
+                                        _splits[index],
+                                      );
+                                    },
+                                  ),
+                              ],
                             ),
                           ),
                         ],
@@ -235,12 +266,49 @@ class _ReceiptAssignPageState extends State<ReceiptAssignPage> {
                   );
                 },
               ),
-              CustomButton(labelText: 'Dodaj rozliczenie', onPressed: (){})
+              CustomButton(labelText: 'Dodaj rozliczenie', onPressed: () async{
+                if(checkIfAllFieldsAreFilled(_splits)) {
+                  await _submitReckoning();
+                }
+              })
             ],
           ),
         ),
       ),
     );
+  }
+
+  Future<void> _submitReckoning() async {
+    final Map<String, double> aggregatedDebts = {};
+
+    for (final split in _splits) {
+      split.userAmounts.forEach((user, amount) {
+        aggregatedDebts[user.userId] = (aggregatedDebts[user.userId] ?? 0) + amount;
+      });
+    }
+
+
+    final debtsList = aggregatedDebts.entries.map((entry) => UserDebtReq(
+      userId: entry.key,
+      amount: entry.value,
+    )).toList();
+
+    final request = AddNewReckoningReq(
+      name: _nameController.text,
+      description: _descriptionController.text,
+      totalCost: _totalCost ?? 0.0,
+      payerId: _payer?.userId ?? '',
+      debts: debtsList,
+    );
+
+    await _reckoningController.addNewReckoning(request).then((success) {
+      if (success) {
+        showToast('Rozliczenie dodane poprawnie!');
+        RouteHelper.getBack();
+      } else {
+        showToast('Nie udało się dodać rozliczenia. Sprawdź dane i spróbuj ponownie.');
+      }
+    });
   }
 
   Future<void> _chooseUsersDialog(BuildContext context) {
@@ -335,10 +403,9 @@ class _ReceiptAssignPageState extends State<ReceiptAssignPage> {
 
                       for (var split in _splits) {
                         split.userAmounts.clear();
-                        final equalAmount = split.product.price / _selectedUsers.length;
 
                         for (var user in _selectedUsers) {
-                          split.userAmounts[user] = equalAmount;
+                          split.userAmounts[user] = 0.0;
                         }
 
                       }
@@ -442,10 +509,9 @@ class _ReceiptAssignPageState extends State<ReceiptAssignPage> {
                   onPressed: () {
                     setState(() {
                       split.userAmounts.clear();
-                      final equalAmount = split.product.price / selectedUsers.length;
 
                       for (var user in selectedUsers) {
-                        split.userAmounts[user] = equalAmount; // każdy nowy startuje od 0 zł
+                        split.userAmounts[user] = 0.0; // każdy nowy startuje od 0 zł
                       }
                     });
                     Navigator.of(context).pop();
@@ -458,7 +524,43 @@ class _ReceiptAssignPageState extends State<ReceiptAssignPage> {
       },
     );
   }
+  
+  bool checkIfAllFieldsAreFilled(List<ProductSplit> productSplits) {
+    if (_payer == null) {
+      showToast('Wybierz osobę, która zapłaciła.');
+      return false;
+    }
 
+    if (_nameController.text.isEmpty) {
+      showToast('Wprowadź nazwę zakupów.');
+      return false;
+    }
+
+    if (hasUnassignedProduct(productSplits)) {
+      showToast('Niektóre produkty nie mają przypisanego płatnika.');
+      return false;
+    }
+
+    if (!allProductsSettled(productSplits)) {
+      showToast('Nie wszystkie produkty zostały w pełni rozliczone.');
+      return false;
+    }
+
+    return true;
+  }
+}
+
+bool hasUnassignedProduct(List<ProductSplit> productSplits) {
+  return productSplits.any((split) => split.userAmounts.isEmpty);
+}
+
+bool isFullySettled(ProductSplit split) {
+  final totalAssigned = split.userAmounts.values.fold(0.0, (a, b) => a + b);
+  return (totalAssigned - split.product.price).abs() < 0.01; // z tolerancją na błędy double
+}
+
+bool allProductsSettled(List<ProductSplit> productSplits) {
+  return productSplits.every(isFullySettled);
 }
 
 class Product {
