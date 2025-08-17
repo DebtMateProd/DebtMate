@@ -156,7 +156,7 @@ class _MainPageState extends State<MainPage> {
                 CustomButton(
                   labelText: '➕ Dodaj nowe rozliczenie',
                   onPressed: () {
-                     RouteHelper.getTo('/addreckoning');
+                     RouteHelper.getTo('/chooseReckoningType');
                   },
                 ),
                 Text("Sprawdź rozliczenia, w których", style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),

@@ -165,7 +165,7 @@ class _AddReckoningPageState extends State<AddReckoningPage> {
                           child: InputTextField(
                             controller: _costController,
                             labelText: 'Podaj kwotę',
-                            numberKeyboard: true,
+                            inputType: TextInputType.number,
                             onChanged: (val) {
                               setState(() {
                                 _totalCost = double.tryParse(val);
@@ -236,7 +236,7 @@ class _AddReckoningPageState extends State<AddReckoningPage> {
                                   child: InputTextField(
                                     controller: _debtControllers[friend]!,
                                     labelText: 'Kwota osoby',
-                                    numberKeyboard: true,
+                                    inputType: TextInputType.number,
                                     onChanged: (val) {
                                       setState(() {
                                         double? amount = double.tryParse(val);
