@@ -128,7 +128,7 @@ class ReckoningsPageState extends State<ReckoningsPage> {
 
   Widget _buildDebtCard(UserDebtResp debt) {
     return Card(
-      color: Colors.cyan,
+      color: Colors.cyan.shade400,
       margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
       elevation: 3,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -164,11 +164,12 @@ class ReckoningsPageState extends State<ReckoningsPage> {
           borderRadius: BorderRadius.circular(20),
         ),
         title: Row(
+          spacing: 8,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const Icon(Icons.info, color: Colors.white),
-            const SizedBox(width: 8),
             const Text(
-              'Szczegóły rozliczenia',
+              'Szczegóły',
               style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
             ),
           ],

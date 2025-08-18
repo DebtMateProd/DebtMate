@@ -6,6 +6,8 @@ import 'package:myapp/repositories/user_repository.dart';
 import 'package:myapp/models/responses/user_response.dart';
 import 'package:myapp/utils/api_service.dart';
 import 'package:myapp/utils/toast.dart';
+import 'package:myapp/widgets/button.dart';
+import 'package:myapp/widgets/text_field.dart';
 
 class AddFriendPage extends StatefulWidget {
   const AddFriendPage({super.key});
@@ -75,51 +77,57 @@ class _AddFriendPageState extends State<AddFriendPage> {
         backgroundColor: Colors.cyan,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                hintText: 'Szukaj użytkownika...',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                filled: true,
-                fillColor: Colors.white,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.blue, Colors.black],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: 
+              InputTextField(
+                controller: _searchController,
+                labelText: 'Szukaj użytkownika',
+                prefixIcon: const Icon(Icons.search, color: Colors.white),
               ),
             ),
-          ),
-          Expanded(
-            child: _searchController.text.isEmpty
-                ? const Center(child: Text('Wpisz nazwę użytkownika, aby wyszukać'))
-                : (_filteredUsers.isEmpty
-                    ? const Center(child: Text('Brak użytkowników'))
-                    : ListView.builder(
-                        itemCount: _filteredUsers.length,
-                        itemBuilder: (context, index) {
-                          final user = _filteredUsers[index];
-                          return ListTile(
-                            leading: CircleAvatar(
-                              backgroundColor: Colors.cyan,
-                              child: Icon(Icons.person, color: Colors.white),
-                            ),
-                            title: Text(user.username),
-                            trailing: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.cyan,
-                                foregroundColor: Colors.white,
+            Expanded(
+              child: _searchController.text.isEmpty
+                  ? const Center(child: Text('Wpisz nazwę użytkownika, aby wyszukać', style: TextStyle(color: Colors.white)))
+                  : (_filteredUsers.isEmpty
+                      ? const Center(child: Text('Brak użytkowników', style: TextStyle(color: Colors.white),))
+                      : ListView.builder(
+                          itemCount: _filteredUsers.length,
+                          itemBuilder: (context, index) {
+                            final user = _filteredUsers[index];
+                            return Card(
+                              color: Colors.cyan.shade400,
+                              margin: const EdgeInsets.only(left: 16, right: 16),
+                              child: ListTile(
+                                leading: CircleAvatar(
+                                  backgroundColor: Colors.white,
+                                  child: Icon(Icons.person, color: Colors.cyan),
+                                ),
+                                title: Text(user.username, style: TextStyle(color: Colors.white),),
+                                trailing: 
+                                CustomButton(
+                                  labelText: 'Dodaj', 
+                                  onPressed: () {
+                                    addFriend(user.userId);
+                                  },
+                                )
                               ),
-                              onPressed: () {
-                                addFriend(user.userId);
-                              },
-                              child: const Text('Dodaj'),
-                            ),
-                          );
-                        },
-                      )),
-          ),
-        ],
+                            );
+                          },
+                        )),
+            ),
+          ],
+        ),
       ),
     );
   }

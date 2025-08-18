@@ -30,8 +30,15 @@ class _MainPageState extends State<MainPage> {
         foregroundColor: Colors.white,
         centerTitle: true,
       ),
+      onDrawerChanged: (isOpen) {
+        if(!isOpen){
+          setState(() {
+            _isFriendsExpanded = false;
+          });
+        }
+      },
       drawer: Drawer(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.cyan.shade400,
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
@@ -51,20 +58,20 @@ class _MainPageState extends State<MainPage> {
             ExpansionTile(
               shape: Border(),
               leading: CircleAvatar(
-                backgroundColor: Colors.cyan,
-                child: Icon(Icons.people, color: Colors.white),
+                backgroundColor: Colors.white,
+                child: Icon(Icons.people, color: Colors.cyan),
               ),
               title: Text(
                 'Znajomi',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
-                  color: Colors.black87,
+                  color: Colors.white,
                 ),
               ),
               trailing: Icon(
                 _isFriendsExpanded ? Icons.expand_less : Icons.expand_more,
-                color: Colors.cyan,
+                color: Colors.white,
                 size: 28,
               ),
               onExpansionChanged: (expanded) {
@@ -122,10 +129,10 @@ class _MainPageState extends State<MainPage> {
             ),
             ListTile(
               leading: CircleAvatar(
-                backgroundColor: Colors.cyan,
-                child: Icon(Icons.logout, color: Colors.white),
+                backgroundColor: Colors.white,
+                child: Icon(Icons.logout, color: Colors.cyan),
               ),
-              title: Text('Wyloguj', style: TextStyle(color: Colors.black87, fontSize: 18, fontWeight: FontWeight.bold)),
+              title: Text('Wyloguj', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
               onTap: () {
                 ApiService.instance.token = null;
                 ApiService.instance.userId = null;

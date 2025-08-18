@@ -84,7 +84,7 @@ class _BalancePageState extends State<BalancePage> {
 
   Widget _buildBalanceCard(UserBalanceResp b, bool isDebts) {
     return Card(
-      color: Colors.cyan,
+      color: Colors.cyan.shade400,
       margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
       elevation: 3,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

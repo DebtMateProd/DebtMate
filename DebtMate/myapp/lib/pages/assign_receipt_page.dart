@@ -304,7 +304,7 @@ class _ReceiptAssignPageState extends State<ReceiptAssignPage> {
     await _reckoningController.addNewReckoning(request).then((success) {
       if (success) {
         showToast('Rozliczenie dodane poprawnie!');
-        RouteHelper.getBack();
+        RouteHelper.popUntilHome();
       } else {
         showToast('Nie udało się dodać rozliczenia. Sprawdź dane i spróbuj ponownie.');
       }

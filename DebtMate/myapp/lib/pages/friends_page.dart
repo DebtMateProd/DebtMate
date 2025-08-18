@@ -3,6 +3,7 @@ import 'package:myapp/controllers/friend_controller.dart';
 import 'package:myapp/repositories/friend_repository.dart';
 import 'package:myapp/models/responses/user_response.dart';
 import 'package:myapp/utils/api_service.dart';
+import 'package:myapp/utils/toast.dart';
 
 class FriendsPage extends StatefulWidget {
   const FriendsPage({super.key});
@@ -15,6 +16,9 @@ class _FriendsPageState extends State<FriendsPage> {
   final FriendController _friendController = FriendController(FriendRepository());
   List<UserResp> _friends = [];
   bool _loading = true;
+
+  String? _removingFriendId;
+
 
   @override
   void initState() {
@@ -29,29 +33,54 @@ class _FriendsPageState extends State<FriendsPage> {
       _friends = friends;
       _loading = false;
     });
+
+    try {
+      final userId = ApiService.instance.userId ?? '';
+      final friends = await _friendController.getUserFriends(userId);
+      setState(() {
+        _friends = friends;
+      });
+    } catch (e) {
+      showToast('Nie udało się pobrać znajomych. Spróbuj ponownie.');
+    } finally {
+      setState(() => _loading = false);
+    }
   }
+
 
   Future<void> _showRemoveDialog(UserResp friend) async {
     final result = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Usuń znajomego'),
-        content: Text('Czy na pewno chcesz usunąć użytkownika "${friend.username}" ze znajomych?'),
+        backgroundColor: Colors.cyan,
+        title: const Text('Usuń znajomego', style: TextStyle(color: Colors.white),),
+        content: Text('Czy na pewno chcesz usunąć użytkownika "${friend.username}" ze znajomych?', style: TextStyle(color: Colors.white)),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Nie'),
+            child: const Text('Nie', style: TextStyle(color: Colors.white)),
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Tak'),
+            child: const Text('Tak', style: TextStyle(color: Colors.white)),
           ),
         ],
       ),
     );
+
     if (result == true) {
-      await _friendController.removeFriend(ApiService.instance.userId!, friend.userId);
-      _fetchFriends();
+      setState(() => _removingFriendId = friend.userId);
+
+      try {
+        await _friendController.removeFriend(ApiService.instance.userId!, friend.userId);
+        await _fetchFriends();
+
+        showToast('Usunięto znajomego.');
+      } catch (e) {
+        showToast('Nie udało się usunąć znajomego.');
+      } finally {
+        setState(() => _removingFriendId = null);
+      }
     }
   }
 
@@ -65,27 +94,46 @@ class _FriendsPageState extends State<FriendsPage> {
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
-          : RefreshIndicator(
-              onRefresh: _fetchFriends,
-              child: ListView.separated(
-                padding: const EdgeInsets.all(16),
-                itemCount: _friends.length,
-                separatorBuilder: (context, index) => const Divider(height: 24, color: Colors.transparent),
-                itemBuilder: (context, index) {
-                  final user = _friends[index];
-                  return Card(
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor: Colors.cyan,
-                        child: Icon(Icons.person, color: Colors.white),
-                      ),
-                      title: Text(user.username),
-                      onLongPress: () => _showRemoveDialog(user),
-                    ),
-                  );
-                },
+          : Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.blue, Colors.black],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
             ),
+            child: RefreshIndicator(
+                onRefresh: _fetchFriends,
+                child: ListView.separated(
+                  padding: const EdgeInsets.all(16),
+                  itemCount: _friends.length,
+                  separatorBuilder: (context, index) => const Divider(height: 24, color: Colors.transparent),
+                  itemBuilder: (context, index) {
+                    final user = _friends[index];
+                    return Card(
+                      color: Colors.cyan.shade400,
+                      child: ListTile(
+                        leading: _removingFriendId == user.userId
+                        ? const SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                            ),
+                          )
+                        : CircleAvatar(
+                            backgroundColor: Colors.white,
+                            child: Icon(Icons.person, color: Colors.cyan),
+                          ),
+                        title: Text(user.username, style: TextStyle(color: Colors.white),),
+                        onTap: () => _showRemoveDialog(user),
+                      ),
+                    );
+                  },
+                ),
+              ),
+          ),
     );
   }
 }

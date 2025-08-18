@@ -10,6 +10,7 @@ class InputTextField extends StatelessWidget {
   final bool readOnly;
   final int? maxLines;
   final FocusNode? focusNode;
+  final Icon? prefixIcon;
 
   const InputTextField({
     super.key, 
@@ -22,6 +23,7 @@ class InputTextField extends StatelessWidget {
     this.maxLines = 1,
     this.focusNode,
     this.onSubmitted,
+    this.prefixIcon,
   });
 
   @override
@@ -40,6 +42,7 @@ class InputTextField extends StatelessWidget {
         filled: true,
         labelText: labelText,
         labelStyle: const TextStyle(color: Colors.white),
+        prefixIcon: prefixIcon,
         floatingLabelStyle: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,

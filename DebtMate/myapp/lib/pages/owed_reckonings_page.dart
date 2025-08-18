@@ -121,7 +121,7 @@ class _ReckoningsOwedPageState extends State<ReckoningsOwedPage> {
 
     Widget _buildOwedCard(ReckoningDebtorsResp debt) {
     return Card(
-      color: Colors.cyan,
+      color: Colors.cyan.shade400,
       margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
       elevation: 3,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
