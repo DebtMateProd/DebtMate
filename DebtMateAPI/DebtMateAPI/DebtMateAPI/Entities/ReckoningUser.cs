@@ -12,5 +12,7 @@
 
         public float OwedAmount { get; set; }
         public bool IsPaid { get; set; } = false;
+
+        public DateTime? PaidDate { get; set; }
     }
 }

@@ -81,6 +81,9 @@ namespace DebtMateAPI.Migrations
                     b.Property<float>("OwedAmount")
                         .HasColumnType("float");
 
+                    b.Property<DateTime?>("PaidDate")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<Guid>("ReckoningId")
                         .HasColumnType("char(36)");
 

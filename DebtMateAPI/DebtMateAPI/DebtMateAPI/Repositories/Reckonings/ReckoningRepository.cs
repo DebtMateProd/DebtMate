@@ -23,8 +23,21 @@ namespace DebtMateAPI.Repositories.Reckonings
 
         public async Task<List<ReckoningUser>> GetUserDebts(Guid userId, bool isPaid)
         {
-            return await _context.ReckoningUser
-                .Where(ru => ru.UserId == userId && ru.IsPaid == isPaid && ru.Reckoning.PayerId != userId)
+            var thirtyDaysAgo = DateTime.UtcNow.AddDays(-30);
+
+            var query = _context.ReckoningUser
+                .Where(ru => ru.UserId == userId && ru.Reckoning.PayerId != userId);
+
+            if (isPaid)
+            {
+                query = query.Where(ru => ru.IsPaid && ru.PaidDate >= thirtyDaysAgo);
+            }
+            else
+            {
+                query = query.Where(ru => !ru.IsPaid);
+            }
+
+            return await query
                 .Include(ru => ru.Reckoning)
                 .Include(ru => ru.User)
                 .Include(ru => ru.Reckoning.Payer)
@@ -44,6 +57,7 @@ namespace DebtMateAPI.Repositories.Reckonings
                 return true;
 
             userDebt.IsPaid = true;
+            userDebt.PaidDate = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
 
@@ -62,6 +76,8 @@ namespace DebtMateAPI.Repositories.Reckonings
 
         public async Task<List<ReckoningUser>> GetUsersDebtorsDebts(Guid userId, bool? isPaid)
         {
+            var thirtyDaysAgo = DateTime.UtcNow.AddDays(-30);
+
             var query = _context.ReckoningUser
                 .Include(ru => ru.Reckoning)
                     .ThenInclude(r => r.Users)
@@ -77,6 +93,18 @@ namespace DebtMateAPI.Repositories.Reckonings
             else if (isPaid == false)
             {
                 query = query.Where(ru => ru.Reckoning.Users.Any(u => !u.IsPaid));
+            }
+
+            if (isPaid.HasValue)
+            {
+                if (isPaid.Value)
+                {
+                    query = query.Where(ru => ru.IsPaid && ru.PaidDate >= thirtyDaysAgo);
+                }
+                else
+                {
+                    query = query.Where(ru => !ru.IsPaid);
+                }
             }
 
             return await query.ToListAsync();
