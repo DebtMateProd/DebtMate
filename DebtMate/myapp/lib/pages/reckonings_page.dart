@@ -31,15 +31,15 @@ class ReckoningsPageState extends State<ReckoningsPage> {
 
   Future<void> getUserDebts() async {
     final userId = ApiService.instance.userId;
-    
-    if (userId != null) {
-      unpaidDebts = await reckoningController.getUserDebts(userId, false);
-      setState(() {
-        _loading = false;
-      });
-    } else {
+
+    if (userId == null) {
       showToast('Nie udało się pobrać ID użytkownika.');
+      return;
     }
+
+    unpaidDebts = await reckoningController.getUserDebts(userId, false);
+
+    setState(() => _loading = false);
   }
 
   Future<void> loadPaidDebts() async {

@@ -29,22 +29,11 @@ class _FriendsPageState extends State<FriendsPage> {
   Future<void> _fetchFriends() async {
     final userId = ApiService.instance.userId ?? '';
     final friends = await _friendController.getUserFriends(userId);
+
     setState(() {
       _friends = friends;
       _loading = false;
     });
-
-    try {
-      final userId = ApiService.instance.userId ?? '';
-      final friends = await _friendController.getUserFriends(userId);
-      setState(() {
-        _friends = friends;
-      });
-    } catch (e) {
-      showToast('Nie udało się pobrać znajomych. Spróbuj ponownie.');
-    } finally {
-      setState(() => _loading = false);
-    }
   }
 
 
@@ -71,16 +60,12 @@ class _FriendsPageState extends State<FriendsPage> {
     if (result == true) {
       setState(() => _removingFriendId = friend.userId);
 
-      try {
-        await _friendController.removeFriend(ApiService.instance.userId!, friend.userId);
-        await _fetchFriends();
+       await _friendController.removeFriend(ApiService.instance.userId!, friend.userId);
+       await _fetchFriends();
 
-        showToast('Usunięto znajomego.');
-      } catch (e) {
-        showToast('Nie udało się usunąć znajomego.');
-      } finally {
-        setState(() => _removingFriendId = null);
-      }
+       setState(() => _removingFriendId = null);
+
+       showToast('Usunięto znajomego.');
     }
   }
 

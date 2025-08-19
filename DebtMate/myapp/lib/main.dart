@@ -17,8 +17,7 @@ void main() async{
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
-  Widget build(BuildContext context) {
-    ToastContext().init(context);
+  Widget build(BuildContext context) {    
     return MaterialApp(
       title: 'DebtMate',
       navigatorKey: navigatorKey,
@@ -27,6 +26,10 @@ class MyApp extends StatelessWidget {
       ),
       routes: appRoutes,
       home: const HomePage(),
+      builder: (context, child) {
+        ToastContext().init(context);
+        return child!;
+      },
     );
   }
 }

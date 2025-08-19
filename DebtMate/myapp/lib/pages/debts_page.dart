@@ -34,6 +34,11 @@ class _BalancePageState extends State<BalancePage> {
     }
 
     final result = await reckoningController.getUserBalance(userId);
+
+    if (result.isEmpty) {
+      showToast('Nie udało się pobrać sald.');
+    }
+
     setState(() {
       balances = widget.showDebts
           ? result.where((b) => b.balance < 0).toList()

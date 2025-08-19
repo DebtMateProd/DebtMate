@@ -53,6 +53,23 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  void validateAndLogin() {
+    final login = _loginController.text.trim();
+    final password = _passwordController.text.trim();
+
+    if (login.isEmpty) {
+      showToast("Podaj login.");
+      return;
+    }
+
+    if (password.isEmpty) {
+      showToast("Podaj hasło.");
+      return;
+    }
+
+    handleLogin(); // jeśli walidacja przejdzie, wykonujemy logowanie
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: CustomButton(
                         labelText: 'Zaloguj się',
                         onPressed: () {
-                          handleLogin();
+                          validateAndLogin();
                         }
                     ))
                   ],

@@ -28,8 +28,20 @@ class _FriendRequestsPageState extends State<FriendRequestsPage> {
 
   Future<void> _fetchData() async {
     final userId = ApiService.instance.userId ?? '';
+
+    if (userId.isEmpty) {
+      showToast('Nie udało się pobrać ID użytkownika.');
+      setState(() => _loading = false);
+      return;
+    }
+
     final requests = await _friendController.getUserFriendRequests(userId);
     final pending = await _friendController.getUserPendingFriends(userId);
+    
+    if (requests.isEmpty && pending.isEmpty) {
+      showToast('Brak danych o znajomych.');
+    }
+
     setState(() {
       _friendRequests = requests;
       _pendingFriends = pending;
@@ -85,7 +97,7 @@ class _FriendRequestsPageState extends State<FriendRequestsPage> {
                                             foregroundColor: Colors.white,
                                           ),
                                           onPressed: _acceptingFriendId == user.userId
-                                          ? null // wyłącz przycisk jeśli już trwa akcja
+                                          ? null
                                           : () async {
                                             await acceptFriendRequest(ApiService.instance.userId!, user.userId);
                                           },
@@ -136,16 +148,17 @@ class _FriendRequestsPageState extends State<FriendRequestsPage> {
       _acceptingFriendId = friendId;
     });
 
-    try {
-      await _friendController.acceptFriend(userId, friendId);
+    final success = await _friendController.acceptFriend(userId, friendId);
+
+    if (success) {
       await _fetchData();
       showToast('Zaproszenie zaakceptowane.');
-    } catch (e) {
+    } else {
       showToast('Nie udało się zaakceptować zaproszenia.');
-    } finally {
-      setState(() {
-        _acceptingFriendId = null;
-      });
     }
+
+    setState(() {
+      _acceptingFriendId = null;
+    });
   }
 }

@@ -56,6 +56,7 @@ class _ReceiptAssignPageState extends State<ReceiptAssignPage> {
     @override
     void dispose() {
       _nameController.dispose();
+      _descriptionController.dispose();
 
       super.dispose();
     }

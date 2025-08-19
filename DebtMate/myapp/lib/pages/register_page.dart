@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/models/requests/register_request.dart';
+import 'package:myapp/utils/route_helper.dart';
 import 'package:myapp/widgets/button.dart';
 import 'package:myapp/widgets/text_field.dart';
 import 'package:myapp/utils/toast.dart';
@@ -32,10 +33,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
 
     if (success) {
-      showToast("successful");
+      showToast("Udało się zarejestrować!");
+      RouteHelper.popUntilHome();
     } else {
-      showToast("unsuccessful");
+      showToast("Nie udało się zarejestrować. Sprawdź dane i spróbuj ponownie.");
     }
+  }
+
+  void validateAndRegister() {
+    final login = loginController.text.trim();
+    final password = passwordController.text.trim();
+    final username = userNameController.text.trim();
+
+    if (login.isEmpty) {
+      showToast("Podaj login.");
+      return;
+    }
+
+    if (password.isEmpty) {
+      showToast("Podaj hasło.");
+      return;
+    }
+
+    if (username.isEmpty) {
+      showToast("Podaj nazwę użytkownika.");
+      return;
+    }
+
+    register(); 
   }
 
   @override
@@ -76,7 +101,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               CustomButton(
                 labelText: 'Zarejestruj się',
-                onPressed: register,)
+                onPressed: validateAndRegister,)
             ],
           ),
         ),

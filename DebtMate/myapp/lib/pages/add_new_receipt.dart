@@ -25,7 +25,7 @@ class _AddReceiptPageState extends State<AddReceiptPage> {
   final textRecognizer = TextRecognizer(
     script: TextRecognitionScript.latin,
   );
-  FocusNode _focus = FocusNode();
+  final FocusNode _focus = FocusNode();
 
   final RegExp _priceLineRegex = RegExp(r'^\d+,\d{2}$');         
   final RegExp _nameLineRegex  = RegExp(r'^(?=.*\S).+$'); 

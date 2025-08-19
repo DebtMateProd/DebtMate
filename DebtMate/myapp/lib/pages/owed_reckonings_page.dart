@@ -36,9 +36,8 @@ class _ReckoningsOwedPageState extends State<ReckoningsOwedPage> {
     }
 
     unpaidDebts = await reckoningController.getDebtsOwedToUser(userId, false);
-    setState(() {
-      _loading = false;
-    });
+
+    setState(() => _loading = false);
   }
 
   Future<void> getPaidDebts() async {
