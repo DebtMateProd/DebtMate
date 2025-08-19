@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:myapp/pages/home_page.dart';
 import 'package:myapp/utils/navigator_key.dart';
 import 'package:myapp/utils/routes.dart';
-import 'package:toast/toast.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,10 +25,6 @@ class MyApp extends StatelessWidget {
       ),
       routes: appRoutes,
       home: const HomePage(),
-      builder: (context, child) {
-        ToastContext().init(context);
-        return child!;
-      },
     );
   }
 }

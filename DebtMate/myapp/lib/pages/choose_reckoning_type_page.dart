@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/utils/route_helper.dart';
 import 'package:myapp/widgets/button.dart';
-import 'package:toast/toast.dart';
 
 class ReckoningTypePage extends StatefulWidget {
   const ReckoningTypePage({super.key});
@@ -19,7 +18,6 @@ class _ReckoningTypePageState extends State<ReckoningTypePage> {
 
   @override
   Widget build(BuildContext context) {
-    ToastContext().init(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("Wybierz rodzaj rozliczenia", style: TextStyle(color: Colors.white)),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/utils/toast.dart';
 import 'package:myapp/widgets/button.dart';
-import 'package:toast/toast.dart';
 import 'package:myapp/utils/route_helper.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,7 +20,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    ToastContext().init(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(title, style: TextStyle(color: Colors.white)),
@@ -75,14 +74,14 @@ class _HomePageState extends State<HomePage> {
                       CustomButton(
                         labelText: 'Zaloguj',
                         onPressed: () {
-                          Toast.show("Przechodzenie do logowania...", duration: Toast.lengthShort);
+                          showToast("Przechodzenie do logowania...");
                           RouteHelper.getTo('/login');
                         },
                       ),
                       CustomButton(
                         labelText: 'Zarejestruj',
                         onPressed: () {
-                          Toast.show("Przechodzenie do rejestracji...", duration: Toast.lengthShort);
+                          showToast("Przechodzenie do rejestracji...");
                           RouteHelper.getTo('/register');
                         },
                       ),

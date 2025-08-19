@@ -3,7 +3,6 @@ import 'package:myapp/utils/api_service.dart';
 import 'package:myapp/utils/route_helper.dart';
 import 'package:myapp/utils/toast.dart';
 import 'package:myapp/widgets/button.dart';
-import 'package:toast/toast.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -22,7 +21,6 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    ToastContext().init(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("DebtMate", style: TextStyle(color: Colors.white)),
