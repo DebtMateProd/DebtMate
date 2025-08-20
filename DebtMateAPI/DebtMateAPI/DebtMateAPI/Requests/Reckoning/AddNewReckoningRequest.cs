@@ -6,6 +6,7 @@
         public string? Description { get; set; }
         public float TotalCost { get; set; }
         public Guid PayerId { get; set; }
+        public string CurrencyCode { get; set; } = "PLN";
 
         public List<UserDebt> Debts { get; set; } = new();
 

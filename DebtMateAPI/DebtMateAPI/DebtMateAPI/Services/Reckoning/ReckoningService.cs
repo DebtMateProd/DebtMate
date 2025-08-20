@@ -27,6 +27,7 @@ namespace DebtMateAPI.Services.Reckonings
                 Description = request.Description,
                 TotalCost = request.TotalCost,
                 PayerId = request.PayerId,
+                CurrencyCode = request.CurrencyCode
             };
 
             foreach (var debt in request.Debts)
@@ -60,7 +61,8 @@ namespace DebtMateAPI.Services.Reckonings
                 OwedAmount = ru.OwedAmount,
                 IsPaid = ru.IsPaid,
                 PayerId = ru.Reckoning.PayerId,
-                PayerName = ru.Reckoning.Payer.UserName
+                PayerName = ru.Reckoning.Payer.UserName,
+                CurrencyCode = ru.Reckoning.CurrencyCode,
             }).ToList();
 
             return userDebts;
@@ -81,13 +83,16 @@ namespace DebtMateAPI.Services.Reckonings
             if (user == null)
                 return new List<BalanceUser>();
 
-            var balanceMap = new Dictionary<Guid, (float balance, User otherUser)>();
+            var balanceMap = new Dictionary<(Guid userId, string currencyCode), (float balance, User otherUser)>();
+
 
             foreach (var ru in allUserUnpaidReckonings)
             {
+                var currencyCode = ru.Reckoning.CurrencyCode;
+
                 if (ru.Reckoning.PayerId == userId && ru.UserId != userId)
                 {
-                    var key = ru.UserId;
+                    var key = (ru.UserId, currencyCode);
                     var otherUser = ru.User;
                     if (!balanceMap.ContainsKey(key))
                         balanceMap[key] = (0f, otherUser);
@@ -96,7 +101,7 @@ namespace DebtMateAPI.Services.Reckonings
                 }
                 else if (ru.UserId == userId && ru.Reckoning.PayerId != userId)
                 {
-                    var key = ru.Reckoning.PayerId;
+                    var key = (ru.Reckoning.PayerId, currencyCode);
                     var otherUser = ru.Reckoning.Payer;
                     if (!balanceMap.ContainsKey(key))
                         balanceMap[key] = (0f, otherUser);
@@ -122,6 +127,7 @@ namespace DebtMateAPI.Services.Reckonings
                         ReckoningId = reckoning.Id,
                         ReckoningName = reckoning.Name,
                         Description = reckoning.Description,
+                        CurrencyCode = reckoning.CurrencyCode,
                         Debtors = group.Select(ru => new DebtorInfo
                         {
                             Debtor = new UserResponse
@@ -139,12 +145,13 @@ namespace DebtMateAPI.Services.Reckonings
         }
 
 
-        private List<BalanceUser> GetBalanceListFromDictionary(User user, Dictionary<Guid, (float balance, User otherUser)> map)
+        private List<BalanceUser> GetBalanceListFromDictionary(User user, Dictionary<(Guid userId, string currencyCode), (float balance, User otherUser)> map)
         {
             var result = new List<BalanceUser>();
 
             foreach (var entry in map)
             {
+                var key = entry.Key;
                 var otherUser = entry.Value.otherUser;
                 var balance = entry.Value.balance;
 
@@ -160,6 +167,7 @@ namespace DebtMateAPI.Services.Reckonings
                         UserId = otherUser.Id,
                         UserName = otherUser.UserName,
                     },
+                    CurrencyCode = key.currencyCode, // 👈 teraz waluta z klucza
                     Balance = balance
                 });
             }

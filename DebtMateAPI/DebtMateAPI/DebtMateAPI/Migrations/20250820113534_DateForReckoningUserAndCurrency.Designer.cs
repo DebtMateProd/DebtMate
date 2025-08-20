@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DebtMateAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250819111958_DateForReckoningUser")]
-    partial class DateForReckoningUser
+    [Migration("20250820113534_DateForReckoningUserAndCurrency")]
+    partial class DateForReckoningUserAndCurrency
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,38 @@ namespace DebtMateAPI.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+
+            modelBuilder.Entity("DebtMateAPI.Entities.Currency", b =>
+                {
+                    b.Property<string>("Code")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Symbol")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Code");
+
+                    b.ToTable("Currency");
+
+                    b.HasData(
+                        new
+                        {
+                            Code = "PLN",
+                            Name = "Polski Złoty",
+                            Symbol = "zł"
+                        },
+                        new
+                        {
+                            Code = "EUR",
+                            Name = "Euro",
+                            Symbol = "€"
+                        });
+                });
 
             modelBuilder.Entity("DebtMateAPI.Entities.Friendship", b =>
                 {
@@ -52,6 +84,10 @@ namespace DebtMateAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<string>("CurrencyCode")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
                     b.Property<string>("Description")
                         .HasColumnType("longtext");
 
@@ -66,6 +102,8 @@ namespace DebtMateAPI.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CurrencyCode");
 
                     b.HasIndex("PayerId");
 
@@ -155,11 +193,19 @@ namespace DebtMateAPI.Migrations
 
             modelBuilder.Entity("DebtMateAPI.Entities.Reckoning", b =>
                 {
+                    b.HasOne("DebtMateAPI.Entities.Currency", "Currency")
+                        .WithMany("Reckonings")
+                        .HasForeignKey("CurrencyCode")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("DebtMateAPI.Entities.User", "Payer")
                         .WithMany()
                         .HasForeignKey("PayerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Currency");
 
                     b.Navigation("Payer");
                 });
@@ -181,6 +227,11 @@ namespace DebtMateAPI.Migrations
                     b.Navigation("Reckoning");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DebtMateAPI.Entities.Currency", b =>
+                {
+                    b.Navigation("Reckonings");
                 });
 
             modelBuilder.Entity("DebtMateAPI.Entities.Reckoning", b =>

@@ -1,8 +1,10 @@
 ﻿using DebtMateAPI.Data;
 using DebtMateAPI.Helper;
+using DebtMateAPI.Repositories.Currencies;
 using DebtMateAPI.Repositories.Friendships;
 using DebtMateAPI.Repositories.Reckonings;
 using DebtMateAPI.Repositories.Users;
+using DebtMateAPI.Services.Currencies;
 using DebtMateAPI.Services.Friendships;
 using DebtMateAPI.Services.Reckonings;
 using DebtMateAPI.Services.Users;
@@ -34,6 +36,8 @@ namespace DebtMateAPI.Extensions
             services.AddScoped<IFriendshipRepository, FriendshipRepository>();
             services.AddScoped<IReckoningRepository, ReckoningRepository>();
             services.AddScoped<IReckoningService, ReckoningService>();
+            services.AddScoped<ICurrencyService, CurrencyService>();
+            services.AddScoped<ICurrencyRepository, CurrencyRepository>();
 
             return services;
         }

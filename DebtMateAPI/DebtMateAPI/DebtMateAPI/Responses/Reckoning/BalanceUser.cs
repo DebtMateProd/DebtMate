@@ -11,6 +11,7 @@ namespace DebtMateAPI.Responses.Reckoning
     {
         public UserResponse User1 { get; set; }
         public UserResponse User2 { get; set; }
+        public string CurrencyCode { get; set; }
         public float Balance { get; set; }
     }
 }

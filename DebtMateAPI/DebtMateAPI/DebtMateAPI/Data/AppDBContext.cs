@@ -48,6 +48,20 @@ namespace DebtMateAPI.Data
                 .HasOne(ru => ru.User)
                 .WithMany()
                 .HasForeignKey(ru => ru.UserId);
+
+            modelBuilder.Entity<Currency>()
+                .HasKey(c => c.Code);
+
+            modelBuilder.Entity<Currency>().HasData(
+                new Currency { Code = "PLN", Symbol = "zł", Name = "Polski Złoty" },
+                new Currency { Code = "EUR", Symbol = "€", Name = "Euro" }
+            );
+
+            modelBuilder.Entity<Reckoning>()
+                .HasOne(r => r.Currency)
+                .WithMany(c => c.Reckonings)
+                .HasForeignKey(r => r.CurrencyCode)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

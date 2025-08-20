@@ -12,6 +12,7 @@
         public string Description { get; set; } = string.Empty;
         public float OwedAmount { get; set; }
         public bool IsPaid { get; set; }
+        public string CurrencyCode { get; set; } = "PLN";
 
         public Guid PayerId { get; set; }
         public string PayerName { get; set; } = string.Empty;

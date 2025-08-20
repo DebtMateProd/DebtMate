@@ -9,6 +9,9 @@
         public Guid PayerId { get; set; }
         public User Payer { get; set; }
 
+        public string CurrencyCode { get; set; } = "PLN";
+        public Currency Currency { get; set; }
+
         public ICollection<ReckoningUser> Users { get; set; } = new List<ReckoningUser>();
     }
 }
