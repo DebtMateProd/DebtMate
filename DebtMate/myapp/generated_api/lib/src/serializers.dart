@@ -22,8 +22,11 @@ import 'package:openapi/src/model/add_new_reckoning_request.dart';
 import 'package:openapi/src/model/add_new_reckoning_response.dart';
 import 'package:openapi/src/model/balance_user.dart';
 import 'package:openapi/src/model/balance_user_response.dart';
+import 'package:openapi/src/model/currency_response.dart';
 import 'package:openapi/src/model/debtor_info.dart';
+import 'package:openapi/src/model/get_all_currencies_response.dart';
 import 'package:openapi/src/model/get_all_response.dart';
+import 'package:openapi/src/model/get_currency_by_code_response.dart';
 import 'package:openapi/src/model/get_user_debt_response.dart';
 import 'package:openapi/src/model/get_user_debtor_debts_response.dart';
 import 'package:openapi/src/model/get_user_friend_list_response.dart';
@@ -53,8 +56,11 @@ part 'serializers.g.dart';
   AddNewReckoningResponse,
   BalanceUser,
   BalanceUserResponse,
+  CurrencyResponse,
   DebtorInfo,
+  GetAllCurrenciesResponse,
   GetAllResponse,
+  GetCurrencyByCodeResponse,
   GetUserDebtResponse,
   GetUserDebtorDebtsResponse,
   GetUserFriendListResponse,

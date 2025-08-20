@@ -16,6 +16,13 @@ class RouteHelper {
     );
   }
 
+  static void popUntilMain() {
+    navigatorKey.currentState?.pushNamedAndRemoveUntil(
+      '/main',
+      (route) => false,
+    );
+  }
+
   static void getToWithArgs(String routeName, Object args) {
     navigatorKey.currentState?.pushNamed(routeName, arguments: args);
   }

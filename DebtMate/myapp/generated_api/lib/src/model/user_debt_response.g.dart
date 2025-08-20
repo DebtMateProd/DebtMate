@@ -18,6 +18,8 @@ class _$UserDebtResponse extends UserDebtResponse {
   @override
   final bool? isPaid;
   @override
+  final String? currencyCode;
+  @override
   final String? payerId;
   @override
   final String? payerName;
@@ -32,6 +34,7 @@ class _$UserDebtResponse extends UserDebtResponse {
       this.description,
       this.owedAmount,
       this.isPaid,
+      this.currencyCode,
       this.payerId,
       this.payerName})
       : super._();
@@ -52,6 +55,7 @@ class _$UserDebtResponse extends UserDebtResponse {
         description == other.description &&
         owedAmount == other.owedAmount &&
         isPaid == other.isPaid &&
+        currencyCode == other.currencyCode &&
         payerId == other.payerId &&
         payerName == other.payerName;
   }
@@ -64,6 +68,7 @@ class _$UserDebtResponse extends UserDebtResponse {
     _$hash = $jc(_$hash, description.hashCode);
     _$hash = $jc(_$hash, owedAmount.hashCode);
     _$hash = $jc(_$hash, isPaid.hashCode);
+    _$hash = $jc(_$hash, currencyCode.hashCode);
     _$hash = $jc(_$hash, payerId.hashCode);
     _$hash = $jc(_$hash, payerName.hashCode);
     _$hash = $jf(_$hash);
@@ -78,6 +83,7 @@ class _$UserDebtResponse extends UserDebtResponse {
           ..add('description', description)
           ..add('owedAmount', owedAmount)
           ..add('isPaid', isPaid)
+          ..add('currencyCode', currencyCode)
           ..add('payerId', payerId)
           ..add('payerName', payerName))
         .toString();
@@ -109,6 +115,10 @@ class UserDebtResponseBuilder
   bool? get isPaid => _$this._isPaid;
   set isPaid(bool? isPaid) => _$this._isPaid = isPaid;
 
+  String? _currencyCode;
+  String? get currencyCode => _$this._currencyCode;
+  set currencyCode(String? currencyCode) => _$this._currencyCode = currencyCode;
+
   String? _payerId;
   String? get payerId => _$this._payerId;
   set payerId(String? payerId) => _$this._payerId = payerId;
@@ -129,6 +139,7 @@ class UserDebtResponseBuilder
       _description = $v.description;
       _owedAmount = $v.owedAmount;
       _isPaid = $v.isPaid;
+      _currencyCode = $v.currencyCode;
       _payerId = $v.payerId;
       _payerName = $v.payerName;
       _$v = null;
@@ -157,6 +168,7 @@ class UserDebtResponseBuilder
           description: description,
           owedAmount: owedAmount,
           isPaid: isPaid,
+          currencyCode: currencyCode,
           payerId: payerId,
           payerName: payerName,
         );

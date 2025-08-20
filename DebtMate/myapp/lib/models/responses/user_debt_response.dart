@@ -3,6 +3,7 @@ class UserDebtResp {
   String reckoningName;
   String? description;
   double owedAmount;
+  String currencyCode;
   bool isPaid;
   String payerId;
   String payerName;
@@ -15,5 +16,6 @@ class UserDebtResp {
     required this.isPaid,
     required this.payerId,
     required this.payerName,
+    required this.currencyCode,
   });
 }

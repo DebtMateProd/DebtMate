@@ -17,6 +17,7 @@ part 'add_new_reckoning_request.g.dart';
 /// * [description] 
 /// * [totalCost] 
 /// * [payerId] 
+/// * [currencyCode] 
 /// * [debts] 
 @BuiltValue()
 abstract class AddNewReckoningRequest implements Built<AddNewReckoningRequest, AddNewReckoningRequestBuilder> {
@@ -31,6 +32,9 @@ abstract class AddNewReckoningRequest implements Built<AddNewReckoningRequest, A
 
   @BuiltValueField(wireName: r'payerId')
   String? get payerId;
+
+  @BuiltValueField(wireName: r'currencyCode')
+  String? get currencyCode;
 
   @BuiltValueField(wireName: r'debts')
   BuiltList<UserDebt>? get debts;
@@ -84,6 +88,13 @@ class _$AddNewReckoningRequestSerializer implements PrimitiveSerializer<AddNewRe
       yield serializers.serialize(
         object.payerId,
         specifiedType: const FullType(String),
+      );
+    }
+    if (object.currencyCode != null) {
+      yield r'currencyCode';
+      yield serializers.serialize(
+        object.currencyCode,
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.debts != null) {
@@ -145,6 +156,14 @@ class _$AddNewReckoningRequestSerializer implements PrimitiveSerializer<AddNewRe
             specifiedType: const FullType(String),
           ) as String;
           result.payerId = valueDes;
+          break;
+        case r'currencyCode':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
+          result.currencyCode = valueDes;
           break;
         case r'debts':
           final valueDes = serializers.deserialize(

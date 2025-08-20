@@ -14,6 +14,7 @@ part 'balance_user.g.dart';
 /// Properties:
 /// * [user1] 
 /// * [user2] 
+/// * [currencyCode] 
 /// * [balance] 
 @BuiltValue()
 abstract class BalanceUser implements Built<BalanceUser, BalanceUserBuilder> {
@@ -22,6 +23,9 @@ abstract class BalanceUser implements Built<BalanceUser, BalanceUserBuilder> {
 
   @BuiltValueField(wireName: r'user2')
   UserResponse? get user2;
+
+  @BuiltValueField(wireName: r'currencyCode')
+  String? get currencyCode;
 
   @BuiltValueField(wireName: r'balance')
   double? get balance;
@@ -61,6 +65,13 @@ class _$BalanceUserSerializer implements PrimitiveSerializer<BalanceUser> {
       yield serializers.serialize(
         object.user2,
         specifiedType: const FullType(UserResponse),
+      );
+    }
+    if (object.currencyCode != null) {
+      yield r'currencyCode';
+      yield serializers.serialize(
+        object.currencyCode,
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.balance != null) {
@@ -106,6 +117,14 @@ class _$BalanceUserSerializer implements PrimitiveSerializer<BalanceUser> {
             specifiedType: const FullType(UserResponse),
           ) as UserResponse;
           result.user2.replace(valueDes);
+          break;
+        case r'currencyCode':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
+          result.currencyCode = valueDes;
           break;
         case r'balance':
           final valueDes = serializers.deserialize(

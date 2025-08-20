@@ -67,6 +67,8 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 [*AuthApi*](doc/AuthApi.md) | [**apiAuthLoginPost**](doc/AuthApi.md#apiauthloginpost) | **POST** /api/Auth/login | 
 [*AuthApi*](doc/AuthApi.md) | [**apiAuthRegisterPost**](doc/AuthApi.md#apiauthregisterpost) | **POST** /api/Auth/register | 
+[*CurrencyApi*](doc/CurrencyApi.md) | [**apiCurrencyGetAllGet**](doc/CurrencyApi.md#apicurrencygetallget) | **GET** /api/Currency/getAll | 
+[*CurrencyApi*](doc/CurrencyApi.md) | [**apiCurrencyGetByCodeGet**](doc/CurrencyApi.md#apicurrencygetbycodeget) | **GET** /api/Currency/getByCode | 
 [*FriendshipApi*](doc/FriendshipApi.md) | [**apiFriendshipAcceptPost**](doc/FriendshipApi.md#apifriendshipacceptpost) | **POST** /api/Friendship/accept | 
 [*FriendshipApi*](doc/FriendshipApi.md) | [**apiFriendshipAddPost**](doc/FriendshipApi.md#apifriendshipaddpost) | **POST** /api/Friendship/add | 
 [*FriendshipApi*](doc/FriendshipApi.md) | [**apiFriendshipFriendrequestsUserIdGet**](doc/FriendshipApi.md#apifriendshipfriendrequestsuseridget) | **GET** /api/Friendship/friendrequests/{userId} | 
@@ -91,8 +93,11 @@ Class | Method | HTTP request | Description
  - [AddNewReckoningResponse](doc/AddNewReckoningResponse.md)
  - [BalanceUser](doc/BalanceUser.md)
  - [BalanceUserResponse](doc/BalanceUserResponse.md)
+ - [CurrencyResponse](doc/CurrencyResponse.md)
  - [DebtorInfo](doc/DebtorInfo.md)
+ - [GetAllCurrenciesResponse](doc/GetAllCurrenciesResponse.md)
  - [GetAllResponse](doc/GetAllResponse.md)
+ - [GetCurrencyByCodeResponse](doc/GetCurrencyByCodeResponse.md)
  - [GetUserDebtResponse](doc/GetUserDebtResponse.md)
  - [GetUserDebtorDebtsResponse](doc/GetUserDebtorDebtsResponse.md)
  - [GetUserFriendListResponse](doc/GetUserFriendListResponse.md)

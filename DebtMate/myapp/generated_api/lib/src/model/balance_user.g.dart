@@ -12,12 +12,15 @@ class _$BalanceUser extends BalanceUser {
   @override
   final UserResponse? user2;
   @override
+  final String? currencyCode;
+  @override
   final double? balance;
 
   factory _$BalanceUser([void Function(BalanceUserBuilder)? updates]) =>
       (BalanceUserBuilder()..update(updates))._build();
 
-  _$BalanceUser._({this.user1, this.user2, this.balance}) : super._();
+  _$BalanceUser._({this.user1, this.user2, this.currencyCode, this.balance})
+      : super._();
   @override
   BalanceUser rebuild(void Function(BalanceUserBuilder) updates) =>
       (toBuilder()..update(updates)).build();
@@ -31,6 +34,7 @@ class _$BalanceUser extends BalanceUser {
     return other is BalanceUser &&
         user1 == other.user1 &&
         user2 == other.user2 &&
+        currencyCode == other.currencyCode &&
         balance == other.balance;
   }
 
@@ -39,6 +43,7 @@ class _$BalanceUser extends BalanceUser {
     var _$hash = 0;
     _$hash = $jc(_$hash, user1.hashCode);
     _$hash = $jc(_$hash, user2.hashCode);
+    _$hash = $jc(_$hash, currencyCode.hashCode);
     _$hash = $jc(_$hash, balance.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -49,6 +54,7 @@ class _$BalanceUser extends BalanceUser {
     return (newBuiltValueToStringHelper(r'BalanceUser')
           ..add('user1', user1)
           ..add('user2', user2)
+          ..add('currencyCode', currencyCode)
           ..add('balance', balance))
         .toString();
   }
@@ -65,6 +71,10 @@ class BalanceUserBuilder implements Builder<BalanceUser, BalanceUserBuilder> {
   UserResponseBuilder get user2 => _$this._user2 ??= UserResponseBuilder();
   set user2(UserResponseBuilder? user2) => _$this._user2 = user2;
 
+  String? _currencyCode;
+  String? get currencyCode => _$this._currencyCode;
+  set currencyCode(String? currencyCode) => _$this._currencyCode = currencyCode;
+
   double? _balance;
   double? get balance => _$this._balance;
   set balance(double? balance) => _$this._balance = balance;
@@ -78,6 +88,7 @@ class BalanceUserBuilder implements Builder<BalanceUser, BalanceUserBuilder> {
     if ($v != null) {
       _user1 = $v.user1?.toBuilder();
       _user2 = $v.user2?.toBuilder();
+      _currencyCode = $v.currencyCode;
       _balance = $v.balance;
       _$v = null;
     }
@@ -104,6 +115,7 @@ class BalanceUserBuilder implements Builder<BalanceUser, BalanceUserBuilder> {
           _$BalanceUser._(
             user1: _user1?.build(),
             user2: _user2?.build(),
+            currencyCode: currencyCode,
             balance: balance,
           );
     } catch (_) {

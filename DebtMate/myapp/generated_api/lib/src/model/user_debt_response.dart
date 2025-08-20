@@ -16,6 +16,7 @@ part 'user_debt_response.g.dart';
 /// * [description] 
 /// * [owedAmount] 
 /// * [isPaid] 
+/// * [currencyCode] 
 /// * [payerId] 
 /// * [payerName] 
 @BuiltValue()
@@ -34,6 +35,9 @@ abstract class UserDebtResponse implements Built<UserDebtResponse, UserDebtRespo
 
   @BuiltValueField(wireName: r'isPaid')
   bool? get isPaid;
+
+  @BuiltValueField(wireName: r'currencyCode')
+  String? get currencyCode;
 
   @BuiltValueField(wireName: r'payerId')
   String? get payerId;
@@ -97,6 +101,13 @@ class _$UserDebtResponseSerializer implements PrimitiveSerializer<UserDebtRespon
       yield serializers.serialize(
         object.isPaid,
         specifiedType: const FullType(bool),
+      );
+    }
+    if (object.currencyCode != null) {
+      yield r'currencyCode';
+      yield serializers.serialize(
+        object.currencyCode,
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.payerId != null) {
@@ -172,6 +183,14 @@ class _$UserDebtResponseSerializer implements PrimitiveSerializer<UserDebtRespon
             specifiedType: const FullType(bool),
           ) as bool;
           result.isPaid = valueDes;
+          break;
+        case r'currencyCode':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
+          result.currencyCode = valueDes;
           break;
         case r'payerId':
           final valueDes = serializers.deserialize(

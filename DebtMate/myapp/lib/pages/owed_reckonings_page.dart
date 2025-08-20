@@ -167,7 +167,7 @@ class _ReckoningsOwedPageState extends State<ReckoningsOwedPage> {
                         ),
                       ),
                       Text(
-                        '${debtor.owedAmount.toStringAsFixed(2)} zł',
+                        '${debtor.owedAmount.toStringAsFixed(2)} ${debt.currencyCode}',
                         style: const TextStyle(color: Colors.white),
                       ),
                     ],

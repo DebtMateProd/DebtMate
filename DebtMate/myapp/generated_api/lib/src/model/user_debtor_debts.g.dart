@@ -14,13 +14,19 @@ class _$UserDebtorDebts extends UserDebtorDebts {
   @override
   final String? description;
   @override
+  final String? currencyCode;
+  @override
   final BuiltList<DebtorInfo>? debtors;
 
   factory _$UserDebtorDebts([void Function(UserDebtorDebtsBuilder)? updates]) =>
       (UserDebtorDebtsBuilder()..update(updates))._build();
 
   _$UserDebtorDebts._(
-      {this.reckoningId, this.reckoningName, this.description, this.debtors})
+      {this.reckoningId,
+      this.reckoningName,
+      this.description,
+      this.currencyCode,
+      this.debtors})
       : super._();
   @override
   UserDebtorDebts rebuild(void Function(UserDebtorDebtsBuilder) updates) =>
@@ -36,6 +42,7 @@ class _$UserDebtorDebts extends UserDebtorDebts {
         reckoningId == other.reckoningId &&
         reckoningName == other.reckoningName &&
         description == other.description &&
+        currencyCode == other.currencyCode &&
         debtors == other.debtors;
   }
 
@@ -45,6 +52,7 @@ class _$UserDebtorDebts extends UserDebtorDebts {
     _$hash = $jc(_$hash, reckoningId.hashCode);
     _$hash = $jc(_$hash, reckoningName.hashCode);
     _$hash = $jc(_$hash, description.hashCode);
+    _$hash = $jc(_$hash, currencyCode.hashCode);
     _$hash = $jc(_$hash, debtors.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -56,6 +64,7 @@ class _$UserDebtorDebts extends UserDebtorDebts {
           ..add('reckoningId', reckoningId)
           ..add('reckoningName', reckoningName)
           ..add('description', description)
+          ..add('currencyCode', currencyCode)
           ..add('debtors', debtors))
         .toString();
   }
@@ -78,6 +87,10 @@ class UserDebtorDebtsBuilder
   String? get description => _$this._description;
   set description(String? description) => _$this._description = description;
 
+  String? _currencyCode;
+  String? get currencyCode => _$this._currencyCode;
+  set currencyCode(String? currencyCode) => _$this._currencyCode = currencyCode;
+
   ListBuilder<DebtorInfo>? _debtors;
   ListBuilder<DebtorInfo> get debtors =>
       _$this._debtors ??= ListBuilder<DebtorInfo>();
@@ -93,6 +106,7 @@ class UserDebtorDebtsBuilder
       _reckoningId = $v.reckoningId;
       _reckoningName = $v.reckoningName;
       _description = $v.description;
+      _currencyCode = $v.currencyCode;
       _debtors = $v.debtors?.toBuilder();
       _$v = null;
     }
@@ -120,6 +134,7 @@ class UserDebtorDebtsBuilder
             reckoningId: reckoningId,
             reckoningName: reckoningName,
             description: description,
+            currencyCode: currencyCode,
             debtors: _debtors?.build(),
           );
     } catch (_) {

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/controllers/currency_controller.dart';
 import 'package:myapp/controllers/friend_controller.dart';
 import 'package:myapp/controllers/reckoning_controller.dart';
 import 'package:myapp/models/requests/add_new_reckoning_request.dart';
+import 'package:myapp/models/responses/currency_response.dart';
+import 'package:myapp/repositories/currency_repository.dart';
 import 'package:myapp/repositories/friend_repository.dart';
 import 'package:myapp/models/responses/user_response.dart';
 import 'package:myapp/repositories/reckoning_repository.dart';
@@ -22,8 +25,11 @@ class AddReckoningPage extends StatefulWidget {
 class _AddReckoningPageState extends State<AddReckoningPage> {
   final FriendController _friendController = FriendController(FriendRepository());
   final ReckoningController _reckoningController = ReckoningController(ReckoningRepository());
+  final CurrencyController _currencyController = CurrencyController(CurrencyRepository());
 
   List<UserResp> _users = [];
+  List<CurrencyResp> _currencies = [];
+  CurrencyResp? _selectedCurrency;
   UserResp? _payer;
   double? _totalCost;
   final TextEditingController _costController = TextEditingController();
@@ -39,8 +45,19 @@ class _AddReckoningPageState extends State<AddReckoningPage> {
   @override
   void initState() {
     super.initState();
-    _fetchFriends();
+    _fetchData();
   }
+
+  Future<void> _fetchData() async {
+    await _fetchFriends();
+    await _fetchCurrencies();
+
+    setState(() {
+      _loading = false;
+    });
+
+  }
+
 
   Future<void> _fetchFriends() async {
     final userId = ApiService.instance.userId ?? '';
@@ -48,7 +65,16 @@ class _AddReckoningPageState extends State<AddReckoningPage> {
     final currentUser = UserResp(userId: userId, username: "Ja"); // or fetch real username
     setState(() {
       _users = [currentUser, ...friends];
-      _loading = false;
+    });
+  }
+
+  Future<void> _fetchCurrencies() async {
+    final currencies = await _currencyController.getAllCurrencies();
+    setState(() {
+      _currencies = currencies;
+      if (_currencies.isNotEmpty) {
+        _selectedCurrency = _currencies.first;
+      }
     });
   }
 
@@ -79,6 +105,7 @@ class _AddReckoningPageState extends State<AddReckoningPage> {
       totalCost: _totalCost ?? 0.0,
       payerId: _payer?.userId ?? '',
       debts: debtsList,
+      currencyCode: _selectedCurrency?.code ?? '',
     );
 
     _reckoningController.addNewReckoning(request).then((success) {
@@ -172,6 +199,22 @@ class _AddReckoningPageState extends State<AddReckoningPage> {
                               });
                             },
                           )
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 24),
+                          child: CustomDropdown<CurrencyResp>(
+                            items: _currencies,
+                            value: _selectedCurrency,
+                            hint: 'Wybierz walutę',
+                            onChanged: (value) => setState(() => _selectedCurrency = value),
+                            itemBuilder: (currency) => Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(currency.code, style: const TextStyle(color: Colors.white, fontSize: 15)),
+                                Text(currency.name, style: const TextStyle(color: Colors.white, fontSize: 15)),
+                              ],
+                            ),
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 16),
@@ -320,6 +363,11 @@ class _AddReckoningPageState extends State<AddReckoningPage> {
         showToast('Podaj koszt dla każdej osoby.');
         return false;
       }
+    }
+
+    if (_selectedDebtors.length == 1 && _selectedDebtors.contains(_payer!.userId)) {
+      showToast('Osoba, która zapłaciła, nie może być jedynym dłużnikiem.');
+      return false;
     }
 
     return true;

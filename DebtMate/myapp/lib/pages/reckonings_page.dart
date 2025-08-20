@@ -145,7 +145,7 @@ class ReckoningsPageState extends State<ReckoningsPage> {
           spacing: 4,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [   
-            Text('Do zapłaty: ${debt.owedAmount.toStringAsFixed(2)} zł', style: TextStyle(color: Colors.white)),
+            Text('Do zapłaty: ${debt.owedAmount.toStringAsFixed(2)} ${debt.currencyCode}', style: TextStyle(color: Colors.white)),
             Text('Płatnik: ${debt.payerName}', style: TextStyle(color: Colors.white)),
           ],
         ),
@@ -182,7 +182,7 @@ class ReckoningsPageState extends State<ReckoningsPage> {
             _detailRow(Icons.receipt, 'Nazwa', debt.reckoningName),
             _detailRow(Icons.description, 'Opis', debt.description ?? '-'),
             _detailRow(Icons.person, 'Płatnik', debt.payerName),
-            _detailRow(Icons.attach_money, 'Dług', '${debt.owedAmount.toStringAsFixed(2)} zł'),
+            _detailRow(Icons.attach_money, 'Dług', '${debt.owedAmount.toStringAsFixed(2)} ${debt.currencyCode}'),
           ],
         ),
         actions: [

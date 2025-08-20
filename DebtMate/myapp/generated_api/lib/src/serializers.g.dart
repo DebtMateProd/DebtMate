@@ -15,8 +15,11 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(AddNewReckoningResponse.serializer)
       ..add(BalanceUser.serializer)
       ..add(BalanceUserResponse.serializer)
+      ..add(CurrencyResponse.serializer)
       ..add(DebtorInfo.serializer)
+      ..add(GetAllCurrenciesResponse.serializer)
       ..add(GetAllResponse.serializer)
+      ..add(GetCurrencyByCodeResponse.serializer)
       ..add(GetUserDebtResponse.serializer)
       ..add(GetUserDebtorDebtsResponse.serializer)
       ..add(GetUserFriendListResponse.serializer)
@@ -37,6 +40,9 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(BalanceUser)]),
           () => ListBuilder<BalanceUser>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(CurrencyResponse)]),
+          () => ListBuilder<CurrencyResponse>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(DebtorInfo)]),
           () => ListBuilder<DebtorInfo>())

@@ -101,6 +101,73 @@
         }
       }
     },
+    "/api/Currency/getAll": {
+      "get": {
+        "tags": [
+          "Currency"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllCurrenciesResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllCurrenciesResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllCurrenciesResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Currency/getByCode": {
+      "get": {
+        "tags": [
+          "Currency"
+        ],
+        "parameters": [
+          {
+            "name": "code",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCurrencyByCodeResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCurrencyByCodeResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCurrencyByCodeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Friendship/add": {
       "post": {
         "tags": [
@@ -705,6 +772,10 @@
             "type": "string",
             "format": "uuid"
           },
+          "currencyCode": {
+            "type": "string",
+            "nullable": true
+          },
           "debts": {
             "type": "array",
             "items": {
@@ -737,6 +808,10 @@
           "user2": {
             "$ref": "#/components/schemas/UserResponse"
           },
+          "currencyCode": {
+            "type": "string",
+            "nullable": true
+          },
           "balance": {
             "type": "number",
             "format": "float"
@@ -764,6 +839,24 @@
         },
         "additionalProperties": false
       },
+      "CurrencyResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "symbol": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "DebtorInfo": {
         "type": "object",
         "properties": {
@@ -776,6 +869,26 @@
           },
           "isPaid": {
             "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetAllCurrenciesResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "currencies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CurrencyResponse"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -796,6 +909,22 @@
               "$ref": "#/components/schemas/UserResponse"
             },
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetCurrencyByCodeResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "currency": {
+            "$ref": "#/components/schemas/CurrencyResponse"
           }
         },
         "additionalProperties": false
@@ -1069,6 +1198,10 @@
           "isPaid": {
             "type": "boolean"
           },
+          "currencyCode": {
+            "type": "string",
+            "nullable": true
+          },
           "payerId": {
             "type": "string",
             "format": "uuid"
@@ -1092,6 +1225,10 @@
             "nullable": true
           },
           "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "currencyCode": {
             "type": "string",
             "nullable": true
           },

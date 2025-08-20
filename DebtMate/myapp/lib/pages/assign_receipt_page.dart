@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/controllers/currency_controller.dart';
 import 'package:myapp/controllers/friend_controller.dart';
 import 'package:myapp/controllers/reckoning_controller.dart';
 import 'package:myapp/models/requests/add_new_reckoning_request.dart';
+import 'package:myapp/models/responses/currency_response.dart';
 import 'package:myapp/models/responses/user_response.dart';
+import 'package:myapp/repositories/currency_repository.dart';
 import 'package:myapp/repositories/friend_repository.dart';
 import 'package:myapp/repositories/reckoning_repository.dart';
 import 'package:myapp/utils/api_service.dart';
@@ -26,6 +29,8 @@ class _ReceiptAssignPageState extends State<ReceiptAssignPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final ReckoningController _reckoningController = ReckoningController(ReckoningRepository());
+  final CurrencyController _currencyController = CurrencyController(CurrencyRepository());
+
 
   List<UserResp> _selectedUsers = [];
   List<UserResp> _allUsers = [];
@@ -34,6 +39,8 @@ class _ReceiptAssignPageState extends State<ReceiptAssignPage> {
 
   List<ProductSplit> _splits = [];
 
+  List<CurrencyResp> _currencies = [];
+  CurrencyResp? _selectedCurrency;
 
   bool _loading = true;
 
@@ -50,16 +57,25 @@ class _ReceiptAssignPageState extends State<ReceiptAssignPage> {
       (sum, product) => sum + product.price,
     );
 
-    _fetchFriends();
+    _fetchData();
   }
 
-    @override
-    void dispose() {
-      _nameController.dispose();
-      _descriptionController.dispose();
+  Future<void> _fetchData() async {
+    await _fetchFriends();
+    await _fetchCurrencies();
 
-      super.dispose();
-    }
+    setState(() {
+      _loading = false;
+    });
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _descriptionController.dispose();
+
+    super.dispose();
+  }
 
   Future<void> _fetchFriends() async {
     final userId = ApiService.instance.userId ?? '';
@@ -67,7 +83,16 @@ class _ReceiptAssignPageState extends State<ReceiptAssignPage> {
     final currentUser = UserResp(userId: userId, username: "Ja");
     setState(() {
       _allUsers = [currentUser, ...friends];
-      _loading = false;
+    });
+  }
+
+  Future<void> _fetchCurrencies() async {
+    final currencies = await _currencyController.getAllCurrencies();
+    setState(() {
+      _currencies = currencies;
+      if (_currencies.isNotEmpty) {
+        _selectedCurrency = _currencies.first;
+      }
     });
   }
   
@@ -134,7 +159,23 @@ class _ReceiptAssignPageState extends State<ReceiptAssignPage> {
                   ),
                 ),
               ),
-              Text('Pełna kwota: ${_totalCost?.toStringAsFixed(2)} zł', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 24),
+                child: CustomDropdown<CurrencyResp>(
+                  items: _currencies,
+                  value: _selectedCurrency,
+                  hint: 'Wybierz walutę',
+                  onChanged: (value) => setState(() => _selectedCurrency = value),
+                  itemBuilder: (currency) => Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(currency.code, style: const TextStyle(color: Colors.white, fontSize: 15)),
+                      Text(currency.name, style: const TextStyle(color: Colors.white, fontSize: 15)),
+                    ],
+                  ),
+                ),
+              ),
+              Text('Pełna kwota: ${_totalCost?.toStringAsFixed(2)} ${_selectedCurrency?.code}', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
               ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
@@ -173,7 +214,7 @@ class _ReceiptAssignPageState extends State<ReceiptAssignPage> {
                                       ),
                                     ),
                                     Text(
-                                      " ${split.product.price.toStringAsFixed(2)} zł",
+                                      " ${split.product.price.toStringAsFixed(2)} ${_selectedCurrency?.code}",
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 16,
@@ -183,7 +224,7 @@ class _ReceiptAssignPageState extends State<ReceiptAssignPage> {
                                   ],
                                 ),
                                 Text(
-                                      "Rozlicz: ${(split.product.price - split.userAmounts.values.fold<double>(0.0, (a, b) => a + b)).toStringAsFixed(2)} zł",
+                                      "Rozlicz: ${(split.product.price - split.userAmounts.values.fold<double>(0.0, (a, b) => a + b)).toStringAsFixed(2)} ${_selectedCurrency?.code}",
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 16,
@@ -245,7 +286,7 @@ class _ReceiptAssignPageState extends State<ReceiptAssignPage> {
                                   
                                   setState(() {                            
                                     for (var user in _splits[index].userAmounts.keys) {
-                                      split.userAmounts[user] = equalAmount; // każdy nowy startuje od 0 zł
+                                      split.userAmounts[user] = equalAmount;
                                     }
                                   });
                                 }),
@@ -299,13 +340,14 @@ class _ReceiptAssignPageState extends State<ReceiptAssignPage> {
       description: _descriptionController.text,
       totalCost: _totalCost ?? 0.0,
       payerId: _payer?.userId ?? '',
+      currencyCode: _selectedCurrency?.code ?? '',
       debts: debtsList,
     );
 
     await _reckoningController.addNewReckoning(request).then((success) {
       if (success) {
         showToast('Rozliczenie dodane poprawnie!');
-        RouteHelper.popUntilHome();
+        RouteHelper.popUntilMain();
       } else {
         showToast('Nie udało się dodać rozliczenia. Sprawdź dane i spróbuj ponownie.');
       }
@@ -512,7 +554,7 @@ class _ReceiptAssignPageState extends State<ReceiptAssignPage> {
                       split.userAmounts.clear();
 
                       for (var user in selectedUsers) {
-                        split.userAmounts[user] = 0.0; // każdy nowy startuje od 0 zł
+                        split.userAmounts[user] = 0.0;
                       }
                     });
                     Navigator.of(context).pop();

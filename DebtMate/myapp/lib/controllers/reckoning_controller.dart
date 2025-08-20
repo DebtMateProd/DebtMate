@@ -19,6 +19,7 @@ class ReckoningController {
       b.description = request.description;
       b.totalCost = request.totalCost;
       b.payerId = request.payerId;
+      b.currencyCode = request.currencyCode;
       b.debts = ListBuilder<UserDebt>(
         request.debts.map((debt) => UserDebt((d) {
           d.userId = debt.userId;
@@ -40,6 +41,7 @@ class ReckoningController {
         description: debt.description,
         owedAmount: debt.owedAmount ?? 0.0,
         isPaid: debt.isPaid ?? false,
+        currencyCode: debt.currencyCode ?? "",
         payerId: debt.payerId ?? "",
         payerName: debt.payerName ?? "",
       );
@@ -71,6 +73,7 @@ class ReckoningController {
           username: balance.user2?.userName ?? "",
         ),
         balance: balance.balance ?? 0.0,
+        currencyCode: balance.currencyCode ?? "",
       );
     }).toList();
   }
@@ -83,6 +86,7 @@ class ReckoningController {
         reckoningId: debtorDebt.reckoningId ?? "",
         reckoningName: debtorDebt.reckoningName ?? "",
         description: debtorDebt.description,
+        currencyCode: debtorDebt.currencyCode ?? "",
         debtors: debtorDebt.debtors!.map((debtor) => DebtorInfoResp(
           debtorId: debtor.debtor?.userId ?? "",
           debtorName: debtor.debtor?.userName ?? "",

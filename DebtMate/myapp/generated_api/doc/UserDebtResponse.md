@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **description** | **String** |  | [optional] 
 **owedAmount** | **double** |  | [optional] 
 **isPaid** | **bool** |  | [optional] 
+**currencyCode** | **String** |  | [optional] 
 **payerId** | **String** |  | [optional] 
 **payerName** | **String** |  | [optional] 
 

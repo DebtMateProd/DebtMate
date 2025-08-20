@@ -16,6 +16,7 @@ part 'user_debtor_debts.g.dart';
 /// * [reckoningId] 
 /// * [reckoningName] 
 /// * [description] 
+/// * [currencyCode] 
 /// * [debtors] 
 @BuiltValue()
 abstract class UserDebtorDebts implements Built<UserDebtorDebts, UserDebtorDebtsBuilder> {
@@ -27,6 +28,9 @@ abstract class UserDebtorDebts implements Built<UserDebtorDebts, UserDebtorDebts
 
   @BuiltValueField(wireName: r'description')
   String? get description;
+
+  @BuiltValueField(wireName: r'currencyCode')
+  String? get currencyCode;
 
   @BuiltValueField(wireName: r'debtors')
   BuiltList<DebtorInfo>? get debtors;
@@ -72,6 +76,13 @@ class _$UserDebtorDebtsSerializer implements PrimitiveSerializer<UserDebtorDebts
       yield r'description';
       yield serializers.serialize(
         object.description,
+        specifiedType: const FullType.nullable(String),
+      );
+    }
+    if (object.currencyCode != null) {
+      yield r'currencyCode';
+      yield serializers.serialize(
+        object.currencyCode,
         specifiedType: const FullType.nullable(String),
       );
     }
@@ -127,6 +138,14 @@ class _$UserDebtorDebtsSerializer implements PrimitiveSerializer<UserDebtorDebts
           ) as String?;
           if (valueDes == null) continue;
           result.description = valueDes;
+          break;
+        case r'currencyCode':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
+          result.currencyCode = valueDes;
           break;
         case r'debtors':
           final valueDes = serializers.deserialize(

@@ -1,6 +1,7 @@
 class ReckoningDebtorsResp {
   String reckoningId;
   String reckoningName;
+  String currencyCode;
   String? description;
   List<DebtorInfoResp> debtors;
 
@@ -9,6 +10,7 @@ class ReckoningDebtorsResp {
     required this.reckoningName,
     required this.description,
     required this.debtors,
+    required this.currencyCode,
   });
 }
 

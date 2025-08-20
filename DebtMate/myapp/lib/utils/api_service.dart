@@ -22,6 +22,7 @@ class ApiService {
     userApi = UserApi(_client.dio, _client.serializers);
     friendApi = FriendshipApi(_client.dio, _client.serializers);
     reckoningApi = ReckoningApi(_client.dio, _client.serializers);
+    currencyApi = CurrencyApi(_client.dio, _client.serializers);
   }
 
   static final ApiService _instance = ApiService._internal();
@@ -42,4 +43,5 @@ class ApiService {
   late final UserApi userApi;
   late final FriendshipApi friendApi;
   late final ReckoningApi reckoningApi;
+  late final CurrencyApi currencyApi;
 }

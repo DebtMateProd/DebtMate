@@ -16,6 +16,8 @@ class _$AddNewReckoningRequest extends AddNewReckoningRequest {
   @override
   final String? payerId;
   @override
+  final String? currencyCode;
+  @override
   final BuiltList<UserDebt>? debts;
 
   factory _$AddNewReckoningRequest(
@@ -23,7 +25,12 @@ class _$AddNewReckoningRequest extends AddNewReckoningRequest {
       (AddNewReckoningRequestBuilder()..update(updates))._build();
 
   _$AddNewReckoningRequest._(
-      {this.name, this.description, this.totalCost, this.payerId, this.debts})
+      {this.name,
+      this.description,
+      this.totalCost,
+      this.payerId,
+      this.currencyCode,
+      this.debts})
       : super._();
   @override
   AddNewReckoningRequest rebuild(
@@ -42,6 +49,7 @@ class _$AddNewReckoningRequest extends AddNewReckoningRequest {
         description == other.description &&
         totalCost == other.totalCost &&
         payerId == other.payerId &&
+        currencyCode == other.currencyCode &&
         debts == other.debts;
   }
 
@@ -52,6 +60,7 @@ class _$AddNewReckoningRequest extends AddNewReckoningRequest {
     _$hash = $jc(_$hash, description.hashCode);
     _$hash = $jc(_$hash, totalCost.hashCode);
     _$hash = $jc(_$hash, payerId.hashCode);
+    _$hash = $jc(_$hash, currencyCode.hashCode);
     _$hash = $jc(_$hash, debts.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -64,6 +73,7 @@ class _$AddNewReckoningRequest extends AddNewReckoningRequest {
           ..add('description', description)
           ..add('totalCost', totalCost)
           ..add('payerId', payerId)
+          ..add('currencyCode', currencyCode)
           ..add('debts', debts))
         .toString();
   }
@@ -89,6 +99,10 @@ class AddNewReckoningRequestBuilder
   String? get payerId => _$this._payerId;
   set payerId(String? payerId) => _$this._payerId = payerId;
 
+  String? _currencyCode;
+  String? get currencyCode => _$this._currencyCode;
+  set currencyCode(String? currencyCode) => _$this._currencyCode = currencyCode;
+
   ListBuilder<UserDebt>? _debts;
   ListBuilder<UserDebt> get debts => _$this._debts ??= ListBuilder<UserDebt>();
   set debts(ListBuilder<UserDebt>? debts) => _$this._debts = debts;
@@ -104,6 +118,7 @@ class AddNewReckoningRequestBuilder
       _description = $v.description;
       _totalCost = $v.totalCost;
       _payerId = $v.payerId;
+      _currencyCode = $v.currencyCode;
       _debts = $v.debts?.toBuilder();
       _$v = null;
     }
@@ -132,6 +147,7 @@ class AddNewReckoningRequestBuilder
             description: description,
             totalCost: totalCost,
             payerId: payerId,
+            currencyCode: currencyCode,
             debts: _debts?.build(),
           );
     } catch (_) {

@@ -20,6 +20,8 @@ class _BalancePageState extends State<BalancePage> {
   List<UserBalanceResp> balances = [];
   bool _loading = true;
 
+  final Map<String, List<UserBalanceResp>> groupedByCurrency = {};
+
   @override
   void initState() {
     super.initState();
@@ -39,10 +41,16 @@ class _BalancePageState extends State<BalancePage> {
       showToast('Nie udało się pobrać sald.');
     }
 
+    for (var b in result) {
+      if ((widget.showDebts && b.balance < 0) || (!widget.showDebts && b.balance > 0)) {
+        groupedByCurrency.putIfAbsent(b.currencyCode, () => []).add(b);
+      }
+    }
+
     setState(() {
-      balances = widget.showDebts
-          ? result.where((b) => b.balance < 0).toList()
-          : result.where((b) => b.balance > 0).toList();
+      balances = groupedByCurrency.entries
+          .expand((entry) => entry.value)
+          .toList();
       _loading = false;
     });
   }
@@ -81,7 +89,26 @@ class _BalancePageState extends State<BalancePage> {
                       ),
                     )
                   : ListView(
-                      children: balances.map((b) => _buildBalanceCard(b, isDebts)).toList(),
+                      children: groupedByCurrency.entries
+                        .map(
+                          (entry) => Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                child: Text(
+                                  entry.key,
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                              ),
+                              ...entry.value.map((b) => _buildBalanceCard(b, isDebts)).toList(),
+                            ],
+                          ),
+                        )
+                        .toList(),
                     ),
             ),
     );
@@ -104,8 +131,8 @@ class _BalancePageState extends State<BalancePage> {
         ),
         subtitle: Text(
           isDebts
-              ? 'Jesteś mu winien: ${b.balance.abs().toStringAsFixed(2)} zł'
-              : 'Jest ci winien: ${b.balance.toStringAsFixed(2)} zł',
+              ? 'Jesteś mu winien: ${b.balance.abs().toStringAsFixed(2)} ${b.currencyCode}'
+              : 'Jest ci winien: ${b.balance.toStringAsFixed(2)} ${b.currencyCode}',
           style: const TextStyle(color: Colors.white),
         ),
       ),
