@@ -40,9 +40,9 @@ git clone
 ```
 
 ### 2. Configure the database
-Create new MySQL database
-Update connection string in appsettings.json
-Apply database migrations:
+Create new MySQL database  
+Update connection string in appsettings.json  
+Apply database migrations:  
 ```bash
 dotnet ef database update
 ```
