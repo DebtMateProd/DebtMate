@@ -14,7 +14,7 @@ val keystoreProperties = Properties().apply {
 
 android {
     namespace = "com.example.myapp"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 35
     ndkVersion = "27.0.12077973"
 
     compileOptions {
@@ -32,7 +32,7 @@ android {
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
+        targetSdk = 35
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
@@ -51,8 +51,15 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.getByName("release")
-
         }
+    }
+
+    dependencies {
+        implementation("com.google.mlkit:text-recognition:16.0.0")
+        implementation("com.google.mlkit:text-recognition-chinese:16.0.0")
+        implementation("com.google.mlkit:text-recognition-devanagari:16.0.0")
+        implementation("com.google.mlkit:text-recognition-japanese:16.0.0")
+        implementation("com.google.mlkit:text-recognition-korean:16.0.0")
     }
 }
 
