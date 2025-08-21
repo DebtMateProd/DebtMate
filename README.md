@@ -15,11 +15,11 @@ For now it is prepared only in Polish language.
 ## Screenshots
 
 ### Home Screen
-<img width="1080" height="2424" alt="home" src="https://github.com/user-attachments/assets/cce06e1d-9d0c-4308-b832-5155d413bbf8" />
+<img width="324" height="727" alt="home" src="https://github.com/user-attachments/assets/cce06e1d-9d0c-4308-b832-5155d413bbf8" />
 
 
 ### Receipt Settlement Screen
-<img width="1080" height="2424" alt="receipt" src="https://github.com/user-attachments/assets/b3072275-d934-48ec-b62c-02c076a64b64" />
+<img width="324" height="727" alt="receipt" src="https://github.com/user-attachments/assets/b3072275-d934-48ec-b62c-02c076a64b64" />
 
 ---
 
