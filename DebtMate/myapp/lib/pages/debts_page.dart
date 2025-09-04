@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/controllers/reckoning_controller.dart';
+import 'package:myapp/models/requests/pay_debt_between_two_users_request.dart';
 import 'package:myapp/models/responses/user_balance_response.dart';
 import 'package:myapp/repositories/reckoning_repository.dart';
 import 'package:myapp/utils/api_service.dart';
+import 'package:myapp/utils/route_helper.dart';
 import 'package:myapp/utils/toast.dart';
 
 class BalancePage extends StatefulWidget {
@@ -40,6 +42,8 @@ class _BalancePageState extends State<BalancePage> {
     if (result.isEmpty) {
       showToast('Nie udało się pobrać sald.');
     }
+
+    groupedByCurrency.clear();
 
     for (var b in result) {
       if ((widget.showDebts && b.balance < 0) || (!widget.showDebts && b.balance > 0)) {
@@ -115,28 +119,97 @@ class _BalancePageState extends State<BalancePage> {
   }
 
   Widget _buildBalanceCard(UserBalanceResp b, bool isDebts) {
-    return Card(
-      color: Colors.cyan.shade400,
-      margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-      elevation: 3,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: ListTile(
-        leading: Icon(
-          isDebts ? Icons.money_off : Icons.attach_money,
-          color: Colors.white,
-        ),
-        title: Text(
-          b.user2.username,
-          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-        subtitle: Text(
-          isDebts
-              ? 'Jesteś mu winien: ${b.balance.abs().toStringAsFixed(2)} ${b.currencyCode}'
-              : 'Jest ci winien: ${b.balance.toStringAsFixed(2)} ${b.currencyCode}',
-          style: const TextStyle(color: Colors.white),
+    return GestureDetector(
+      onTap: () {
+          showRegulateDebtDialog(b);
+      },
+      child: Card(
+        color: Colors.cyan.shade400,
+        margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+        elevation: 3,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        child: ListTile(
+          leading: Icon(
+            isDebts ? Icons.money_off : Icons.attach_money,
+            color: Colors.white,
+          ),
+          title: Text(
+            b.user2.username,
+            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          subtitle: Text(
+            isDebts
+                ? 'Jesteś mu winien: ${b.balance.abs().toStringAsFixed(2)} ${b.currencyCode}'
+                : 'Jest ci winien: ${b.balance.toStringAsFixed(2)} ${b.currencyCode}',
+            style: const TextStyle(color: Colors.white),
+          ),
         ),
       ),
     );
+  }
+
+  void showRegulateDebtDialog(UserBalanceResp userBalance) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Colors.cyan,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          title: Row(
+            spacing: 8,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const Icon(Icons.info, color: Colors.white),
+              const Text(
+                'Szczegóły',
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          content: Text(
+            "Czy chcesz uregulować dług w ${userBalance.currencyCode} między tobą (${userBalance.user1.username}) i użytkownikiem ${userBalance.user2.username}?\n\n"
+            "Oznacza to że wszystkie rozliczenia, które zostały między wami utworzone, zostaną spłacone."
+          , style: TextStyle(color: Colors.white),),
+          actions: [
+            TextButton.icon(
+              onPressed: () => RouteHelper.getBack(),
+              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              label: const Text('Cofnij', style: TextStyle(color: Colors.white)),
+            ),
+            TextButton.icon(
+              onPressed: () async {
+                await regulateDebtBetweenTwoUsers(userBalance);
+                RouteHelper.getBack();
+                
+                loadBalances();
+              },
+              icon: const Icon(Icons.payment, color: Colors.white),
+              label: const Text('Ureguluj', style: TextStyle(color: Colors.white)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<bool> regulateDebtBetweenTwoUsers(UserBalanceResp userBalance) async{
+    bool success = await reckoningController.payDebtBetweenTwoUsers(
+      PayDebtBetweenTwoUsersReq(
+        user1Id: userBalance.user1.userId, 
+        user2Id: userBalance.user2.userId, 
+        currencyCode: userBalance.currencyCode)
+    );
+
+    if(success){
+      showToast("Dług uregulowano pomyślnie");
+    }
+    else{
+      showToast("Wystapił błąd podczas regulowania długu.");
+    }
+
+    return success;
   }
 }
 

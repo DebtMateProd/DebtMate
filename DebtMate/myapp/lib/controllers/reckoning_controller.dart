@@ -1,5 +1,6 @@
 import 'package:built_collection/src/list.dart';
 import 'package:myapp/models/requests/add_new_reckoning_request.dart';
+import 'package:myapp/models/requests/pay_debt_between_two_users_request.dart';
 import 'package:myapp/models/requests/pay_user_debt_request.dart';
 import 'package:myapp/models/responses/reckoning_debtors_response.dart';
 import 'package:myapp/models/responses/user_balance_response.dart';
@@ -57,6 +58,16 @@ class ReckoningController {
     });
 
     return await _repository.payUserDebt(payUserDebtReq);
+  }
+
+  Future<bool> payDebtBetweenTwoUsers(PayDebtBetweenTwoUsersReq request) async {
+    PayDebtBetweenTwoUsersRequest payDebtBetweenTwoUsersRequest = PayDebtBetweenTwoUsersRequest((b) {
+      b.user1Id = request.user1Id;
+      b.user2Id = request.user2Id;
+      b.currencyCode = request.currencyCode;
+    });
+
+    return await _repository.payDebtBetweenTwoUsers(payDebtBetweenTwoUsersRequest);
   }
 
   Future<List<UserBalanceResp>> getUserBalance(String userId) async {

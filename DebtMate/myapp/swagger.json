@@ -574,6 +574,54 @@
         }
       }
     },
+    "/api/Reckoning/payDebtBetweenTwoUsers": {
+      "post": {
+        "tags": [
+          "Reckoning"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PayDebtBetweenTwoUsersRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PayDebtBetweenTwoUsersRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PayDebtBetweenTwoUsersRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PayDebtBetweenTwoUsersResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PayDebtBetweenTwoUsersResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PayDebtBetweenTwoUsersResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Reckoning/getUserBalance": {
       "get": {
         "tags": [
@@ -1062,6 +1110,37 @@
             "format": "uuid"
           },
           "token": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PayDebtBetweenTwoUsersRequest": {
+        "type": "object",
+        "properties": {
+          "user1Id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "user2Id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currencyCode": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PayDebtBetweenTwoUsersResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
             "type": "string",
             "nullable": true
           }

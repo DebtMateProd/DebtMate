@@ -14,6 +14,8 @@ import 'package:openapi/src/model/add_new_reckoning_response.dart';
 import 'package:openapi/src/model/balance_user_response.dart';
 import 'package:openapi/src/model/get_user_debt_response.dart';
 import 'package:openapi/src/model/get_user_debtor_debts_response.dart';
+import 'package:openapi/src/model/pay_debt_between_two_users_request.dart';
+import 'package:openapi/src/model/pay_debt_between_two_users_response.dart';
 import 'package:openapi/src/model/pay_user_debt_request.dart';
 import 'package:openapi/src/model/pay_user_debt_response.dart';
 
@@ -379,6 +381,107 @@ class ReckoningApi {
     }
 
     return Response<GetUserDebtResponse>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
+
+  /// apiReckoningPayDebtBetweenTwoUsersPost
+  /// 
+  ///
+  /// Parameters:
+  /// * [payDebtBetweenTwoUsersRequest] 
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [PayDebtBetweenTwoUsersResponse] as data
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<PayDebtBetweenTwoUsersResponse>> apiReckoningPayDebtBetweenTwoUsersPost({ 
+    PayDebtBetweenTwoUsersRequest? payDebtBetweenTwoUsersRequest,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/api/Reckoning/payDebtBetweenTwoUsers';
+    final _options = Options(
+      method: r'POST',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'http',
+            'scheme': 'Bearer',
+            'name': 'Bearer',
+          },
+        ],
+        ...?extra,
+      },
+      contentType: 'application/json',
+      validateStatus: validateStatus,
+    );
+
+    dynamic _bodyData;
+
+    try {
+      const _type = FullType(PayDebtBetweenTwoUsersRequest);
+      _bodyData = payDebtBetweenTwoUsersRequest == null ? null : _serializers.serialize(payDebtBetweenTwoUsersRequest, specifiedType: _type);
+
+    } catch(error, stackTrace) {
+      throw DioException(
+         requestOptions: _options.compose(
+          _dio.options,
+          _path,
+        ),
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    final _response = await _dio.request<Object>(
+      _path,
+      data: _bodyData,
+      options: _options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    PayDebtBetweenTwoUsersResponse? _responseData;
+
+    try {
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(PayDebtBetweenTwoUsersResponse),
+      ) as PayDebtBetweenTwoUsersResponse;
+
+    } catch (error, stackTrace) {
+      throw DioException(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    return Response<PayDebtBetweenTwoUsersResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,

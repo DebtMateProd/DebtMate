@@ -39,6 +39,18 @@ class ReckoningRepository {
     }
   }
 
+  
+  Future<bool> payDebtBetweenTwoUsers(PayDebtBetweenTwoUsersRequest request) async {
+    try {
+      final response = await reckoningApi.apiReckoningPayDebtBetweenTwoUsersPost(payDebtBetweenTwoUsersRequest: request);
+
+      return response.data?.success ?? false;
+    } catch (e) {
+      log('Pay debt between two users error: $e');
+      return false;
+    }
+  }
+
   Future<List<BalanceUser>> getUserBalances(String userId) async {
     try {
       final response = await reckoningApi.apiReckoningGetUserBalanceGet(userId: userId);

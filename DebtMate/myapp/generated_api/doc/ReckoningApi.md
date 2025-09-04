@@ -13,6 +13,7 @@ Method | HTTP request | Description
 [**apiReckoningGetUserBalanceGet**](ReckoningApi.md#apireckoninggetuserbalanceget) | **GET** /api/Reckoning/getUserBalance | 
 [**apiReckoningGetUserDebtorsDebtsGet**](ReckoningApi.md#apireckoninggetuserdebtorsdebtsget) | **GET** /api/Reckoning/getUserDebtorsDebts | 
 [**apiReckoningGetUserDebtsGet**](ReckoningApi.md#apireckoninggetuserdebtsget) | **GET** /api/Reckoning/getUserDebts | 
+[**apiReckoningPayDebtBetweenTwoUsersPost**](ReckoningApi.md#apireckoningpaydebtbetweentwouserspost) | **POST** /api/Reckoning/payDebtBetweenTwoUsers | 
 [**apiReckoningPayUserDebtPost**](ReckoningApi.md#apireckoningpayuserdebtpost) | **POST** /api/Reckoning/payUserDebt | 
 
 
@@ -180,6 +181,47 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: text/plain, application/json, text/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiReckoningPayDebtBetweenTwoUsersPost**
+> PayDebtBetweenTwoUsersResponse apiReckoningPayDebtBetweenTwoUsersPost(payDebtBetweenTwoUsersRequest)
+
+
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+
+final api = Openapi().getReckoningApi();
+final PayDebtBetweenTwoUsersRequest payDebtBetweenTwoUsersRequest = ; // PayDebtBetweenTwoUsersRequest | 
+
+try {
+    final response = api.apiReckoningPayDebtBetweenTwoUsersPost(payDebtBetweenTwoUsersRequest);
+    print(response);
+} catch on DioException (e) {
+    print('Exception when calling ReckoningApi->apiReckoningPayDebtBetweenTwoUsersPost: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **payDebtBetweenTwoUsersRequest** | [**PayDebtBetweenTwoUsersRequest**](PayDebtBetweenTwoUsersRequest.md)|  | [optional] 
+
+### Return type
+
+[**PayDebtBetweenTwoUsersResponse**](PayDebtBetweenTwoUsersResponse.md)
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json, text/json, application/*+json
  - **Accept**: text/plain, application/json, text/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

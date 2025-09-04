@@ -34,6 +34,8 @@ import 'package:openapi/src/model/get_user_friend_requests_list_response.dart';
 import 'package:openapi/src/model/get_user_pending_friend_list_response.dart';
 import 'package:openapi/src/model/login_request.dart';
 import 'package:openapi/src/model/login_response.dart';
+import 'package:openapi/src/model/pay_debt_between_two_users_request.dart';
+import 'package:openapi/src/model/pay_debt_between_two_users_response.dart';
 import 'package:openapi/src/model/pay_user_debt_request.dart';
 import 'package:openapi/src/model/pay_user_debt_response.dart';
 import 'package:openapi/src/model/register_request.dart';
@@ -68,6 +70,8 @@ part 'serializers.g.dart';
   GetUserPendingFriendListResponse,
   LoginRequest,
   LoginResponse,
+  PayDebtBetweenTwoUsersRequest,
+  PayDebtBetweenTwoUsersResponse,
   PayUserDebtRequest,
   PayUserDebtResponse,
   RegisterRequest,
@@ -83,8 +87,8 @@ Serializers serializers = (_$serializers.toBuilder()
       ..add(const OneOfSerializer())
       ..add(const AnyOfSerializer())
       ..add(const DateSerializer())
-      ..add(Iso8601DateTimeSerializer()))
-    .build();
+      ..add(Iso8601DateTimeSerializer())
+    ).build();
 
 Serializers standardSerializers =
     (serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();
