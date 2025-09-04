@@ -5,6 +5,7 @@ namespace DebtMateAPI.Repositories.Reckonings
     public interface IReckoningRepository
     {
         Task<bool> AddNewReckoning(Reckoning reckoning);
+        Task<bool> PayDebtBetweenTwoUsers(Guid user1Id,  Guid user2Id, string currencyCode);
         Task<List<ReckoningUser>> GetUserDebts(Guid userId, bool isPaid);
         Task<bool> PayUserDebt(Guid userId, Guid reckoningId);
         Task<List<ReckoningUser>> GetAllUnPaidUserReckonings(Guid userId);

@@ -8,6 +8,7 @@ namespace DebtMateAPI.Services.Reckonings
     {
         Task<bool> AddNewReckoning(AddNewReckoningRequest request);
         Task<bool> PayUserDebt(PayUserDebtRequest request);
+        Task<bool> PayDebtBetweenTwoUsers(PayDebtBetweenTwoUsersRequest request);
         Task<List<UserDebtResponse>> GetUserDebts(Guid userId, bool isPaid);
         Task<List<BalanceUser>> GetUserBalances(Guid userId);
         Task<List<UserDebtorDebts>> GetUsersDebtorsDebts(Guid userId, bool? isPaid);

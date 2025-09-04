@@ -73,6 +73,11 @@ namespace DebtMateAPI.Services.Reckonings
             return await _repository.PayUserDebt(userId: request.UserId, reckoningId: request.ReckoningId);
         }
 
+        public async Task<bool> PayDebtBetweenTwoUsers(PayDebtBetweenTwoUsersRequest request)
+        {
+            return await _repository.PayDebtBetweenTwoUsers(user1Id: request.User1Id, user2Id: request.User2Id, currencyCode: request.CurrencyCode);
+        }
+
         public async Task<List<BalanceUser>> GetUserBalances(Guid userId)
         {
             List<ReckoningUser> allUserUnpaidReckonings = await _repository.GetAllUnPaidUserReckonings(userId);

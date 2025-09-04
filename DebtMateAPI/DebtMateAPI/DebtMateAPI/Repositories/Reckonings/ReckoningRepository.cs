@@ -21,6 +21,32 @@ namespace DebtMateAPI.Repositories.Reckonings
             return true;
         }
 
+        public async Task<bool> PayDebtBetweenTwoUsers(Guid user1Id, Guid user2Id, string currencyCode)
+        {
+            var reckoningUsers = await _context.ReckoningUser
+            .Include(ru => ru.Reckoning)
+            .Where(ru =>
+                ((ru.Reckoning.PayerId == user1Id && ru.UserId == user2Id) ||
+                (ru.Reckoning.PayerId == user2Id && ru.UserId == user1Id)) && ru.IsPaid == false && ru.Reckoning.CurrencyCode.Equals(currencyCode))
+            .ToListAsync();
+
+            if (!reckoningUsers.Any())
+            {
+                return false;
+            }
+
+            foreach (var ru in reckoningUsers)
+            {
+                ru.IsPaid = true;
+                ru.PaidDate = DateTime.UtcNow;
+            }
+
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+
         public async Task<List<ReckoningUser>> GetUserDebts(Guid userId, bool isPaid)
         {
             var thirtyDaysAgo = DateTime.UtcNow.AddDays(-30);
@@ -89,23 +115,12 @@ namespace DebtMateAPI.Repositories.Reckonings
             if (isPaid == true)
             {
                 query = query.Where(ru => ru.Reckoning.Users.All(u => u.IsPaid));
+                query = query.Where(ru => ru.IsPaid && ru.PaidDate >= thirtyDaysAgo);
             }
             else if (isPaid == false)
             {
                 query = query.Where(ru => ru.Reckoning.Users.Any(u => !u.IsPaid));
-            }
-
-            if (isPaid.HasValue)
-            {
-                if (isPaid.Value)
-                {
-                    query = query.Where(ru => ru.IsPaid && ru.PaidDate >= thirtyDaysAgo);
-                }
-                else
-                {
-                    query = query.Where(ru => !ru.IsPaid);
-                }
-            }
+            }  
 
             return await query.ToListAsync();
         }

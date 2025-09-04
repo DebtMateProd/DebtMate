@@ -52,6 +52,17 @@ namespace DebtMateAPI.Controllers
             return new PayUserDebtResponse { Message = "Pay could not succeed", Success = false };
         }
 
+        [HttpPost("payDebtBetweenTwoUsers")]
+        public async Task<PayDebtBetweenTwoUsersResponse> PayDebtBetweenTwoUsers(PayDebtBetweenTwoUsersRequest request) 
+        {
+            bool success = await _reckoningService.PayDebtBetweenTwoUsers(request: request);
+
+            if (success)
+                return new PayDebtBetweenTwoUsersResponse { Message = "Pay succeeded", Success = true };
+
+            return new PayDebtBetweenTwoUsersResponse { Message = "Pay could not succeed", Success = false };
+        }
+
         [HttpGet("getUserBalance")]
         public async Task<BalanceUserResponse> GetUserBalances(Guid userId)
         {
