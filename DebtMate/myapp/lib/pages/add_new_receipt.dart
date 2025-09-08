@@ -63,8 +63,41 @@ class _AddReceiptPageState extends State<AddReceiptPage> {
     });
   }
 
+  Future<ImageSource?> makeUserChooseSourceOfImage() async{
+    final source = await showDialog<ImageSource>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Colors.cyan,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          title: const Text("Dodaj paragon", style: TextStyle(color: Colors.white)),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.photo, color: Colors.white),
+                title: const Text("Wybierz z galerii", style: TextStyle(color: Colors.white)),
+                onTap: () => Navigator.pop(context, ImageSource.gallery),
+              ),
+              ListTile(
+                leading: const Icon(Icons.camera_alt, color: Colors.white),
+                title: const Text("Zrób zdjęcie", style: TextStyle(color: Colors.white)),
+                onTap: () => Navigator.pop(context, ImageSource.camera),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+
+    return source;
+  }
+
   Future<void> _scanReceipt() async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.camera);
+    final source = await makeUserChooseSourceOfImage();
+    if (source == null) return;
+
+    final pickedFile = await _picker.pickImage(source: source);
     if (pickedFile == null) return;
 
     final inputImage = InputImage.fromFile(File(pickedFile.path));
