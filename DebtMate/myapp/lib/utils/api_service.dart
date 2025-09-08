@@ -15,7 +15,7 @@ class ApiService {
 
     _client = Openapi(
       dio: _dio,
-      basePathOverride: ApiConfig.serverUrl,
+      basePathOverride: ApiConfig.baseUrl,
     );
 
     authApi = AuthApi(_client.dio, _client.serializers);
@@ -32,7 +32,7 @@ class ApiService {
   String? token;
 
   final Dio _dio = Dio(BaseOptions(
-    baseUrl: ApiConfig.serverUrl,
+    baseUrl: ApiConfig.baseUrl,
     connectTimeout: const Duration(seconds: 5),
     receiveTimeout: const Duration(seconds: 10),
   ));

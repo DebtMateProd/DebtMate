@@ -355,11 +355,12 @@ class _ReceiptAssignPageState extends State<ReceiptAssignPage> {
   }
 
   Future<void> _chooseUsersDialog(BuildContext context) {
+    Set<UserResp> tempSelected = Set<UserResp>.from(_selectedUsers);
+
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
-        List<UserResp> selectedUsers = List.from(_selectedUsers);
-        List<UserResp> localAllUsers = List.from(_allUsers);
+        bool selectAll = tempSelected.length == _allUsers.length;
 
         return StatefulBuilder(
           builder: (context, setStateDialog) {
@@ -375,85 +376,68 @@ class _ReceiptAssignPageState extends State<ReceiptAssignPage> {
                       'Wybierz użytkowników, którzy będą uczestniczyć w podziale kosztów:',
                       style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
-                    CustomDropdown<UserResp>(
-                      items: localAllUsers,
-                      value: null,
-                      hint: 'Dodaj użytkownika',
-                      onChanged: (value) {
-                        if (value != null && !selectedUsers.contains(value)) {
-                          setStateDialog(() {
-                            selectedUsers.add(value);
-                            localAllUsers.remove(value);
-                          });
-                        }
+                    CheckboxListTile(
+                      contentPadding: EdgeInsets.zero,
+                      title: const Text("Zaznacz wszystkich", style: TextStyle(color: Colors.white)),
+                      value: selectAll,
+                      onChanged: (checked) {
+                        setStateDialog(() {
+                          selectAll = checked ?? false;
+                          if (selectAll) {
+                            tempSelected = _allUsers.toSet();
+                          } else {
+                            tempSelected.clear();
+                          }
+                        });
                       },
-                      itemBuilder: (user) => Row(
-                        children: [
-                          Text(
-                            user.username,
-                            style: const TextStyle(color: Colors.white, fontSize: 15),
-                          ),
-                        ],
-                      ),
+                      controlAffinity: ListTileControlAffinity.leading,
+                      activeColor: Colors.cyan.shade200,
+                      side: const BorderSide(color: Colors.white),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          "Wybrani użytkownicy:",
-                          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16),
-                        ),
-                         if (selectedUsers.isEmpty)
-                          const Text("Brak wybranych użytkowników", style: TextStyle(color: Colors.white, fontSize: 14)),
-                        Wrap(
-                          spacing: 8,
-                          children: selectedUsers.map((user) {
-                            return Chip(
-                              iconTheme: IconThemeData(color: Colors.white),
-                              backgroundColor: Colors.cyan.shade200,
-                              label: Text(user.username, style: TextStyle(color: Colors.white),),
-                              onDeleted: () {
-                                setStateDialog(() {
-                                  selectedUsers.remove(user);
-                                });
-                              },
-                            );
-                          }).toList(),
-                        ),
-                      ],
-                    ),
+                    const Divider(color: Colors.white),
+
+                    ..._allUsers.map((user) {
+                      return CheckboxListTile(
+                        contentPadding: EdgeInsets.zero,
+                        title: Text(user.username, style: const TextStyle(color: Colors.white)),
+                        value: tempSelected.contains(user),
+                        onChanged: (checked) {
+                          setStateDialog(() {
+                            if (checked ?? false) {
+                              tempSelected.add(user);
+                            } else {
+                              tempSelected.remove(user);
+                            }
+                            selectAll = tempSelected.length == _allUsers.length;
+                          });
+                        },
+                        controlAffinity: ListTileControlAffinity.leading,
+                        activeColor: Colors.cyan.shade200,
+                        side: const BorderSide(color: Colors.white),
+                      );
+                    }),
                   ],
                 ),
               ),
               actions: <Widget>[
                 TextButton(
-                  style: TextButton.styleFrom(
-                    textStyle: Theme.of(context).textTheme.labelLarge,
-                  ),
-                  child: const Text('Anuluj', style: TextStyle(color: Colors.white)),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Anuluj", style: TextStyle(color: Colors.white)),
                 ),
                 TextButton(
-                  style: TextButton.styleFrom(
-                    textStyle: Theme.of(context).textTheme.labelLarge,
-                  ),
                   child: const Text('Zatwierdź', style: TextStyle(color: Colors.white)),
                   onPressed: () {
                     setState(() {
-                      _selectedUsers = selectedUsers;
+                      _selectedUsers = tempSelected.toList();
 
                       for (var split in _splits) {
                         split.userAmounts.clear();
-
                         for (var user in _selectedUsers) {
                           split.userAmounts[user] = 0.0;
                         }
-
                       }
                     });
-                    Navigator.of(context).pop();
+                    Navigator.pop(context);
                   },
                 ),
               ],
@@ -465,101 +449,92 @@ class _ReceiptAssignPageState extends State<ReceiptAssignPage> {
   }
 
   Future<void> _chooseUsersForProductDialog(BuildContext context, ProductSplit split) {
+    Set<UserResp> tempSelected = Set<UserResp>.from(split.userAmounts.keys);
+
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
-        List<UserResp> selectedUsers = List.from(split.userAmounts.keys);
-        List<UserResp> localAllUsers =
-            _allUsers.where((u) => !selectedUsers.contains(u)).toList();
+        bool selectAll = tempSelected.length == _allUsers.length;
 
         return StatefulBuilder(
           builder: (context, setStateDialog) {
             return AlertDialog(
               backgroundColor: Colors.cyan,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
               title: Text(
-                'Wybierz użytkowników dla ${split.product.name}',
+                "Wybierz użytkowników dla ${split.product.name}",
                 style: const TextStyle(color: Colors.white),
               ),
               content: SingleChildScrollView(
                 child: Column(
-                  spacing: 12,
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     const Text(
                       'Wybierz osoby, które będą uczestniczyć w tym zakupie:',
-                      style: TextStyle(color: Colors.white, fontSize: 16),
+                      style: TextStyle(color: Colors.white),
                     ),
-                    CustomDropdown<UserResp>(
-                      items: localAllUsers,
-                      value: null,
-                      hint: 'Dodaj użytkownika',
-                      onChanged: (value) {
-                        if (value != null && !selectedUsers.contains(value)) {
-                          setStateDialog(() {
-                            selectedUsers.add(value);
-                            localAllUsers.remove(value);
-                          });
-                        }
+                    CheckboxListTile(
+                      contentPadding: EdgeInsets.zero,
+                      title: const Text("Zaznacz wszystkich", style: TextStyle(color: Colors.white)),
+                      value: selectAll,
+                      onChanged: (checked) {
+                        setStateDialog(() {
+                          selectAll = checked ?? false;
+                          if (selectAll) {
+                            tempSelected = _allUsers.toSet();
+                          } else {
+                            tempSelected.clear();
+                          }
+                        });
                       },
-                      itemBuilder: (user) => Row(
-                        children: [
-                          Text(
-                            user.username,
-                            style: const TextStyle(color: Colors.white, fontSize: 15),
-                          ),
-                        ],
-                      ),
+                      controlAffinity: ListTileControlAffinity.leading,
+                      activeColor: Colors.cyan.shade200,
+                      side: const BorderSide(color: Colors.white),
                     ),
-                    const SizedBox(height: 12),
-                    const Text(
-                      "Wybrani użytkownicy:",
-                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16),
-                    ),
-                    if (selectedUsers.isEmpty)
-                      const Text("Brak wybranych użytkowników",
-                          style: TextStyle(color: Colors.white, fontSize: 14)),
-                    Wrap(
-                      spacing: 8,
-                      children: selectedUsers.map((user) {
-                        return Chip(
-                          iconTheme: const IconThemeData(color: Colors.white),
-                          backgroundColor: Colors.cyan.shade200,
-                          label: Text(
-                            user.username,
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                          onDeleted: () {
-                            setStateDialog(() {
-                              selectedUsers.remove(user);
-                              localAllUsers.add(user);
-                            });
-                          },
-                        );
-                      }).toList(),
-                    ),
+                    const Divider(color: Colors.white),
+                    ..._allUsers.map((user) {
+                      return CheckboxListTile(
+                        contentPadding: EdgeInsets.zero,
+                        title: Text(user.username, style: const TextStyle(color: Colors.white)),
+                        value: tempSelected.contains(user),
+                        onChanged: (checked) {
+                          setStateDialog(() {
+                            if (checked ?? false) {
+                              tempSelected.add(user);
+                            } else {
+                              tempSelected.remove(user);
+                            }
+                            selectAll = tempSelected.length == _allUsers.length;
+                          });
+                        },
+                        controlAffinity: ListTileControlAffinity.leading,
+                        activeColor: Colors.cyan.shade200,
+                        side: const BorderSide(color: Colors.white),
+                      );
+                    }),
                   ],
                 ),
               ),
-              actions: <Widget>[
+              actions: [
                 TextButton(
-                  child: const Text('Anuluj', style: TextStyle(color: Colors.white)),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Anuluj", style: TextStyle(color: Colors.white)),
                 ),
                 TextButton(
-                  child: const Text('Zatwierdź', style: TextStyle(color: Colors.white)),
                   onPressed: () {
-                    setState(() {
+                    this.setState(() {
                       split.userAmounts.clear();
-
-                      for (var user in selectedUsers) {
+                      for (var user in tempSelected) {
                         split.userAmounts[user] = 0.0;
                       }
                     });
-                    Navigator.of(context).pop();
+                    Navigator.pop(context);
                   },
-                ),
+                  child: const Text("Potwierdź", style: TextStyle(color: Colors.white)),
+                )
               ],
             );
           },

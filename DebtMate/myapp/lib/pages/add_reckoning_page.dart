@@ -222,26 +222,17 @@ class _AddReckoningPageState extends State<AddReckoningPage> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 16),
-                          child: CustomDropdown<UserResp>(
-                            items: _users.where((f) => !_selectedDebtors.contains(f.userId)).toList(),
-                            value: null,
-                            hint: 'Dodaj osobę',
-                            onChanged: (user) {
-                              if (user != null && !_selectedDebtors.contains(user.userId)) {
-                                setState(() {
-                                  _selectedDebtors.add(user.userId);
-                                  _debts[user] = 0.0;
-                                  _debtControllers[user] = TextEditingController(text: '0.0');
-                                });
-                              }
-                            },
-                            itemBuilder: (user) => Row(
-                              children: [
-                                Text(user.username, style: const TextStyle(color: Colors.white, fontSize: 15)),
-                              ],
-                            ),
-                          ),
+                          child: CustomButton(
+                            labelText: 'Wybierz osoby do podziału', 
+                            onPressed: (){
+                              addDebtorsToReckoning();
+                            }
+                          )
                         ),
+                        _selectedDebtors.isEmpty ? Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          child: Text('Nie wybrano osób do podziału', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                        ) : SizedBox(),
                         if (_totalCost != null && _totalCost! > 0) ...[
                           Padding(
                             padding: const EdgeInsets.only(bottom: 16),
@@ -308,12 +299,9 @@ class _AddReckoningPageState extends State<AddReckoningPage> {
                             ),
                           ],
                         ) : SizedBox(),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 16),
-                          child: CustomButton(
-                            labelText: 'Dodaj rozliczenie', 
-                            onPressed: _submitReckoning),
-                        )
+                        CustomButton(
+                          labelText: 'Dodaj rozliczenie', 
+                          onPressed: _submitReckoning)
                       ],
                     ),
                   ),
@@ -321,6 +309,102 @@ class _AddReckoningPageState extends State<AddReckoningPage> {
               ],
             ),
           ),
+    );
+  }
+
+  void addDebtorsToReckoning(){
+    Set<String> tempSelected = Set<String>.from(_selectedDebtors);
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        bool selectAll = tempSelected.length == _users.length;
+
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              backgroundColor: Colors.cyan,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              title: const Text("Wybierz osoby", style: TextStyle(color: Colors.white)),
+              content: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Select all checkbox
+                    Text('Wybierz osoby biorące udział w rozliczeniu', style: TextStyle(color: Colors.white)),
+                    CheckboxListTile(
+                      contentPadding: EdgeInsets.zero,
+                      title: const Text("Zaznacz wszystkich", style: TextStyle(color: Colors.white)),
+                      value: selectAll,
+                      onChanged: (checked) {
+                        setState(() {
+                          selectAll = checked ?? false;
+                          if (selectAll) {
+                            tempSelected = _users.map((u) => u.userId).toSet();
+                          } else {
+                            tempSelected.clear();
+                          }
+                        });
+                      },
+                      controlAffinity: ListTileControlAffinity.leading,
+                      activeColor: Colors.cyan.shade200,
+                      side: BorderSide(color: Colors.white),
+                    ),
+                    const Divider(color: Colors.white),
+                    ..._users.map((user) {
+                      return CheckboxListTile(
+                        contentPadding: EdgeInsets.zero,
+                        title: Text(user.username, style: const TextStyle(color: Colors.white)),
+                        value: tempSelected.contains(user.userId),
+                        onChanged: (checked) {
+                          setState(() {
+                            if (checked ?? false) {
+                              tempSelected.add(user.userId);
+                            } else {
+                              tempSelected.remove(user.userId);
+                            }
+                            selectAll = tempSelected.length == _users.length;
+                          });
+                        },
+                        controlAffinity: ListTileControlAffinity.leading,
+                        activeColor: Colors.cyan.shade200,
+                        side: BorderSide(color: Colors.white),
+                      );
+                    }),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Anuluj", style: TextStyle(color: Colors.white)),
+                ),
+                TextButton(
+                  onPressed: () {
+                    this.setState(() {
+                      _selectedDebtors.clear();
+                      _debts.clear();
+
+                      for (var user in _users) {
+                        if (tempSelected.contains(user.userId)) {
+                          _selectedDebtors.add(user.userId);
+                          _debts[user] = 0.0;
+                          _debtControllers[user] = TextEditingController(text: '0.0');
+                        }
+                      }
+                    });
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Potwierdź", style: TextStyle(color: Colors.white)),
+                )
+              ],
+            );
+          },
+        );
+      },
     );
   }
 
@@ -367,6 +451,16 @@ class _AddReckoningPageState extends State<AddReckoningPage> {
 
     if (_selectedDebtors.length == 1 && _selectedDebtors.contains(_payer!.userId)) {
       showToast('Osoba, która zapłaciła, nie może być jedynym dłużnikiem.');
+      return false;
+    }
+
+    double debtsSum = 0.0;
+    for (var debt in _debts.values) {
+      debtsSum += debt;
+    }
+
+    if ((debtsSum - (_totalCost ?? 0.0)).abs() > 0.01) {
+      showToast('Suma długów nie zgadza się z całkowitym kosztem.');
       return false;
     }
 

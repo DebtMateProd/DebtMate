@@ -8,6 +8,8 @@ import 'package:myapp/utils/route_helper.dart';
 import 'package:myapp/utils/toast.dart';
 import 'package:myapp/widgets/button.dart';
 import 'package:myapp/widgets/text_field.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+
 
 class AddReceiptPage extends StatefulWidget {
   const AddReceiptPage({super.key});
@@ -140,6 +142,7 @@ class _AddReceiptPageState extends State<AddReceiptPage> {
                     spacing: 10.0,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      if (!kIsWeb)
                       CustomButton(
                         labelText: "Zrób zdjęcie paragonu", 
                         onPressed: () async {
@@ -153,19 +156,31 @@ class _AddReceiptPageState extends State<AddReceiptPage> {
                         "  3,49\n",
                         style: TextStyle(fontSize: 14, color: Colors.white)) : 
                         Text(
-                        "Jak wprowadzać dane?\n"
-                        "1. Zrób zdjęcie paragonu\n"
-                        "2. Edytuj zawartość paragonu w polu poniżej w następujący sposób:\n"
-                        " - Każdy produkt w nowej linii\n"
-                        " - Po nazwie produktu wstaw cenę w kolejnej linii\n"
-                        " - Przykład:\n"
-                        "  Mleko 1L\n"
-                        "  7,79\n"
-                        "  Chleb\n"
-                        "  3,49\n"
-                        "3. Po zakończeniu edycji kliknij 'Przejdź dalej'\n",
-                        style: TextStyle(fontSize: 14, color: Colors.white),
-                      ),
+                          kIsWeb
+                              ? "Jak wprowadzać dane?\n"
+                                "UWAGA: W wersji webowej nie można robić zdjęć.\n"
+                                "1. Przepisz dane z paragonu ręcznie w polu poniżej\n"
+                                " - Każdy produkt w nowej linii\n"
+                                " - Po nazwie produktu wstaw cenę w kolejnej linii\n"
+                                " - Przykład:\n"
+                                "  Mleko 1L\n"
+                                "  7,79\n"
+                                "  Chleb\n"
+                                "  3,49\n"
+                                "2. Po zakończeniu edycji kliknij 'Przejdź dalej'\n"
+                              : "Jak wprowadzać dane?\n"
+                                "1. Zrób zdjęcie paragonu\n"
+                                "2. Edytuj zawartość paragonu w polu poniżej w następujący sposób:\n"
+                                " - Każdy produkt w nowej linii\n"
+                                " - Po nazwie produktu wstaw cenę w kolejnej linii\n"
+                                " - Przykład:\n"
+                                "  Mleko 1L\n"
+                                "  7,79\n"
+                                "  Chleb\n"
+                                "  3,49\n"
+                                "3. Po zakończeniu edycji kliknij 'Przejdź dalej'\n",
+                          style: TextStyle(fontSize: 14, color: Colors.white),
+                        ),
                       Row(
                         children: [
                           Expanded(

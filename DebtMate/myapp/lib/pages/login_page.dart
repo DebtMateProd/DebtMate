@@ -5,6 +5,7 @@ import 'package:myapp/utils/route_helper.dart';
 import 'package:myapp/widgets/button.dart';
 import 'package:myapp/widgets/text_field.dart';
 import 'package:myapp/utils/toast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../controllers/auth_controller.dart';
 import '../repositories/auth_repository.dart';
 
@@ -25,6 +26,28 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     _authController = AuthController(AuthRepository());
+    getLoginDataFromPreferences();
+  }
+
+  void getLoginDataFromPreferences() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    
+    final String? login = prefs.getString('action');
+    final String? password = prefs.getString('password');
+
+    if (login != null) {
+      _loginController.text = login;
+    }
+    if (password != null) {
+      _passwordController.text = password;
+    }
+  }
+
+  void setLoginDataToPreferences(String login, String password) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    await prefs.setString('action', login);
+    await prefs.setString('password', password);
   }
 
   Future<bool> login() async {
@@ -36,6 +59,9 @@ class _LoginScreenState extends State<LoginScreen> {
     if (success.token != '' ) {
       ApiService.instance.userId = success.userId;
       ApiService.instance.token = success.token;
+
+      setLoginDataToPreferences(_loginController.text, _passwordController.text);
+
       return true;
 
     } else {
