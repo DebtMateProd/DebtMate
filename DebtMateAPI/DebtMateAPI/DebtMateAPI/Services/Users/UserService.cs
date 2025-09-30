@@ -66,6 +66,20 @@ namespace DebtMateAPI.Services.Users
             }).ToList();
         }
 
+        public async Task<UserResponse?> GetUserById(Guid id)
+        {
+            User? user = await _repository.GetUserById(id);
+
+            if (user == null) return null;
+
+            return new UserResponse
+            {
+                UserId = user.Id,
+                UserName = user.UserName
+            };
+        }
+
+
         private static string HashPassword(string password)
         {
             using var sha256 = SHA256.Create();

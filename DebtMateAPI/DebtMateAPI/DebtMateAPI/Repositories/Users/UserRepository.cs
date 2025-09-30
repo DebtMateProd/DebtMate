@@ -33,5 +33,11 @@ namespace DebtMateAPI.Repositories.Users
         {
             return await _context.Users.ToListAsync();
         }
+
+        public async Task<User?> GetUserById(Guid Id)
+        {
+            return await _context.Users.Where(u => u.Id.Equals(Id)).FirstOrDefaultAsync();
+        }
+
     }
 }

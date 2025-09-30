@@ -8,5 +8,6 @@ namespace DebtMateAPI.Repositories.Users
         Task AddUserAsync(User user);
         Task<User?> GetByLoginAsync(string login);
         Task<List<User>> GetAllAsync();
+        Task<User?> GetUserById(Guid Id);
     }
 }
