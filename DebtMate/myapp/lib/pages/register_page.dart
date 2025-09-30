@@ -34,7 +34,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     if (success) {
       showToast("Udało się zarejestrować!");
-      RouteHelper.popUntilHome();
+
+      if (!mounted) return;
+      RouteHelper.goToHomeSetRoot(context);
     } else {
       showToast("Nie udało się zarejestrować. Sprawdź dane i spróbuj ponownie.");
     }

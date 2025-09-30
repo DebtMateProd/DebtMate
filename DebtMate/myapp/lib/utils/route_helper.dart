@@ -1,29 +1,29 @@
-import 'package:myapp/utils/navigator_key.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:myapp/utils/app_router.dart';
 
 class RouteHelper {
-  static void getTo(String routeName) {
-    navigatorKey.currentState?.pushNamed(routeName);
+  static void getTo(BuildContext context, String routeName) {
+    context.push(routeName);
   }
 
-  static void getBack() {
-    navigatorKey.currentState?.pop();
+  static void getBack(BuildContext context) {
+    context.pop();
   }
 
-  static void popUntilHome() {
-    navigatorKey.currentState?.pushNamedAndRemoveUntil(
-      '/home',
-      (route) => false,
-    );
+  static void goToHomeSetRoot(BuildContext context) {
+    context.go('/home');
   }
 
-  static void popUntilMain() {
-    navigatorKey.currentState?.pushNamedAndRemoveUntil(
-      '/main',
-      (route) => false,
-    );
+  static void goToMainSetRoot(BuildContext context) {
+    context.go('/main');
   }
 
-  static void getToWithArgs(String routeName, Object args) {
-    navigatorKey.currentState?.pushNamed(routeName, arguments: args);
+  static void getToWithArgs(BuildContext context, String routeName, Object args) {
+    context.push(routeName, extra: args);
+  }
+
+  static void globalGo(String routeName, {Object? extra}) {
+    rootNavigatorKey.currentContext?.go(routeName, extra: extra);
   }
 }

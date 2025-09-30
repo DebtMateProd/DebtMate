@@ -86,7 +86,7 @@ class _MainPageState extends State<MainPage> {
                         child: CustomButton(
                           labelText: 'Dodaj znajomego',
                           onPressed: () {
-                            RouteHelper.getTo('/addfriend');
+                            RouteHelper.getTo(context, '/addfriend');
                           },
                         ),
                       ),
@@ -101,7 +101,7 @@ class _MainPageState extends State<MainPage> {
                         child: CustomButton(
                           labelText: 'Wyświetl znajomych',
                           onPressed: () {
-                            RouteHelper.getTo('/friends');
+                            RouteHelper.getTo(context, '/friends');
                           },
                         ),
                       ),
@@ -116,7 +116,7 @@ class _MainPageState extends State<MainPage> {
                         child: CustomButton(
                           labelText: 'Wyświetl zaproszenia',
                           onPressed: () {
-                            RouteHelper.getTo('/friendrequests');
+                            RouteHelper.getTo(context, '/friendrequests');
                           },
                         ),
                       ),
@@ -131,12 +131,8 @@ class _MainPageState extends State<MainPage> {
                 child: Icon(Icons.logout, color: Colors.cyan),
               ),
               title: Text('Wyloguj', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
-              onTap: () {
-                ApiService.instance.token = null;
-                ApiService.instance.userId = null;
-
-                showToast("Wylogowano pomyślnie");
-                RouteHelper.popUntilHome();
+              onTap: () async {
+                await logout();
               },
             ),
           ],
@@ -161,7 +157,7 @@ class _MainPageState extends State<MainPage> {
                 CustomButton(
                   labelText: '➕ Dodaj nowe rozliczenie',
                   onPressed: () {
-                     RouteHelper.getTo('/chooseReckoningType');
+                     RouteHelper.getTo(context, '/chooseReckoningType');
                   },
                 ),
                 Text("Sprawdź rozliczenia, w których", style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
@@ -174,7 +170,7 @@ class _MainPageState extends State<MainPage> {
                           child: CustomButton(
                             labelText: '💸 Jesteś dłużnikiem',
                             onPressed: () {
-                               RouteHelper.getTo('/reckonings');
+                               RouteHelper.getTo(context, '/reckonings');
                             },
                           ),
                         ),
@@ -186,7 +182,7 @@ class _MainPageState extends State<MainPage> {
                           child: CustomButton(
                             labelText: '🧾 Jesteś płatnikiem',
                             onPressed: () {
-                              RouteHelper.getTo('/owedReckonings');
+                              RouteHelper.getTo(context, '/owedReckonings');
                             },
                           ),
                         ),
@@ -204,7 +200,7 @@ class _MainPageState extends State<MainPage> {
                           child: CustomButton(
                             labelText: '📉 Komu wiszę kasę',
                             onPressed: () {
-                               RouteHelper.getToWithArgs('/balance', true);
+                               RouteHelper.getToWithArgs(context, '/balance', true);
                             },
                           ),
                         ),
@@ -216,7 +212,7 @@ class _MainPageState extends State<MainPage> {
                           child: CustomButton(
                             labelText: '📈 Kto mi wisi kasę',
                             onPressed: () {
-                              RouteHelper.getToWithArgs('/balance', false);
+                              RouteHelper.getToWithArgs(context, '/balance', false);
                             },
                           ),
                         ),
@@ -232,5 +228,14 @@ class _MainPageState extends State<MainPage> {
         ),
       ),
     );
+  }
+
+  Future<void> logout() async{
+    await ApiService.instance.clearToken();
+
+    showToast("Wylogowano pomyślnie");
+
+    if (!mounted) return;
+    RouteHelper.goToHomeSetRoot(context);
   }
 }

@@ -43,6 +43,7 @@ dependencies:
   image_picker: ^1.0.7
   google_mlkit_text_recognition: ^0.15.0
   shared_preferences: ^2.5.3
+  go_router: ^16.2.4
   openapi:
     path: generated_api
 

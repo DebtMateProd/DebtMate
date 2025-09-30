@@ -84,14 +84,14 @@ class _HomePageState extends State<HomePage> {
                                 labelText: 'Zaloguj',
                                 onPressed: () {
                                   showToast("Przechodzenie do logowania...");
-                                  RouteHelper.getTo('/login');
+                                  RouteHelper.getTo(context, '/login');
                                 },
                               ),
                               CustomButton(
                                 labelText: 'Zarejestruj',
                                 onPressed: () {
                                   showToast("Przechodzenie do rejestracji...");
-                                  RouteHelper.getTo('/register');
+                                  RouteHelper.getTo(context, '/register');
                                 },
                               ),
                             ],

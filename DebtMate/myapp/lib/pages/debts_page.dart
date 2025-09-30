@@ -108,7 +108,7 @@ class _BalancePageState extends State<BalancePage> {
                                       fontSize: 20),
                                 ),
                               ),
-                              ...entry.value.map((b) => _buildBalanceCard(b, isDebts)).toList(),
+                              ...entry.value.map((b) => _buildBalanceCard(b, isDebts)),
                             ],
                           ),
                         )
@@ -174,16 +174,13 @@ class _BalancePageState extends State<BalancePage> {
           , style: TextStyle(color: Colors.white),),
           actions: [
             TextButton.icon(
-              onPressed: () => RouteHelper.getBack(),
+              onPressed: () => RouteHelper.getBack(context),
               icon: const Icon(Icons.arrow_back, color: Colors.white),
               label: const Text('Cofnij', style: TextStyle(color: Colors.white)),
             ),
             TextButton.icon(
               onPressed: () async {
-                await regulateDebtBetweenTwoUsers(userBalance);
-                RouteHelper.getBack();
-                
-                loadBalances();
+                await regulateBalances(userBalance);
               },
               icon: const Icon(Icons.payment, color: Colors.white),
               label: const Text('Ureguluj', style: TextStyle(color: Colors.white)),
@@ -192,6 +189,15 @@ class _BalancePageState extends State<BalancePage> {
         );
       },
     );
+  }
+
+  Future<void> regulateBalances(UserBalanceResp userBalance) async {
+    await regulateDebtBetweenTwoUsers(userBalance);
+
+    if (!mounted) return;
+
+    RouteHelper.getBack(context);
+    loadBalances();
   }
 
   Future<bool> regulateDebtBetweenTwoUsers(UserBalanceResp userBalance) async{

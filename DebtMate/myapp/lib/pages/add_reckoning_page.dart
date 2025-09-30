@@ -111,7 +111,9 @@ class _AddReckoningPageState extends State<AddReckoningPage> {
     _reckoningController.addNewReckoning(request).then((success) {
       if (success) {
         showToast('Rozliczenie dodane poprawnie!');
-        RouteHelper.getBack();
+        
+        if (!mounted) return;
+        RouteHelper.getBack(context);
       } else {
         showToast('Nie udało się dodać rozliczenia. Sprawdź dane i spróbuj ponownie.');
       }

@@ -10,6 +10,7 @@ All URIs are relative to *http://localhost*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**apiUserGetAllUsersGet**](UserApi.md#apiusergetallusersget) | **GET** /api/User/getAllUsers | 
+[**apiUserGetUserGet**](UserApi.md#apiusergetuserget) | **GET** /api/User/getUser | 
 
 
 # **apiUserGetAllUsersGet**
@@ -37,6 +38,47 @@ This endpoint does not need any parameter.
 ### Return type
 
 [**GetAllResponse**](GetAllResponse.md)
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain, application/json, text/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiUserGetUserGet**
+> GetUserResponse apiUserGetUserGet(userId)
+
+
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+
+final api = Openapi().getUserApi();
+final String userId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+
+try {
+    final response = api.apiUserGetUserGet(userId);
+    print(response);
+} catch on DioException (e) {
+    print('Exception when calling UserApi->apiUserGetUserGet: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **userId** | **String**|  | [optional] 
+
+### Return type
+
+[**GetUserResponse**](GetUserResponse.md)
 
 ### Authorization
 

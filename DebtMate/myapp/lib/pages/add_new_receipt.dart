@@ -249,7 +249,7 @@ class _AddReceiptPageState extends State<AddReceiptPage> {
                           if (_checkFormatAndToast()) {
                             final products = parseProducts(_receiptController.text);
                 
-                            RouteHelper.getToWithArgs('/assignReceipt', products);
+                            RouteHelper.getToWithArgs(context, '/assignReceipt', products);
                           }
                         } 
                       )

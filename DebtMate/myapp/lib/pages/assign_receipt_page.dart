@@ -347,7 +347,9 @@ class _ReceiptAssignPageState extends State<ReceiptAssignPage> {
     await _reckoningController.addNewReckoning(request).then((success) {
       if (success) {
         showToast('Rozliczenie dodane poprawnie!');
-        RouteHelper.popUntilMain();
+
+        if (!mounted) return;
+        RouteHelper.goToMainSetRoot(context);
       } else {
         showToast('Nie udało się dodać rozliczenia. Sprawdź dane i spróbuj ponownie.');
       }
@@ -525,7 +527,7 @@ class _ReceiptAssignPageState extends State<ReceiptAssignPage> {
                 ),
                 TextButton(
                   onPressed: () {
-                    this.setState(() {
+                    setState(() {
                       split.userAmounts.clear();
                       for (var user in tempSelected) {
                         split.userAmounts[user] = 0.0;

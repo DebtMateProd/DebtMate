@@ -16,4 +16,15 @@ class UserRepository {
       return [];
     }
   }
+
+  Future<UserResponse?> getUserById(String userId) async {
+    try {
+      final response = await userApi.apiUserGetUserGet(userId: userId);
+      return response.data?.user;
+      
+    } catch (e) {
+      log('Get User by ID error: $e');
+      return null;
+    }
+  }
 }

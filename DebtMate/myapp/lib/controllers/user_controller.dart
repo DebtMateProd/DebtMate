@@ -12,4 +12,14 @@ class UserController {
 
     return users.map((user) => UserResp(userId: user.userId ?? "", username: user.userName ?? "")).toList();
   }
+
+  Future<UserResp?> getUserById(String userId) async {
+    UserResponse? user = await _repository.getUserById(userId);
+
+    if (user == null) {
+      return null;
+    }
+
+    return UserResp(userId: user.userId ?? "", username: user.userName ?? "");
+  }
 }

@@ -44,13 +44,13 @@ class _ReckoningTypePageState extends State<ReckoningTypePage> {
                 CustomButton(
                   labelText: '➕ Dodaj pojedyncze rozliczenie',
                   onPressed: () {
-                     RouteHelper.getTo('/addreckoning');
+                     RouteHelper.getTo(context, '/addreckoning');
                   },
                 ),
                 CustomButton(
                   labelText: '➕ Dodaj rozliczenie paragonu',
                   onPressed: () {
-                     RouteHelper.getTo('/addReceipt');
+                     RouteHelper.getTo(context, '/addReceipt');
                   },
                 ),
               ],

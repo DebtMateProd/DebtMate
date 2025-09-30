@@ -32,22 +32,12 @@ class _LoginScreenState extends State<LoginScreen> {
   void getLoginDataFromPreferences() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     
-    final String? login = prefs.getString('action');
-    final String? password = prefs.getString('password');
+    final String? login = prefs.getString('saved_login');
+
 
     if (login != null) {
       _loginController.text = login;
     }
-    if (password != null) {
-      _passwordController.text = password;
-    }
-  }
-
-  void setLoginDataToPreferences(String login, String password) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    await prefs.setString('action', login);
-    await prefs.setString('password', password);
   }
 
   Future<bool> login() async {
@@ -57,11 +47,15 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     if (success.token != '' ) {
-      ApiService.instance.userId = success.userId;
-      ApiService.instance.token = success.token;
+      String login = _loginController.text;
+      String userId = success.userId;
+      String token = success.token;
 
-      setLoginDataToPreferences(_loginController.text, _passwordController.text);
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('saved_login', login);
 
+      await ApiService.instance.setTokenAndUser(token, userId);
+        
       return true;
 
     } else {
@@ -73,7 +67,8 @@ class _LoginScreenState extends State<LoginScreen> {
     bool success = await login();
 
     if(success){
-      RouteHelper.getTo('/main');
+      if (!mounted) return;
+      RouteHelper.goToMainSetRoot(context);
     }else{
       showToast("Logowanie nie powiodło się. Sprawdź dane i spróbuj ponownie.");
     }

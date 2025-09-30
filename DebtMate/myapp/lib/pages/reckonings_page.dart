@@ -187,7 +187,7 @@ class ReckoningsPageState extends State<ReckoningsPage> {
         ),
         actions: [
           TextButton.icon(
-            onPressed: () => RouteHelper.getBack(),
+            onPressed: () => RouteHelper.getBack(context),
             icon: const Icon(Icons.arrow_back, color: Colors.white),
             label: const Text('Cofnij', style: TextStyle(color: Colors.white)),
           ),
@@ -236,6 +236,7 @@ class ReckoningsPageState extends State<ReckoningsPage> {
       showToast('Nie udało się spłacić długu.');
     }
 
-    RouteHelper.getBack();
+    if (!mounted) return;
+    RouteHelper.getBack(context);
   }
 }

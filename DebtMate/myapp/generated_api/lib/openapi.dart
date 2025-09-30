@@ -34,6 +34,7 @@ export 'package:openapi/src/model/get_user_debtor_debts_response.dart';
 export 'package:openapi/src/model/get_user_friend_list_response.dart';
 export 'package:openapi/src/model/get_user_friend_requests_list_response.dart';
 export 'package:openapi/src/model/get_user_pending_friend_list_response.dart';
+export 'package:openapi/src/model/get_user_response.dart';
 export 'package:openapi/src/model/login_request.dart';
 export 'package:openapi/src/model/login_response.dart';
 export 'package:openapi/src/model/pay_debt_between_two_users_request.dart';

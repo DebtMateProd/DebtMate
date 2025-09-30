@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:myapp/config/api_config.dart';
+import 'package:myapp/models/responses/user_response.dart';
 import 'package:openapi/openapi.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiService {
   ApiService._internal() {
@@ -44,4 +46,59 @@ class ApiService {
   late final FriendshipApi friendApi;
   late final ReckoningApi reckoningApi;
   late final CurrencyApi currencyApi;
+
+  bool _isTokenValid = false;
+  UserResp? currentUser;
+
+  Future<bool> init() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final storedToken = prefs.getString('auth_token');
+      final storedUserId = prefs.getString('user_id');
+
+      if (storedToken == null || storedToken.isEmpty || storedUserId == null || storedUserId.isEmpty) {
+        _isTokenValid = false;
+        return false;
+      }
+
+      token = storedToken;
+      userId = storedUserId;
+
+      try {
+        final resp = await userApi.apiUserGetUserGet(userId: userId);
+        currentUser = UserResp(userId: resp.data!.user!.userId!, username: resp.data!.user!.userName!);
+        _isTokenValid = true;
+        return true;
+
+      } catch (e) {
+        
+        clearToken();
+        return false;
+      }
+    } catch (e) {
+      _isTokenValid = false;
+      return false;
+    }
+  }
+
+  bool get isTokenValid => _isTokenValid;
+
+  Future<void> setTokenAndUser(String tokenValue, String userIdValue) async {
+    token = tokenValue;
+    userId = userIdValue;
+    _isTokenValid = true;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('auth_token', tokenValue);
+    await prefs.setString('user_id', userIdValue);
+  }
+
+  Future<void> clearToken() async {
+    token = null;
+    userId = null;
+    _isTokenValid = false;
+    currentUser = null;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('auth_token');
+    await prefs.remove('user_id');
+  }
 }
