@@ -27,4 +27,26 @@ class UserRepository {
       return null;
     }
   }
+
+  Future<UserResponse?> getUserLoginDataById(String userId) async {
+    try {
+      final response = await userApi.apiUserGetUserGet(userId: userId, includeLogin: true);
+      return response.data?.user;
+      
+    } catch (e) {
+      log('Get User by ID error: $e');
+      return null;
+    }
+  }
+
+  Future<bool> updateUserData(UpdateUserRequest request) async {
+    try {
+      final response = await userApi.apiUserUpdateUserPost(updateUserRequest: request);
+      return response.data!.success!;
+      
+    } catch (e) {
+      log('Update user by error: $e');
+      return false;
+    }
+  }
 }

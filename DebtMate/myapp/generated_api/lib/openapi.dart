@@ -45,6 +45,8 @@ export 'package:openapi/src/model/register_request.dart';
 export 'package:openapi/src/model/register_response.dart';
 export 'package:openapi/src/model/remove_friendship_request.dart';
 export 'package:openapi/src/model/remove_friendship_response.dart';
+export 'package:openapi/src/model/update_user_request.dart';
+export 'package:openapi/src/model/update_user_response.dart';
 export 'package:openapi/src/model/user_debt.dart';
 export 'package:openapi/src/model/user_debt_response.dart';
 export 'package:openapi/src/model/user_debtor_debts.dart';

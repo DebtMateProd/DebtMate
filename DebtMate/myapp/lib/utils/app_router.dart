@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:myapp/pages/debts_page.dart';
 
 import 'package:myapp/pages/home_page.dart';
+import 'package:myapp/pages/profile_page.dart';
 import 'package:myapp/pages/register_page.dart';
 import 'package:myapp/pages/login_page.dart';
 import 'package:myapp/pages/main_page.dart';
@@ -45,6 +46,8 @@ GoRouter createRouter({required bool loggedIn}) {
 
       GoRoute(path: '/addReceipt', builder: (context, state) => const AddReceiptPage()),
       GoRoute(path: '/chooseReckoningType', builder: (context, state) => const ReckoningTypePage()),
+      GoRoute(path: '/profile', builder: (context, state) => const ProfilePage()),
+
 
       GoRoute(
         path: '/assignReceipt',

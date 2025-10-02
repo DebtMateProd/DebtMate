@@ -53,6 +53,16 @@ class _MainPageState extends State<MainPage> {
                 'images/logo.png',
               ),
             ),
+            ListTile(
+              leading: CircleAvatar(
+                backgroundColor: Colors.white,
+                child: Icon(Icons.account_circle, color: Colors.cyan),
+              ),
+              title: Text('Twój profil', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+              onTap: () {
+                RouteHelper.getTo(context, '/profile');
+              },
+            ),
             ExpansionTile(
               shape: Border(),
               leading: CircleAvatar(

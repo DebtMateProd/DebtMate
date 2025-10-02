@@ -11,11 +11,13 @@ class _$UserResponse extends UserResponse {
   final String? userId;
   @override
   final String? userName;
+  @override
+  final String? userLogin;
 
   factory _$UserResponse([void Function(UserResponseBuilder)? updates]) =>
       (UserResponseBuilder()..update(updates))._build();
 
-  _$UserResponse._({this.userId, this.userName}) : super._();
+  _$UserResponse._({this.userId, this.userName, this.userLogin}) : super._();
   @override
   UserResponse rebuild(void Function(UserResponseBuilder) updates) =>
       (toBuilder()..update(updates)).build();
@@ -28,7 +30,8 @@ class _$UserResponse extends UserResponse {
     if (identical(other, this)) return true;
     return other is UserResponse &&
         userId == other.userId &&
-        userName == other.userName;
+        userName == other.userName &&
+        userLogin == other.userLogin;
   }
 
   @override
@@ -36,6 +39,7 @@ class _$UserResponse extends UserResponse {
     var _$hash = 0;
     _$hash = $jc(_$hash, userId.hashCode);
     _$hash = $jc(_$hash, userName.hashCode);
+    _$hash = $jc(_$hash, userLogin.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -44,7 +48,8 @@ class _$UserResponse extends UserResponse {
   String toString() {
     return (newBuiltValueToStringHelper(r'UserResponse')
           ..add('userId', userId)
-          ..add('userName', userName))
+          ..add('userName', userName)
+          ..add('userLogin', userLogin))
         .toString();
   }
 }
@@ -61,6 +66,10 @@ class UserResponseBuilder
   String? get userName => _$this._userName;
   set userName(String? userName) => _$this._userName = userName;
 
+  String? _userLogin;
+  String? get userLogin => _$this._userLogin;
+  set userLogin(String? userLogin) => _$this._userLogin = userLogin;
+
   UserResponseBuilder() {
     UserResponse._defaults(this);
   }
@@ -70,6 +79,7 @@ class UserResponseBuilder
     if ($v != null) {
       _userId = $v.userId;
       _userName = $v.userName;
+      _userLogin = $v.userLogin;
       _$v = null;
     }
     return this;
@@ -93,6 +103,7 @@ class UserResponseBuilder
         _$UserResponse._(
           userId: userId,
           userName: userName,
+          userLogin: userLogin,
         );
     replace(_$result);
     return _$result;

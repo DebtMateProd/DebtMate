@@ -13,6 +13,7 @@ part 'user_response.g.dart';
 /// Properties:
 /// * [userId] 
 /// * [userName] 
+/// * [userLogin] 
 @BuiltValue()
 abstract class UserResponse implements Built<UserResponse, UserResponseBuilder> {
   @BuiltValueField(wireName: r'userId')
@@ -20,6 +21,9 @@ abstract class UserResponse implements Built<UserResponse, UserResponseBuilder> 
 
   @BuiltValueField(wireName: r'userName')
   String? get userName;
+
+  @BuiltValueField(wireName: r'userLogin')
+  String? get userLogin;
 
   UserResponse._();
 
@@ -55,6 +59,13 @@ class _$UserResponseSerializer implements PrimitiveSerializer<UserResponse> {
       yield r'userName';
       yield serializers.serialize(
         object.userName,
+        specifiedType: const FullType.nullable(String),
+      );
+    }
+    if (object.userLogin != null) {
+      yield r'userLogin';
+      yield serializers.serialize(
+        object.userLogin,
         specifiedType: const FullType.nullable(String),
       );
     }
@@ -95,6 +106,14 @@ class _$UserResponseSerializer implements PrimitiveSerializer<UserResponse> {
           ) as String?;
           if (valueDes == null) continue;
           result.userName = valueDes;
+          break;
+        case r'userLogin':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
+          result.userLogin = valueDes;
           break;
         default:
           unhandled.add(key);

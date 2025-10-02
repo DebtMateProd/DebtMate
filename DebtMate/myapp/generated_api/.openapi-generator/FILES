@@ -34,6 +34,8 @@ doc/RegisterRequest.md
 doc/RegisterResponse.md
 doc/RemoveFriendshipRequest.md
 doc/RemoveFriendshipResponse.md
+doc/UpdateUserRequest.md
+doc/UpdateUserResponse.md
 doc/UserApi.md
 doc/UserDebt.md
 doc/UserDebtResponse.md
@@ -83,10 +85,13 @@ lib/src/model/register_request.dart
 lib/src/model/register_response.dart
 lib/src/model/remove_friendship_request.dart
 lib/src/model/remove_friendship_response.dart
+lib/src/model/update_user_request.dart
+lib/src/model/update_user_response.dart
 lib/src/model/user_debt.dart
 lib/src/model/user_debt_response.dart
 lib/src/model/user_debtor_debts.dart
 lib/src/model/user_response.dart
 lib/src/serializers.dart
 pubspec.yaml
-test/get_user_response_test.dart
+test/update_user_request_test.dart
+test/update_user_response_test.dart
