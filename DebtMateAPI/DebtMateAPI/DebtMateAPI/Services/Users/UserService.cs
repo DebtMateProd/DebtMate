@@ -66,7 +66,7 @@ namespace DebtMateAPI.Services.Users
             }).ToList();
         }
 
-        public async Task<UserResponse?> GetUserById(Guid id)
+        public async Task<UserResponse?> GetUserById(Guid id, bool includeLogin)
         {
             User? user = await _repository.GetUserById(id);
 
@@ -75,10 +75,46 @@ namespace DebtMateAPI.Services.Users
             return new UserResponse
             {
                 UserId = user.Id,
-                UserName = user.UserName
+                UserName = user.UserName,
+                UserLogin = includeLogin ? user.Login : null
             };
         }
 
+        public async Task<bool> UpdateUserData(Guid userId, string? login, string? password, string? username)
+        {
+            User? user = await _repository.GetUserById(userId);
+
+            if (user == null) return false;
+
+            bool changed = false;
+
+            if (!string.IsNullOrWhiteSpace(login) && !user.Login.Equals(login))
+            {
+                user.Login = login;
+                changed = true;
+            }
+
+            if (!string.IsNullOrWhiteSpace(username) && !user.UserName.Equals(username))
+            {
+                user.UserName = username;
+                changed = true;
+            }
+
+            if (!string.IsNullOrWhiteSpace(password))
+            {
+                var newHash = HashPassword(password);
+                if (!user.PasswordHash.Equals(newHash))
+                {
+                    user.PasswordHash = newHash;
+                    changed = true;
+                }
+            }
+
+            if (!changed) return false;
+
+            await _repository.UpdateUser(user);
+            return true;
+        }
 
         private static string HashPassword(string password)
         {

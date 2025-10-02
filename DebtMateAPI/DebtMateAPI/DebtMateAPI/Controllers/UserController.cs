@@ -1,4 +1,5 @@
-﻿using DebtMateAPI.Responses.User;
+﻿using DebtMateAPI.Requests.User;
+using DebtMateAPI.Responses.User;
 using DebtMateAPI.Services.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,14 +31,30 @@ namespace DebtMateAPI.Controllers
         }
 
         [HttpGet("getUser")]
-        public async Task<ActionResult<GetUserResponse>> GetUserById(Guid userId)
+        public async Task<ActionResult<GetUserResponse>> GetUserById(Guid userId, bool includeLogin = false)
         {
-            UserResponse? user = await _userService.GetUserById(userId);
+            UserResponse? user = await _userService.GetUserById(userId, includeLogin);
 
             if (user != null)
                 return new GetUserResponse { Message = "Get succeeded", Success = true, User = user };
 
             return new GetUserResponse { Message = "Could not get", Success = false };
+        }
+
+        [HttpPost("updateUser")]
+        public async Task<ActionResult<UpdateUserResponse>> UpdateUserData(UpdateUserRequest request)
+        {
+            bool success = await _userService.UpdateUserData(
+                userId: request.UserId, 
+                login: request.Login, 
+                password: request.Password, 
+                username: request.Username
+            );
+
+            if (success)
+                return new UpdateUserResponse { Message = "Update succeeded", Success = true };
+
+            return new UpdateUserResponse { Message = "Could not update", Success = false };
         }
     }
 }

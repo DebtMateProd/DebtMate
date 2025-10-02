@@ -9,5 +9,6 @@ namespace DebtMateAPI.Repositories.Users
         Task<User?> GetByLoginAsync(string login);
         Task<List<User>> GetAllAsync();
         Task<User?> GetUserById(Guid Id);
+        Task<bool> UpdateUser(User user);
     }
 }

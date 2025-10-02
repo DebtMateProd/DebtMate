@@ -39,5 +39,13 @@ namespace DebtMateAPI.Repositories.Users
             return await _context.Users.Where(u => u.Id.Equals(Id)).FirstOrDefaultAsync();
         }
 
+        public async Task<bool> UpdateUser(User user)
+        {
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
     }
 }
