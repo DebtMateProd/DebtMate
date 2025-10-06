@@ -11,11 +11,13 @@ class _$UserDebt extends UserDebt {
   final String? userId;
   @override
   final double? owedAmount;
+  @override
+  final bool? isPaid;
 
   factory _$UserDebt([void Function(UserDebtBuilder)? updates]) =>
       (UserDebtBuilder()..update(updates))._build();
 
-  _$UserDebt._({this.userId, this.owedAmount}) : super._();
+  _$UserDebt._({this.userId, this.owedAmount, this.isPaid}) : super._();
   @override
   UserDebt rebuild(void Function(UserDebtBuilder) updates) =>
       (toBuilder()..update(updates)).build();
@@ -28,7 +30,8 @@ class _$UserDebt extends UserDebt {
     if (identical(other, this)) return true;
     return other is UserDebt &&
         userId == other.userId &&
-        owedAmount == other.owedAmount;
+        owedAmount == other.owedAmount &&
+        isPaid == other.isPaid;
   }
 
   @override
@@ -36,6 +39,7 @@ class _$UserDebt extends UserDebt {
     var _$hash = 0;
     _$hash = $jc(_$hash, userId.hashCode);
     _$hash = $jc(_$hash, owedAmount.hashCode);
+    _$hash = $jc(_$hash, isPaid.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -44,7 +48,8 @@ class _$UserDebt extends UserDebt {
   String toString() {
     return (newBuiltValueToStringHelper(r'UserDebt')
           ..add('userId', userId)
-          ..add('owedAmount', owedAmount))
+          ..add('owedAmount', owedAmount)
+          ..add('isPaid', isPaid))
         .toString();
   }
 }
@@ -60,6 +65,10 @@ class UserDebtBuilder implements Builder<UserDebt, UserDebtBuilder> {
   double? get owedAmount => _$this._owedAmount;
   set owedAmount(double? owedAmount) => _$this._owedAmount = owedAmount;
 
+  bool? _isPaid;
+  bool? get isPaid => _$this._isPaid;
+  set isPaid(bool? isPaid) => _$this._isPaid = isPaid;
+
   UserDebtBuilder() {
     UserDebt._defaults(this);
   }
@@ -69,6 +78,7 @@ class UserDebtBuilder implements Builder<UserDebt, UserDebtBuilder> {
     if ($v != null) {
       _userId = $v.userId;
       _owedAmount = $v.owedAmount;
+      _isPaid = $v.isPaid;
       _$v = null;
     }
     return this;
@@ -92,6 +102,7 @@ class UserDebtBuilder implements Builder<UserDebt, UserDebtBuilder> {
         _$UserDebt._(
           userId: userId,
           owedAmount: owedAmount,
+          isPaid: isPaid,
         );
     replace(_$result);
     return _$result;

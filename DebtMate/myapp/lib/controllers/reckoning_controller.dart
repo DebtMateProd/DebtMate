@@ -2,6 +2,7 @@ import 'package:built_collection/src/list.dart';
 import 'package:myapp/models/requests/add_new_reckoning_request.dart';
 import 'package:myapp/models/requests/pay_debt_between_two_users_request.dart';
 import 'package:myapp/models/requests/pay_user_debt_request.dart';
+import 'package:myapp/models/requests/update_reckoning_request.dart';
 import 'package:myapp/models/responses/reckoning_debtors_response.dart';
 import 'package:myapp/models/responses/user_balance_response.dart';
 import 'package:myapp/models/responses/user_debt_response.dart';
@@ -30,6 +31,26 @@ class ReckoningController {
     });
 
     return await _repository.addNewReckoning(addNewReckoningRequest);
+  }
+
+  Future<bool> updateReckoning(UpdateReckoningReq request) async {
+    UpdateReckoningRequest updateReckoningRequest = UpdateReckoningRequest((b) {
+      b.reckoningId = request.id;
+      b.name = request.name;
+      b.description = request.description;
+      b.totalCost = request.totalCost;
+      b.payerId = request.payerId;
+      b.currencyCode = request.currencyCode;
+      b.debts = ListBuilder<UserDebt>(
+        request.debts.map((debt) => UserDebt((d) {
+          d.userId = debt.userId;
+          d.owedAmount = debt.amount;
+          d.isPaid = debt.isPaid;
+        })),
+      );
+    });
+
+    return await _repository.updateReckoning(updateReckoningRequest);
   }
 
   Future<List<UserDebtResp>> getUserDebts(String userId, bool isPaid) async {

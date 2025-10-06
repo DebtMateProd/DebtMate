@@ -13,6 +13,7 @@ part 'user_debt.g.dart';
 /// Properties:
 /// * [userId] 
 /// * [owedAmount] 
+/// * [isPaid] 
 @BuiltValue()
 abstract class UserDebt implements Built<UserDebt, UserDebtBuilder> {
   @BuiltValueField(wireName: r'userId')
@@ -20,6 +21,9 @@ abstract class UserDebt implements Built<UserDebt, UserDebtBuilder> {
 
   @BuiltValueField(wireName: r'owedAmount')
   double? get owedAmount;
+
+  @BuiltValueField(wireName: r'isPaid')
+  bool? get isPaid;
 
   UserDebt._();
 
@@ -58,6 +62,13 @@ class _$UserDebtSerializer implements PrimitiveSerializer<UserDebt> {
         specifiedType: const FullType(double),
       );
     }
+    if (object.isPaid != null) {
+      yield r'isPaid';
+      yield serializers.serialize(
+        object.isPaid,
+        specifiedType: const FullType.nullable(bool),
+      );
+    }
   }
 
   @override
@@ -94,6 +105,14 @@ class _$UserDebtSerializer implements PrimitiveSerializer<UserDebt> {
             specifiedType: const FullType(double),
           ) as double;
           result.owedAmount = valueDes;
+          break;
+        case r'isPaid':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(bool),
+          ) as bool?;
+          if (valueDes == null) continue;
+          result.isPaid = valueDes;
           break;
         default:
           unhandled.add(key);

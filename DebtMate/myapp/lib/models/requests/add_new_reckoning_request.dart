@@ -12,6 +12,7 @@ class AddNewReckoningReq {
 class UserDebtReq {
   final String userId;
   final double amount;
+  final bool? isPaid;
 
-  UserDebtReq({required this.userId, required this.amount});
+  UserDebtReq({required this.userId, required this.amount, this.isPaid});
 }

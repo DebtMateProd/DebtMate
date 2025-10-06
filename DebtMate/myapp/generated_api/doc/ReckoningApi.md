@@ -15,6 +15,7 @@ Method | HTTP request | Description
 [**apiReckoningGetUserDebtsGet**](ReckoningApi.md#apireckoninggetuserdebtsget) | **GET** /api/Reckoning/getUserDebts | 
 [**apiReckoningPayDebtBetweenTwoUsersPost**](ReckoningApi.md#apireckoningpaydebtbetweentwouserspost) | **POST** /api/Reckoning/payDebtBetweenTwoUsers | 
 [**apiReckoningPayUserDebtPost**](ReckoningApi.md#apireckoningpayuserdebtpost) | **POST** /api/Reckoning/payUserDebt | 
+[**apiReckoningUpdateReckoningPost**](ReckoningApi.md#apireckoningupdatereckoningpost) | **POST** /api/Reckoning/updateReckoning | 
 
 
 # **apiReckoningAddNewReckoningPost**
@@ -255,6 +256,47 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**PayUserDebtResponse**](PayUserDebtResponse.md)
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json, text/json, application/*+json
+ - **Accept**: text/plain, application/json, text/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiReckoningUpdateReckoningPost**
+> UpdateReckoningResponse apiReckoningUpdateReckoningPost(updateReckoningRequest)
+
+
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+
+final api = Openapi().getReckoningApi();
+final UpdateReckoningRequest updateReckoningRequest = ; // UpdateReckoningRequest | 
+
+try {
+    final response = api.apiReckoningUpdateReckoningPost(updateReckoningRequest);
+    print(response);
+} catch on DioException (e) {
+    print('Exception when calling ReckoningApi->apiReckoningUpdateReckoningPost: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **updateReckoningRequest** | [**UpdateReckoningRequest**](UpdateReckoningRequest.md)|  | [optional] 
+
+### Return type
+
+[**UpdateReckoningResponse**](UpdateReckoningResponse.md)
 
 ### Authorization
 

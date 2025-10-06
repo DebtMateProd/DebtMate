@@ -12,7 +12,18 @@ class ReckoningRepository {
 
       return response.data?.success ?? false;
     } catch (e) {
-      log('Add new friend error: $e');
+      log('Add new reckoning error: $e');
+      return false;
+    }
+  }
+
+  Future<bool> updateReckoning(UpdateReckoningRequest request) async {
+    try {
+      final response = await reckoningApi.apiReckoningUpdateReckoningPost(updateReckoningRequest: request);
+
+      return response.data?.success ?? false;
+    } catch (e) {
+      log('Update reckoning error: $e');
       return false;
     }
   }

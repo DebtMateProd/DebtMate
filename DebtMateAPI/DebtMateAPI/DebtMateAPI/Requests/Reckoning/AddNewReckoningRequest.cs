@@ -14,6 +14,7 @@
         {
             public Guid UserId { get; set; }
             public float OwedAmount { get; set; }
+            public bool? IsPaid { get; set; }
         }
     }
 }

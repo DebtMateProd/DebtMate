@@ -43,6 +43,8 @@ import 'package:openapi/src/model/register_request.dart';
 import 'package:openapi/src/model/register_response.dart';
 import 'package:openapi/src/model/remove_friendship_request.dart';
 import 'package:openapi/src/model/remove_friendship_response.dart';
+import 'package:openapi/src/model/update_reckoning_request.dart';
+import 'package:openapi/src/model/update_reckoning_response.dart';
 import 'package:openapi/src/model/update_user_request.dart';
 import 'package:openapi/src/model/update_user_response.dart';
 import 'package:openapi/src/model/user_debt.dart';
@@ -82,6 +84,8 @@ part 'serializers.g.dart';
   RegisterResponse,
   RemoveFriendshipRequest,
   RemoveFriendshipResponse,
+  UpdateReckoningRequest,
+  UpdateReckoningResponse,
   UpdateUserRequest,
   UpdateUserResponse,
   UserDebt,
@@ -93,8 +97,8 @@ Serializers serializers = (_$serializers.toBuilder()
       ..add(const OneOfSerializer())
       ..add(const AnyOfSerializer())
       ..add(const DateSerializer())
-      ..add(Iso8601DateTimeSerializer())
-    ).build();
+      ..add(Iso8601DateTimeSerializer()))
+    .build();
 
 Serializers standardSerializers =
     (serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();

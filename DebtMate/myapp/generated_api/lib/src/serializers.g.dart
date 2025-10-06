@@ -36,6 +36,8 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(RegisterResponse.serializer)
       ..add(RemoveFriendshipRequest.serializer)
       ..add(RemoveFriendshipResponse.serializer)
+      ..add(UpdateReckoningRequest.serializer)
+      ..add(UpdateReckoningResponse.serializer)
       ..add(UpdateUserRequest.serializer)
       ..add(UpdateUserResponse.serializer)
       ..add(UserDebt.serializer)
@@ -51,6 +53,9 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(DebtorInfo)]),
           () => ListBuilder<DebtorInfo>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(UserDebt)]),
+          () => ListBuilder<UserDebt>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(UserDebt)]),
           () => ListBuilder<UserDebt>())

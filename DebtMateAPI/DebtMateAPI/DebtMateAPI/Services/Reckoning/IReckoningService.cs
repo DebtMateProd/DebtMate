@@ -7,6 +7,7 @@ namespace DebtMateAPI.Services.Reckonings
     public interface IReckoningService
     {
         Task<bool> AddNewReckoning(AddNewReckoningRequest request);
+        Task<bool> UpdateReckoning(UpdateReckoningRequest request);
         Task<bool> PayUserDebt(PayUserDebtRequest request);
         Task<bool> PayDebtBetweenTwoUsers(PayDebtBetweenTwoUsersRequest request);
         Task<List<UserDebtResponse>> GetUserDebts(Guid userId, bool isPaid);

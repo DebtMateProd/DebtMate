@@ -480,6 +480,54 @@
         }
       }
     },
+    "/api/Reckoning/updateReckoning": {
+      "post": {
+        "tags": [
+          "Reckoning"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateReckoningRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateReckoningRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateReckoningRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateReckoningResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateReckoningResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateReckoningResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Reckoning/getUserDebts": {
       "get": {
         "tags": [
@@ -1352,6 +1400,58 @@
         },
         "additionalProperties": false
       },
+      "UpdateReckoningRequest": {
+        "type": "object",
+        "properties": {
+          "reckoningId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalCost": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "payerId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "currencyCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "debts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserDebt"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateReckoningResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "UpdateUserRequest": {
         "required": [
           "login",
@@ -1403,6 +1503,10 @@
           "owedAmount": {
             "type": "number",
             "format": "float"
+          },
+          "isPaid": {
+            "type": "boolean",
+            "nullable": true
           }
         },
         "additionalProperties": false

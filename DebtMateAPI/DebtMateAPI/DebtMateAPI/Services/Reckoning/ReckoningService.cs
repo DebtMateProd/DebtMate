@@ -49,6 +49,54 @@ namespace DebtMateAPI.Services.Reckonings
             return true;
         }
 
+        public async Task<bool> UpdateReckoning(UpdateReckoningRequest request)
+        {
+            var reckoning = await _repository.GetByIdAsync(request.ReckoningId);
+
+            if (reckoning == null) 
+                return false;
+
+            if (request.Name != null) 
+                reckoning.Name = request.Name;
+
+            if (request.Description != null) 
+                reckoning.Description = request.Description;
+
+            if (request.PayerId.HasValue) 
+                reckoning.PayerId = request.PayerId.Value;
+
+            if (request.CurrencyCode != null) 
+                reckoning.CurrencyCode = request.CurrencyCode;
+
+            if (request.Debts != null)
+            {
+                if (request.TotalCost.HasValue)
+                {
+                    reckoning.TotalCost = request.TotalCost.Value;
+                }
+
+                // Map request.UserDebt -> ReckoningUser (service layer mapping)
+                var now = DateTime.UtcNow;
+                var mapped = request.Debts.Select(d => new ReckoningUser
+                {
+                    // Id assigned in repository if left Guid.Empty; set here if you prefer
+                    Id = Guid.NewGuid(),
+                    ReckoningId = reckoning.Id, // repository will ensure consistency too
+                    UserId = d.UserId,
+                    OwedAmount = d.OwedAmount,
+                    IsPaid = d.IsPaid ?? false,
+                    PaidDate = (d.IsPaid ?? false) ? now : (DateTime?)null
+                }).ToList();
+
+                // Pass entities to repository (no knowledge of request DTO in repo)
+                await _repository.ReplaceReckoningUsersAsync(reckoning.Id, mapped);
+            }
+
+            // Persist scalar changes (name/description/total/payer/currency)
+            await _repository.UpdateAsync(reckoning);
+            return true;
+        }
+
         public async Task<List<UserDebtResponse>> GetUserDebts(Guid userId, bool isPaid)
         {
             List<ReckoningUser> reckoningUsers = await _repository.GetUserDebts(userId: userId, isPaid: isPaid);

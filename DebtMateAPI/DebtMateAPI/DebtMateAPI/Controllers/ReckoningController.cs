@@ -30,6 +30,17 @@ namespace DebtMateAPI.Controllers
             return new AddNewReckoningResponse { Message = "Could not add", Success = false };
         }
 
+        [HttpPost("updateReckoning")]
+        public async Task<UpdateReckoningResponse> UpdateReckoning(UpdateReckoningRequest updateReckoningRequest)
+        {
+            bool success = await _reckoningService.UpdateReckoning(updateReckoningRequest);
+
+            if (success)
+                return new UpdateReckoningResponse { Message = "Updated successfully", Success = true };
+
+            return new UpdateReckoningResponse { Message = "Could not update", Success = false };
+        }
+
         [HttpGet("getUserDebts")]
         public async Task<GetUserDebtResponse> GetUserDebts(Guid userId, bool isPaid)
         {

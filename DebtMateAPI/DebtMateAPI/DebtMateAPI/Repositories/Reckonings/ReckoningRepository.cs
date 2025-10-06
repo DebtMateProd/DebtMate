@@ -1,5 +1,6 @@
 ﻿using DebtMateAPI.Data;
 using DebtMateAPI.Entities;
+using DebtMateAPI.Requests.Reckoning;
 using Microsoft.EntityFrameworkCore;
 
 namespace DebtMateAPI.Repositories.Reckonings
@@ -17,6 +18,53 @@ namespace DebtMateAPI.Repositories.Reckonings
         {
             _context.Reckonings.Add(reckoning);
             await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<Reckoning?> GetByIdAsync(Guid id)
+        {
+            return await _context.Reckonings
+                            .Include(r => r.Users)
+                            .SingleOrDefaultAsync(r => r.Id == id);
+        }
+
+        public async Task<bool> UpdateAsync(Reckoning reckoning)
+        {
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> ReplaceReckoningUsersAsync(Guid reckoningId, List<ReckoningUser> newUsers)
+        {
+            if (newUsers == null)
+                return false;
+
+            using var tx = await _context.Database.BeginTransactionAsync();
+
+            // delete existing rows for the reckoning
+            var existing = _context.ReckoningUser.Where(x => x.ReckoningId == reckoningId);
+
+            _context.ReckoningUser.RemoveRange(existing);
+            await _context.SaveChangesAsync();
+
+
+            // Insert new rows
+            if (newUsers.Any())
+            {
+                // Ensure ReckoningId is set consistently
+                foreach (var u in newUsers)
+                {
+                    u.ReckoningId = reckoningId;
+                    if (u.Id == Guid.Empty) u.Id = Guid.NewGuid();
+                }
+
+                await _context.ReckoningUser.AddRangeAsync(newUsers);
+                await _context.SaveChangesAsync();
+            }
+
+            await tx.CommitAsync();
 
             return true;
         }
