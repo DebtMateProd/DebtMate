@@ -13,6 +13,7 @@ namespace DebtMateAPI.Responses.Reckoning
         public string ReckoningName { get; set; } = string.Empty;
         public string? Description { get; set; }
         public string CurrencyCode { get; set; } = "PLN";
+        public float TotalCost { get; set; }
         public List<DebtorInfo> Debtors { get; set; } = new();
     }
 

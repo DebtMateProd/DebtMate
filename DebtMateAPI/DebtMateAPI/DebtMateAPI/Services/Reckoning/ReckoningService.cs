@@ -181,6 +181,7 @@ namespace DebtMateAPI.Services.Reckonings
                         ReckoningName = reckoning.Name,
                         Description = reckoning.Description,
                         CurrencyCode = reckoning.CurrencyCode,
+                        TotalCost = reckoning.TotalCost,
                         Debtors = group.Select(ru => new DebtorInfo
                         {
                             Debtor = new UserResponse

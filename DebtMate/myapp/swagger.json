@@ -1567,6 +1567,10 @@
             "type": "string",
             "nullable": true
           },
+          "totalCost": {
+            "type": "number",
+            "format": "float"
+          },
           "debtors": {
             "type": "array",
             "items": {

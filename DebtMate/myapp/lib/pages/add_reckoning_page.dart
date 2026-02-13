@@ -3,7 +3,9 @@ import 'package:myapp/controllers/currency_controller.dart';
 import 'package:myapp/controllers/friend_controller.dart';
 import 'package:myapp/controllers/reckoning_controller.dart';
 import 'package:myapp/models/requests/add_new_reckoning_request.dart';
+import 'package:myapp/models/requests/update_reckoning_request.dart';
 import 'package:myapp/models/responses/currency_response.dart';
+import 'package:myapp/models/responses/reckoning_debtors_response.dart';
 import 'package:myapp/repositories/currency_repository.dart';
 import 'package:myapp/repositories/friend_repository.dart';
 import 'package:myapp/models/responses/user_response.dart';
@@ -15,14 +17,17 @@ import 'package:myapp/widgets/button.dart';
 import 'package:myapp/widgets/drop_down.dart';
 import 'package:myapp/widgets/text_field.dart';
 
-class AddReckoningPage extends StatefulWidget {
-  const AddReckoningPage({super.key});
+class AddEditReckoningPage extends StatefulWidget {
+  
+  final ReckoningDebtorsResp? reckoningToEdit;
+
+  const AddEditReckoningPage({super.key, this.reckoningToEdit});
 
   @override
-  State<AddReckoningPage> createState() => _AddReckoningPageState();
+  State<AddEditReckoningPage> createState() => _AddEditReckoningPageState();
 }
 
-class _AddReckoningPageState extends State<AddReckoningPage> {
+class _AddEditReckoningPageState extends State<AddEditReckoningPage> {
   final FriendController _friendController = FriendController(FriendRepository());
   final ReckoningController _reckoningController = ReckoningController(ReckoningRepository());
   final CurrencyController _currencyController = CurrencyController(CurrencyRepository());
@@ -37,10 +42,12 @@ class _AddReckoningPageState extends State<AddReckoningPage> {
   final TextEditingController _descriptionController = TextEditingController();
 
   final Map<UserResp, double> _debts = {};
+  final Map<UserResp, bool> _debtsStatus = {};
   final Set<String> _selectedDebtors = {};
   final Map<UserResp, TextEditingController> _debtControllers = {};
 
   bool _loading = true;
+  bool get _isEditing => widget.reckoningToEdit != null;
 
   @override
   void initState() {
@@ -52,17 +59,70 @@ class _AddReckoningPageState extends State<AddReckoningPage> {
     await _fetchFriends();
     await _fetchCurrencies();
 
+    if (_isEditing) {
+      _fillFormWithData();
+    }
+
     setState(() {
       _loading = false;
     });
 
   }
 
+  void _fillFormWithData() {
+    final data = widget.reckoningToEdit!;
+
+    _nameController.text = data.reckoningName;
+    _descriptionController.text = data.description ?? '';
+    
+    _totalCost = data.totalCost; 
+    _costController.text = _totalCost?.toStringAsFixed(2) ?? "0.00";
+
+    _selectedCurrency = _currencies.firstWhere((c) => c.code == data.currencyCode);
+    
+
+    final currentUserId = ApiService.instance.userId;
+    if (currentUserId != null) {
+        _payer = _users.firstWhere((u) => u.userId == currentUserId);
+    }
+
+    double sumOfDebtors = 0.0;
+
+    for (var debtorInfo in data.debtors) {
+      try {
+        final user = _users.firstWhere((u) => u.userId == debtorInfo.debtorId);
+
+        _selectedDebtors.add(user.userId);
+        _debts[user] = debtorInfo.owedAmount;
+        _debtsStatus[user] = debtorInfo.isPaid;
+        _debtControllers[user] = TextEditingController(text: debtorInfo.owedAmount.toStringAsFixed(2));
+
+        sumOfDebtors += debtorInfo.owedAmount;
+      } catch (e) {
+        print("Nie znaleziono użytkownika o ID: ${debtorInfo.debtorId}");
+      }
+    }
+
+    if (_totalCost != null && (_totalCost! - sumOfDebtors) > 0.01) {
+      double myShare = _totalCost! - sumOfDebtors;
+
+      if (currentUserId != null) {
+        final me = _users.firstWhere((u) => u.userId == currentUserId);
+
+        if (!_selectedDebtors.contains(me.userId)) {
+          _selectedDebtors.add(me.userId);
+          _debts[me] = myShare;
+          _debtsStatus[me] = true; 
+          _debtControllers[me] = TextEditingController(text: myShare.toStringAsFixed(2));
+        }
+      }
+    }
+  }
 
   Future<void> _fetchFriends() async {
     final userId = ApiService.instance.userId ?? '';
     final friends = await _friendController.getUserFriends(userId);
-    final currentUser = UserResp(userId: userId, username: "Ja"); // or fetch real username
+    final currentUser = UserResp(userId: userId, username: "Ja");
     setState(() {
       _users = [currentUser, ...friends];
     });
@@ -97,8 +157,18 @@ class _AddReckoningPageState extends State<AddReckoningPage> {
     final debtsList = _debts.entries.map((entry) => UserDebtReq(
       userId: entry.key.userId,
       amount: entry.value,
+      isPaid: _debtsStatus[entry.key] ?? false,
     )).toList();
 
+    // ZMIANA: Rozwidlenie logiki na ADD i UPDATE
+    if (_isEditing) {
+      _handleUpdate(debtsList);
+    } else {
+      _handleAdd(debtsList);
+    }
+  }
+
+  void _handleAdd(List<UserDebtReq> debtsList) {
     final request = AddNewReckoningReq(
       name: _nameController.text,
       description: _descriptionController.text,
@@ -120,6 +190,30 @@ class _AddReckoningPageState extends State<AddReckoningPage> {
     });
   }
 
+  void _handleUpdate(List<UserDebtReq> debtsList) {
+    final id = widget.reckoningToEdit!.reckoningId;
+
+    final request = UpdateReckoningReq(
+      id: id,
+      name: _nameController.text,
+      description: _descriptionController.text,
+      totalCost: _totalCost ?? 0.0,
+      payerId: _payer?.userId ?? '',
+      debts: debtsList,
+      currencyCode: _selectedCurrency?.code ?? '',
+    );
+
+    _reckoningController.updateReckoning(request).then((success) {
+      if (success) {
+        showToast('Rozliczenie zaktualizowane!');
+        if (!mounted) return;
+        Navigator.pop(context, true);
+      } else {
+        showToast('Nie udało się zaktualizować rozliczenia.');
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double debtsSum = 0.0;
@@ -131,7 +225,7 @@ class _AddReckoningPageState extends State<AddReckoningPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Dodaj rozliczenie', style: TextStyle(color: Colors.white)),
+        title: Text(_isEditing ? 'Edytuj rozliczenie' : 'Dodaj rozliczenie', style: const TextStyle(color: Colors.white)),        
         backgroundColor: Colors.cyan,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
@@ -263,10 +357,33 @@ class _AddReckoningPageState extends State<AddReckoningPage> {
                                     setState(() {
                                       _selectedDebtors.remove(userId);
                                       _debts.remove(friend);
+                                      _debtsStatus.remove(friend);
                                       _debtControllers[friend]?.dispose();
                                       _debtControllers.remove(friend);
                                     });
                                   },
+                                ),
+                                if (_isEditing)
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        // Przełączanie statusu true/false
+                                        final currentStatus = _debtsStatus[friend] ?? false;
+                                        _debtsStatus[friend] = !currentStatus;
+                                      });
+                                    },
+                                    child: Text(
+                                      (_debtsStatus[friend] ?? false) ? '✔' : '✘',
+                                      style: TextStyle(
+                                        // Zielony ptaszek, czerwony iks
+                                        color: (_debtsStatus[friend] ?? false) ? Colors.greenAccent : Colors.redAccent,
+                                        fontSize: 24, // Trochę większe, żeby łatwo trafić palcem
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                                 Expanded(
                                   child: InputTextField(
@@ -302,8 +419,9 @@ class _AddReckoningPageState extends State<AddReckoningPage> {
                           ],
                         ) : SizedBox(),
                         CustomButton(
-                          labelText: 'Dodaj rozliczenie', 
-                          onPressed: _submitReckoning)
+                          labelText: _isEditing ? 'Zapisz zmiany' : 'Dodaj rozliczenie',                          
+                          onPressed: _submitReckoning
+                        )
                       ],
                     ),
                   ),
@@ -393,8 +511,12 @@ class _AddReckoningPageState extends State<AddReckoningPage> {
                       for (var user in _users) {
                         if (tempSelected.contains(user.userId)) {
                           _selectedDebtors.add(user.userId);
-                          _debts[user] = 0.0;
-                          _debtControllers[user] = TextEditingController(text: '0.0');
+
+                          if (!_debts.containsKey(user)) {
+                            _debts[user] = 0.0;
+                            _debtControllers[user] = TextEditingController(text: '0.0');
+                            _debtsStatus[user] = false; 
+                          }
                         }
                       }
                     });

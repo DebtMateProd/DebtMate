@@ -3,7 +3,6 @@ using DebtMateAPI.Responses.Reckoning;
 using DebtMateAPI.Services.Reckonings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static DebtMateAPI.Requests.Reckoning.AddNewReckoningRequest;
 
 namespace DebtMateAPI.Controllers
 {

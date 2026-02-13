@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:myapp/models/responses/reckoning_debtors_response.dart';
 import 'package:myapp/pages/debts_page.dart';
 
 import 'package:myapp/pages/home_page.dart';
@@ -32,7 +33,15 @@ GoRouter createRouter({required bool loggedIn}) {
       GoRoute(path: '/friendrequests', builder: (context, state) => const FriendRequestsPage()),
       GoRoute(path: '/addfriend', builder: (context, state) => const AddFriendPage()),
 
-      GoRoute(path: '/addreckoning', builder: (context, state) => const AddReckoningPage()),
+      GoRoute(
+        path: '/addediteckoning', // lub '/edit-reckoning' zależnie jak masz nazwane
+        builder: (context, state) {
+          final reckoningToEdit = state.extra as ReckoningDebtorsResp?;
+          
+          return AddEditReckoningPage(reckoningToEdit: reckoningToEdit);
+        },
+      ),
+
       GoRoute(path: '/reckonings', builder: (context, state) => const ReckoningsPage()),
       GoRoute(path: '/owedReckonings', builder: (context, state) => const ReckoningsOwedPage()),
 

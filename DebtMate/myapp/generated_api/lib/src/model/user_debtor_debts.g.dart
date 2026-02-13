@@ -16,6 +16,8 @@ class _$UserDebtorDebts extends UserDebtorDebts {
   @override
   final String? currencyCode;
   @override
+  final double? totalCost;
+  @override
   final BuiltList<DebtorInfo>? debtors;
 
   factory _$UserDebtorDebts([void Function(UserDebtorDebtsBuilder)? updates]) =>
@@ -26,6 +28,7 @@ class _$UserDebtorDebts extends UserDebtorDebts {
       this.reckoningName,
       this.description,
       this.currencyCode,
+      this.totalCost,
       this.debtors})
       : super._();
   @override
@@ -43,6 +46,7 @@ class _$UserDebtorDebts extends UserDebtorDebts {
         reckoningName == other.reckoningName &&
         description == other.description &&
         currencyCode == other.currencyCode &&
+        totalCost == other.totalCost &&
         debtors == other.debtors;
   }
 
@@ -53,6 +57,7 @@ class _$UserDebtorDebts extends UserDebtorDebts {
     _$hash = $jc(_$hash, reckoningName.hashCode);
     _$hash = $jc(_$hash, description.hashCode);
     _$hash = $jc(_$hash, currencyCode.hashCode);
+    _$hash = $jc(_$hash, totalCost.hashCode);
     _$hash = $jc(_$hash, debtors.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -65,6 +70,7 @@ class _$UserDebtorDebts extends UserDebtorDebts {
           ..add('reckoningName', reckoningName)
           ..add('description', description)
           ..add('currencyCode', currencyCode)
+          ..add('totalCost', totalCost)
           ..add('debtors', debtors))
         .toString();
   }
@@ -91,6 +97,10 @@ class UserDebtorDebtsBuilder
   String? get currencyCode => _$this._currencyCode;
   set currencyCode(String? currencyCode) => _$this._currencyCode = currencyCode;
 
+  double? _totalCost;
+  double? get totalCost => _$this._totalCost;
+  set totalCost(double? totalCost) => _$this._totalCost = totalCost;
+
   ListBuilder<DebtorInfo>? _debtors;
   ListBuilder<DebtorInfo> get debtors =>
       _$this._debtors ??= ListBuilder<DebtorInfo>();
@@ -107,6 +117,7 @@ class UserDebtorDebtsBuilder
       _reckoningName = $v.reckoningName;
       _description = $v.description;
       _currencyCode = $v.currencyCode;
+      _totalCost = $v.totalCost;
       _debtors = $v.debtors?.toBuilder();
       _$v = null;
     }
@@ -135,6 +146,7 @@ class UserDebtorDebtsBuilder
             reckoningName: reckoningName,
             description: description,
             currencyCode: currencyCode,
+            totalCost: totalCost,
             debtors: _debtors?.build(),
           );
     } catch (_) {

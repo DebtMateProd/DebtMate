@@ -19,8 +19,8 @@ class RouteHelper {
     context.go('/main');
   }
 
-  static void getToWithArgs(BuildContext context, String routeName, Object args) {
-    context.push(routeName, extra: args);
+  static Future<Object?> getToWithArgs(BuildContext context, String routeName, Object args) async {
+    return await context.push(routeName, extra: args);
   }
 
   static void globalGo(String routeName, {Object? extra}) {

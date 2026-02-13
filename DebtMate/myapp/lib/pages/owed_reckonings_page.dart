@@ -1,18 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/controllers/currency_controller.dart';
-import 'package:myapp/controllers/friend_controller.dart';
 import 'package:myapp/controllers/reckoning_controller.dart';
-import 'package:myapp/models/requests/add_new_reckoning_request.dart';
-import 'package:myapp/models/requests/update_reckoning_request.dart';
-import 'package:myapp/models/responses/currency_response.dart';
 import 'package:myapp/models/responses/reckoning_debtors_response.dart';
-import 'package:myapp/models/responses/user_response.dart';
-import 'package:myapp/repositories/currency_repository.dart';
-import 'package:myapp/repositories/friend_repository.dart';
 import 'package:myapp/repositories/reckoning_repository.dart';
 import 'package:myapp/utils/api_service.dart';
+import 'package:myapp/utils/route_helper.dart';
 import 'package:myapp/utils/toast.dart';
-import 'package:myapp/widgets/text_field.dart';
 
 class ReckoningsOwedPage extends StatefulWidget {
   const ReckoningsOwedPage({super.key});
@@ -23,14 +15,9 @@ class ReckoningsOwedPage extends StatefulWidget {
 
 class _ReckoningsOwedPageState extends State<ReckoningsOwedPage> {
   final ReckoningController reckoningController = ReckoningController(ReckoningRepository());
-  final FriendController _friendController = FriendController(FriendRepository());
-  final CurrencyController _currencyController = CurrencyController(CurrencyRepository());
   
-  CurrencyResp? _selectedCurrency;
-  List<CurrencyResp> _currencies = [];
   List<ReckoningDebtorsResp> unpaidDebts = [];
   List<ReckoningDebtorsResp> paidDebts = [];
-  List<UserResp> _users = [];
   bool _loading = true;
   bool _paidDebtsLoading = false;
   bool _paidDebtsLoaded = false;
@@ -40,36 +27,6 @@ class _ReckoningsOwedPageState extends State<ReckoningsOwedPage> {
   void initState() {
     super.initState();
     getUnpaidDebts();
-  }
-
-  Future<void> _fetchData() async {
-    await _fetchFriends();
-    await _fetchCurrencies();
-
-    setState(() {
-      _loading = false;
-    });
-
-  }
-
-
-  Future<void> _fetchFriends() async {
-    final userId = ApiService.instance.userId ?? '';
-    final friends = await _friendController.getUserFriends(userId);
-    final currentUser = UserResp(userId: userId, username: "Ja"); // or fetch real username
-    setState(() {
-      _users = [currentUser, ...friends];
-    });
-  }
-
-  Future<void> _fetchCurrencies() async {
-    final currencies = await _currencyController.getAllCurrencies();
-    setState(() {
-      _currencies = currencies;
-      if (_currencies.isNotEmpty) {
-        _selectedCurrency = _currencies.first;
-      }
-    });
   }
 
   Future<void> getUnpaidDebts() async {
@@ -163,9 +120,9 @@ class _ReckoningsOwedPageState extends State<ReckoningsOwedPage> {
   }
 
 
-    Widget _buildOwedCard(ReckoningDebtorsResp debt) {
+  Widget _buildOwedCard(ReckoningDebtorsResp debt) {
     return GestureDetector(
-      onTap: () => showReckoningDetailsDialog(context, debt),
+      onTap: () => showEditReckoningInfoDialog(debt),
       child: Card(
         color: Colors.cyan.shade400,
         margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
@@ -227,149 +184,73 @@ class _ReckoningsOwedPageState extends State<ReckoningsOwedPage> {
     );
   }
 
-  void showReckoningDetailsDialog(BuildContext context, ReckoningDebtorsResp reckoning) {
-    bool isEditing = false;
+  Future<void> goToEditReckoningPage(ReckoningDebtorsResp debt) async{
+    final result = await RouteHelper.getToWithArgs(context, '/addediteckoning', debt);
 
-    final TextEditingController nameController = TextEditingController(text: reckoning.reckoningName);
-    final TextEditingController descriptionController = TextEditingController(text: reckoning.description);
-    final List<TextEditingController> debtorControllers = reckoning.debtors.map((debtor) {
-      return TextEditingController(text: debtor.owedAmount.toStringAsFixed(2));
-    }).toList();
+    if (result == true) {
+      setState(() {
+        _loading = true; // Pokaż loader
+      });
 
+      await getUnpaidDebts();
+      
+      if (_paidDebtsLoaded) {
+        await getPaidDebts();
+      } else {
+        setState(() {
+            _loading = false;
+        });
+      }
+    }
+
+    setState(() {
+        _loading = true; // Pokaż loader podczas odświeżania
+      });
+      
+      getUnpaidDebts();
+      if (_paidDebtsLoaded) {
+          _paidDebtsLoaded = false; // Wymuś reload
+          getPaidDebts();
+      }
+  }
+
+  void showEditReckoningInfoDialog(ReckoningDebtorsResp debt) {
     showDialog(
       context: context,
       builder: (context) {
-        return StatefulBuilder(
-          builder: (context, setState) {
-            return AlertDialog(
-              backgroundColor: Colors.cyan.shade400,
-              title: Text(
-                isEditing ? 'Edytuj rozliczenie' : 'Szczegóły rozliczenia',
-                style: const TextStyle(color: Colors.white),
+        return AlertDialog(
+          backgroundColor: Colors.cyan,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          title: Row(
+            spacing: 8,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const Icon(Icons.info, color: Colors.white),
+              const Text(
+                'Szczegóły',
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),
-              content: SingleChildScrollView(
-                child: Column(
-                  spacing: 10,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    InputTextField(
-                      controller: nameController,
-                      readOnly: !isEditing,
-                      labelText: 'Nazwa rozliczenia',
-                    ),
-                    InputTextField(
-                      controller: descriptionController,
-                      readOnly: !isEditing,
-                      labelText: 'Opis',
-                    ),
-                    const Text(
-                      'Dłużnicy:',
-                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    Column(
-                      spacing: 10,
-                      children:[
-                        ...reckoning.debtors.asMap().entries.map((entry) {
-                        final index = entry.key;
-                        final debtor = entry.value;
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                debtor.debtorName,
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                debtor.isPaid ? '✔' : '✘',
-                                style: TextStyle(
-                                  color: debtor.isPaid ? Colors.greenAccent : Colors.redAccent,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: 
-                              InputTextField(
-                                controller: debtorControllers[index],
-                                readOnly: !isEditing,
-                                labelText: 'Kwota długu',
-                                inputType: TextInputType.number,
-                              ),
-                            ),
-                          ],
-                        );
-                      }),
-                    ]
-                  ),
-                  ],
-                ),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('Zamknij', style: TextStyle(color: Colors.white)),
-                ),
-                if (isEditing)
-                  TextButton(
-                    onPressed: () async {
-                      // Prepare updated reckoning data
-                      final updatedDebtors = reckoning.debtors.asMap().entries.map((entry) {
-                        final index = entry.key;
-                        final debtor = entry.value;
-                        return DebtorInfoResp(
-                          debtorId: debtor.debtorId,
-                          debtorName: debtor.debtorName,
-                          owedAmount: double.tryParse(debtorControllers[index].text) ?? debtor.owedAmount,
-                          isPaid: debtor.isPaid,
-                        );
-                      }).toList();
-
-                      final updatedReckoning = UpdateReckoningReq(
-                        id: reckoning.reckoningId,
-                        name: nameController.text,
-                        description: descriptionController.text,
-                        totalCost: updatedDebtors.fold(0.0, (sum, debtor) => sum + debtor.owedAmount),
-                        payerId: ApiService.instance.userId ?? '',
-                        currencyCode: reckoning.currencyCode,
-                        debts: updatedDebtors.map((debtor) => UserDebtReq(
-                          userId: debtor.debtorId,
-                          amount: debtor.owedAmount,
-                          isPaid: debtor.isPaid,
-                        )).toList(),
-                      );
-
-                      // Call updateReckoning function
-                      final success = await reckoningController.updateReckoning(updatedReckoning);
-
-                      if (success) {
-                        showToast('Rozliczenie zaktualizowane!');
-                        Navigator.of(context).pop();
-                      } else {
-                        showToast('Nie udało się zaktualizować rozliczenia.');
-                      }
-                    },
-                    child: const Text('Zapisz', style: TextStyle(color: Colors.white)),
-                  ),
-                TextButton(
-                  onPressed: () {
-                    setState(() {
-                      isEditing = !isEditing;
-                    });
-                  },
-                  child: Text(
-                    isEditing ? 'Anuluj edycję' : 'Edytuj',
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                ),
-              ],
-            );
-          },
+            ],
+          ),
+          content: Text(
+            "Czy chcesz edytować rozliczenie \"${debt.reckoningName}\"?",
+             style: TextStyle(color: Colors.white),),
+          actions: [
+            TextButton.icon(
+              onPressed: () => RouteHelper.getBack(context),
+              label: const Text('Anuluj', style: TextStyle(color: Colors.white)),
+            ),
+            TextButton.icon(
+              onPressed: () async {
+                RouteHelper.getBack(context);
+                
+                await goToEditReckoningPage(debt);
+              },
+              label: const Text('Edytuj', style: TextStyle(color: Colors.white)),
+            ),
+          ],
         );
       },
     );

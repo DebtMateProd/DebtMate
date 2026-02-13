@@ -97,5 +97,3 @@ lib/src/model/user_debtor_debts.dart
 lib/src/model/user_response.dart
 lib/src/serializers.dart
 pubspec.yaml
-test/update_reckoning_request_test.dart
-test/update_reckoning_response_test.dart

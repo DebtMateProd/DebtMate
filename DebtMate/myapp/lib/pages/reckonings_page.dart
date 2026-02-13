@@ -191,11 +191,14 @@ class ReckoningsPageState extends State<ReckoningsPage> {
             icon: const Icon(Icons.arrow_back, color: Colors.white),
             label: const Text('Cofnij', style: TextStyle(color: Colors.white)),
           ),
-          debt.isPaid ? SizedBox() : TextButton.icon(
-            onPressed: () => payUserDebt(debt),
-            icon: const Icon(Icons.payment, color: Colors.white),
-            label: const Text('Spłać', style: TextStyle(color: Colors.white)),
-          ),
+          debt.isPaid ? 
+          SizedBox() : 
+          SizedBox(),
+          // TextButton.icon(
+          //   onPressed: () => payUserDebt(debt),
+          //   icon: const Icon(Icons.payment, color: Colors.white),
+          //   label: const Text('Spłać', style: TextStyle(color: Colors.white)),
+          // ),
         ],
       );
     },

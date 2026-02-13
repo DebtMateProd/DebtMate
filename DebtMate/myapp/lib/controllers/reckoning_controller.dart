@@ -119,6 +119,7 @@ class ReckoningController {
         reckoningName: debtorDebt.reckoningName ?? "",
         description: debtorDebt.description,
         currencyCode: debtorDebt.currencyCode ?? "",
+        totalCost: debtorDebt.totalCost ?? 0.0,
         debtors: debtorDebt.debtors!.map((debtor) => DebtorInfoResp(
           debtorId: debtor.debtor?.userId ?? "",
           debtorName: debtor.debtor?.userName ?? "",

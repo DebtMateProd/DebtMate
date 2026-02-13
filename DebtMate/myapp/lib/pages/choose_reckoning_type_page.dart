@@ -44,7 +44,7 @@ class _ReckoningTypePageState extends State<ReckoningTypePage> {
                 CustomButton(
                   labelText: '➕ Dodaj pojedyncze rozliczenie',
                   onPressed: () {
-                     RouteHelper.getTo(context, '/addreckoning');
+                     RouteHelper.getTo(context, '/addediteckoning');
                   },
                 ),
                 CustomButton(
