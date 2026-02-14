@@ -178,7 +178,7 @@ class _AddReceiptPageState extends State<AddReceiptPage> {
                             )
                           )
                         : CustomButton(
-                            labelText: "Zrób zdjęcie / Wybierz plik", // Lekka zmiana tekstu, żeby pasował do PC
+                            labelText: "Zrób zdjęcie / Wybierz plik",
                             onPressed: () async {
                               await _scanReceipt();
                             },
@@ -186,8 +186,6 @@ class _AddReceiptPageState extends State<AddReceiptPage> {
                           
                       const SizedBox(height: 10),
                       
-                      // ZMIANA 2: Usunięto rozróżnienie tekstu dla Weba.
-                      // Teraz instrukcja jest jedna dla wszystkich.
                       hideFullInfo 
                         ? const Text(
                             "  Mleko 1L\n"
