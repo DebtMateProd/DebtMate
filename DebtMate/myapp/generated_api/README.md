@@ -75,6 +75,7 @@ Class | Method | HTTP request | Description
 [*FriendshipApi*](doc/FriendshipApi.md) | [**apiFriendshipFriendsUserIdGet**](doc/FriendshipApi.md#apifriendshipfriendsuseridget) | **GET** /api/Friendship/friends/{userId} | 
 [*FriendshipApi*](doc/FriendshipApi.md) | [**apiFriendshipPendingfriendsUserIdGet**](doc/FriendshipApi.md#apifriendshippendingfriendsuseridget) | **GET** /api/Friendship/pendingfriends/{userId} | 
 [*FriendshipApi*](doc/FriendshipApi.md) | [**apiFriendshipRemovePost**](doc/FriendshipApi.md#apifriendshipremovepost) | **POST** /api/Friendship/remove | 
+[*ReceiptApi*](doc/ReceiptApi.md) | [**apiReceiptAnalyzePost**](doc/ReceiptApi.md#apireceiptanalyzepost) | **POST** /api/Receipt/analyze | 
 [*ReckoningApi*](doc/ReckoningApi.md) | [**apiReckoningAddNewReckoningPost**](doc/ReckoningApi.md#apireckoningaddnewreckoningpost) | **POST** /api/Reckoning/addNewReckoning | 
 [*ReckoningApi*](doc/ReckoningApi.md) | [**apiReckoningGetUserBalanceGet**](doc/ReckoningApi.md#apireckoninggetuserbalanceget) | **GET** /api/Reckoning/getUserBalance | 
 [*ReckoningApi*](doc/ReckoningApi.md) | [**apiReckoningGetUserDebtorsDebtsGet**](doc/ReckoningApi.md#apireckoninggetuserdebtorsdebtsget) | **GET** /api/Reckoning/getUserDebtorsDebts | 
@@ -95,6 +96,7 @@ Class | Method | HTTP request | Description
  - [AddFriendshipResponse](doc/AddFriendshipResponse.md)
  - [AddNewReckoningRequest](doc/AddNewReckoningRequest.md)
  - [AddNewReckoningResponse](doc/AddNewReckoningResponse.md)
+ - [AnalyzeReceiptResponse](doc/AnalyzeReceiptResponse.md)
  - [BalanceUser](doc/BalanceUser.md)
  - [BalanceUserResponse](doc/BalanceUserResponse.md)
  - [CurrencyResponse](doc/CurrencyResponse.md)
@@ -114,6 +116,7 @@ Class | Method | HTTP request | Description
  - [PayDebtBetweenTwoUsersResponse](doc/PayDebtBetweenTwoUsersResponse.md)
  - [PayUserDebtRequest](doc/PayUserDebtRequest.md)
  - [PayUserDebtResponse](doc/PayUserDebtResponse.md)
+ - [ReceiptItemResponse](doc/ReceiptItemResponse.md)
  - [RegisterRequest](doc/RegisterRequest.md)
  - [RegisterResponse](doc/RegisterResponse.md)
  - [RemoveFriendshipRequest](doc/RemoveFriendshipRequest.md)

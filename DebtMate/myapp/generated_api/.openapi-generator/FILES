@@ -7,6 +7,7 @@ doc/AddFriendshipRequest.md
 doc/AddFriendshipResponse.md
 doc/AddNewReckoningRequest.md
 doc/AddNewReckoningResponse.md
+doc/AnalyzeReceiptResponse.md
 doc/AuthApi.md
 doc/BalanceUser.md
 doc/BalanceUserResponse.md
@@ -29,6 +30,8 @@ doc/PayDebtBetweenTwoUsersRequest.md
 doc/PayDebtBetweenTwoUsersResponse.md
 doc/PayUserDebtRequest.md
 doc/PayUserDebtResponse.md
+doc/ReceiptApi.md
+doc/ReceiptItemResponse.md
 doc/ReckoningApi.md
 doc/RegisterRequest.md
 doc/RegisterResponse.md
@@ -48,6 +51,7 @@ lib/src/api.dart
 lib/src/api/auth_api.dart
 lib/src/api/currency_api.dart
 lib/src/api/friendship_api.dart
+lib/src/api/receipt_api.dart
 lib/src/api/reckoning_api.dart
 lib/src/api/user_api.dart
 lib/src/api_util.dart
@@ -63,6 +67,7 @@ lib/src/model/add_friendship_request.dart
 lib/src/model/add_friendship_response.dart
 lib/src/model/add_new_reckoning_request.dart
 lib/src/model/add_new_reckoning_response.dart
+lib/src/model/analyze_receipt_response.dart
 lib/src/model/balance_user.dart
 lib/src/model/balance_user_response.dart
 lib/src/model/currency_response.dart
@@ -83,6 +88,7 @@ lib/src/model/pay_debt_between_two_users_request.dart
 lib/src/model/pay_debt_between_two_users_response.dart
 lib/src/model/pay_user_debt_request.dart
 lib/src/model/pay_user_debt_response.dart
+lib/src/model/receipt_item_response.dart
 lib/src/model/register_request.dart
 lib/src/model/register_response.dart
 lib/src/model/remove_friendship_request.dart
@@ -97,3 +103,6 @@ lib/src/model/user_debtor_debts.dart
 lib/src/model/user_response.dart
 lib/src/serializers.dart
 pubspec.yaml
+test/analyze_receipt_response_test.dart
+test/receipt_api_test.dart
+test/receipt_item_response_test.dart
