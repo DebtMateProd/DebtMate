@@ -25,6 +25,7 @@ class ApiService {
     friendApi = FriendshipApi(_client.dio, _client.serializers);
     reckoningApi = ReckoningApi(_client.dio, _client.serializers);
     currencyApi = CurrencyApi(_client.dio, _client.serializers);
+    receiptApi = ReceiptApi(_client.dio, _client.serializers);
   }
 
   static final ApiService _instance = ApiService._internal();
@@ -46,6 +47,7 @@ class ApiService {
   late final FriendshipApi friendApi;
   late final ReckoningApi reckoningApi;
   late final CurrencyApi currencyApi;
+  late final ReceiptApi receiptApi;
 
   bool _isTokenValid = false;
   UserResp? currentUser;

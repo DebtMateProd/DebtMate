@@ -46,6 +46,7 @@ dependencies:
   go_router: ^16.2.4
   openapi:
     path: generated_api
+  http_parser: ^4.1.2
 
 dev_dependencies:
   flutter_test:

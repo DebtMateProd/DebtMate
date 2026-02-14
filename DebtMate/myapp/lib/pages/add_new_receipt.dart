@@ -1,14 +1,13 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
+import 'package:myapp/controllers/receipt_controller.dart';
+import 'package:myapp/models/requests/analyze_receipt_request.dart';
 import 'package:myapp/pages/assign_receipt_page.dart';
+import 'package:myapp/repositories/receipt_repository.dart';
 import 'package:myapp/utils/route_helper.dart';
 import 'package:myapp/utils/toast.dart';
 import 'package:myapp/widgets/button.dart';
 import 'package:myapp/widgets/text_field.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 
 class AddReceiptPage extends StatefulWidget {
@@ -19,35 +18,37 @@ class AddReceiptPage extends StatefulWidget {
 }
 
 class _AddReceiptPageState extends State<AddReceiptPage> {
-
+  final ReceiptController receiptController = ReceiptController(ReceiptRepository());
+  
   final ImagePicker _picker = ImagePicker();
   final TextEditingController _receiptController = TextEditingController();
   final TextEditingController _numbersController = TextEditingController();
 
-  final textRecognizer = TextRecognizer(
-    script: TextRecognitionScript.latin,
-  );
   final FocusNode _focus = FocusNode();
 
-  final RegExp _priceLineRegex = RegExp(r'^\d+,\d{2}$');         
-  final RegExp _nameLineRegex  = RegExp(r'^(?=.*\S).+$'); 
+  final RegExp _priceLineRegex = RegExp(r'^\d+[.,]\d{2}$');         
+  final RegExp _nameLineRegex  = RegExp(r'^(?=.*\S).+$');
 
   bool hideFullInfo = false;
+  bool _isScanning = false;
 
 
   @override
   void initState() {
     super.initState();
-    _updateLineNumbers(); // initial
+    _updateLineNumbers();
 
     _focus.addListener(_onFocusChange);
   }
 
    @override
   void dispose() {
-    super.dispose();
     _focus.removeListener(_onFocusChange);
     _focus.dispose();
+    _receiptController.dispose();
+    _numbersController.dispose();
+    
+    super.dispose();
   }
 
   void _onFocusChange() {
@@ -97,68 +98,56 @@ class _AddReceiptPageState extends State<AddReceiptPage> {
     final source = await makeUserChooseSourceOfImage();
     if (source == null) return;
 
-    final pickedFile = await _picker.pickImage(source: source);
+    final XFile? pickedFile = await _picker.pickImage(source: source);
     if (pickedFile == null) return;
 
-    final inputImage = InputImage.fromFile(File(pickedFile.path));
-    final RecognizedText recognizedText =
-        await textRecognizer.processImage(inputImage);
+    setState(() {
+      _isScanning = true;
+      // Czyścimy pole przed nowym skanem
+      _receiptController.clear(); 
+      _numbersController.clear();
+    });
 
-    List<_OcrLine> linesData = [];
+    try {
+      AnalyzeReceiptRequest request = AnalyzeReceiptRequest(file: XFile(pickedFile.path));
 
-    for (final block in recognizedText.blocks) {
-      for (final line in block.lines) {
-        linesData.add(
-          _OcrLine(
-            text: line.text,
-            left: line.boundingBox.left,
-            top: line.boundingBox.top,
-          ),
-        );
-      }
-    }
+      final response = await receiptController.analyzeReceipt(request);
 
-    // Sortujemy po top (od góry do dołu)
-    linesData.sort((a, b) => a.top.compareTo(b.top));
+      if (response.success && response.items.isNotEmpty) {
+        StringBuffer receiptBuffer = StringBuffer();
 
-    const rowTolerance = 30; // tolerancja w px dla jednej linii paragonu
-    List<List<_OcrLine>> groupedRows = [];
-    List<_OcrLine> currentRow = [];
-
-    for (var line in linesData) {
-      if (currentRow.isEmpty) {
-        currentRow.add(line);
-      } else {
-        if ((line.top - currentRow.last.top).abs() < rowTolerance) {
-          currentRow.add(line);
-        } else {
-          groupedRows.add(currentRow);
-          currentRow = [line];
+        for (var item in response.items) {
+          receiptBuffer.writeln(item.item);
+          receiptBuffer.writeln(item.price.toStringAsFixed(2));
         }
+
+        String finalText = receiptBuffer.toString().trim();
+        _receiptController.text = finalText;
+        
+        showToast('Paragon przetworzony pomyślnie!');
+      } else {
+        showToast('Nie udało się odczytać paragonu: ${response.message}');
       }
+    } catch (e) {
+      showToast('Wystąpił błąd podczas przetwarzania: $e');
+    } finally {
+      setState(() {
+        _isScanning = false;
+        _updateLineNumbers();
+      });
     }
-    if (currentRow.isNotEmpty) groupedRows.add(currentRow);
-
-    StringBuffer receiptText = StringBuffer();
-    for (var row in groupedRows) {
-      receiptText.writeln(row.reversed.map((e) => e.text).join(' '));
-    }
-
-    _receiptController.text = receiptText.toString();
-
-    setState(() {});
   }
 
 
-  @override
+@override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Rozliczanie paragonu", style: TextStyle(color: Colors.white),), backgroundColor: Colors.cyan,
-        iconTheme: IconThemeData(color: Colors.white),
+      appBar: AppBar(title: const Text("Rozliczanie paragonu", style: TextStyle(color: Colors.white),), backgroundColor: Colors.cyan,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Container(
         height: double.infinity,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Colors.blue, Colors.black],
             begin: Alignment.topLeft,
@@ -172,49 +161,59 @@ class _AddReceiptPageState extends State<AddReceiptPage> {
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
-                    spacing: 10.0,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (!kIsWeb)
-                      CustomButton(
-                        labelText: "Zrób zdjęcie paragonu", 
-                        onPressed: () async {
-                          await _scanReceipt();
-                          _updateLineNumbers();
-                        },
-                      ),
-                      hideFullInfo ? Text("  Mleko 1L\n"
-                        "  7,79\n"
-                        "  Chleb\n"
-                        "  3,49\n",
-                        style: TextStyle(fontSize: 14, color: Colors.white)) : 
-                        Text(
-                          kIsWeb
-                              ? "Jak wprowadzać dane?\n"
-                                "UWAGA: W wersji webowej nie można robić zdjęć.\n"
-                                "1. Przepisz dane z paragonu ręcznie w polu poniżej\n"
-                                " - Każdy produkt w nowej linii\n"
-                                " - Po nazwie produktu wstaw cenę w kolejnej linii\n"
-                                " - Przykład:\n"
-                                "  Mleko 1L\n"
-                                "  7,79\n"
-                                "  Chleb\n"
-                                "  3,49\n"
-                                "2. Po zakończeniu edycji kliknij 'Przejdź dalej'\n"
-                              : "Jak wprowadzać dane?\n"
-                                "1. Zrób zdjęcie paragonu\n"
-                                "2. Edytuj zawartość paragonu w polu poniżej w następujący sposób:\n"
-                                " - Każdy produkt w nowej linii\n"
-                                " - Po nazwie produktu wstaw cenę w kolejnej linii\n"
-                                " - Przykład:\n"
-                                "  Mleko 1L\n"
-                                "  7,79\n"
-                                "  Chleb\n"
-                                "  3,49\n"
-                                "3. Po zakończeniu edycji kliknij 'Przejdź dalej'\n",
+                      const SizedBox(height: 10),
+                      _isScanning 
+                        ? const Center(
+                            child: Padding(
+                              padding: EdgeInsets.all(16.0),
+                              child: Column(
+                                children: [
+                                  CircularProgressIndicator(color: Colors.white),
+                                  SizedBox(height: 10),
+                                  Text("Przetwarzanie paragonu przez AI...", style: TextStyle(color: Colors.white))
+                                ],
+                              ),
+                            )
+                          )
+                        : CustomButton(
+                            labelText: "Zrób zdjęcie / Wybierz plik", // Lekka zmiana tekstu, żeby pasował do PC
+                            onPressed: () async {
+                              await _scanReceipt();
+                            },
+                          ),
+                          
+                      const SizedBox(height: 10),
+                      
+                      // ZMIANA 2: Usunięto rozróżnienie tekstu dla Weba.
+                      // Teraz instrukcja jest jedna dla wszystkich.
+                      hideFullInfo 
+                        ? const Text(
+                            "  Mleko 1L\n"
+                            "  7.79\n"
+                            "  Chleb\n"
+                            "  3.49\n",
+                            style: TextStyle(fontSize: 14, color: Colors.white)
+                          ) 
+                        : const Text(
+                              "Jak wprowadzać dane?\n"
+                              "1. Zrób zdjęcie paragonu lub wybierz plik z galerii\n"
+                              "2. Edytuj zawartość paragonu w polu poniżej w następujący sposób:\n"
+                              " - Każdy produkt w nowej linii\n"
+                              " - Po nazwie produktu wstaw cenę w kolejnej linii\n"
+                              " - Przykład:\n"
+                              "  Mleko 1L\n"
+                              "  7.79\n"
+                              "  Chleb\n"
+                              "  3.49\n"
+                              "3. Po zakończeniu edycji kliknij 'Przejdź dalej'\n",
                           style: TextStyle(fontSize: 14, color: Colors.white),
                         ),
+                        
+                      const SizedBox(height: 10),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(
                             flex: 1,
@@ -243,12 +242,12 @@ class _AddReceiptPageState extends State<AddReceiptPage> {
                           ),
                         ],
                       ),
+                      const SizedBox(height: 10),
                       CustomButton(
                         labelText: "Przejdź dalej", 
                         onPressed: (){
                           if (_checkFormatAndToast()) {
                             final products = parseProducts(_receiptController.text);
-                
                             RouteHelper.getToWithArgs(context, '/assignReceipt', products);
                           }
                         } 
@@ -266,12 +265,13 @@ class _AddReceiptPageState extends State<AddReceiptPage> {
 
   bool _checkFormatAndToast() {
     final rawLines = _receiptController.text.split(RegExp(r'\r?\n'));
-    final indexedTrimmed = List.generate(
-      rawLines.length,
-      (i) => MapEntry(i, rawLines[i].trim()),
-    );
-
-    final lines = indexedTrimmed.where((e) => e.value.isNotEmpty).toList();
+    // Usuwamy puste linie, ale zachowujemy informację o oryginalnym indeksie dla użytkownika
+    var lines = <MapEntry<int, String>>[];
+    for(int i=0; i<rawLines.length; i++) {
+      if(rawLines[i].trim().isNotEmpty) {
+        lines.add(MapEntry(i, rawLines[i].trim()));
+      }
+    }
 
     String? errorMsg;
 
@@ -294,7 +294,7 @@ class _AddReceiptPageState extends State<AddReceiptPage> {
         }
         if (!priceOk) {
           errorMsg =
-              'Błąd w linii ${priceEntry.key + 1}: oczekiwana cena w formacie X,YY (np. 7,79).';
+              'Błąd w linii ${priceEntry.key + 1}: oczekiwana cena (np. 7.79 lub 7,79).';
           break;
         }
       }
@@ -302,20 +302,30 @@ class _AddReceiptPageState extends State<AddReceiptPage> {
 
     final ok = errorMsg == null;
 
-    showToast(ok ? 'Format poprawny ✅' : 'Format niepoprawny ❌\n$errorMsg');
+    if (!ok) {
+      showToast('Format niepoprawny ❌\n$errorMsg');
+    } 
+    // Opcjonalnie: nie pokazujemy toasta "Poprawny", po prostu przechodzimy dalej, 
+    // ale jeśli chcesz potwierdzenie, odkomentuj poniższą linię:
+    // else showToast('Format poprawny ✅');
 
     return ok;
   }
 
-
   List<Product> parseProducts(String input) {
     try {
-      final lines = input.split('\n').map((line) => line.trim()).toList();
+      // Pobieramy tylko niepuste linie
+      final lines = input.split('\n')
+          .map((line) => line.trim())
+          .where((line) => line.isNotEmpty)
+          .toList();
+          
       final products = <Product>[];
 
       for (int i = 0; i < lines.length; i += 2) {
         if (i + 1 < lines.length) {
           final name = lines[i];
+          // Zamieniamy przecinek na kropkę, żeby double.parse zadziałał
           final priceStr = lines[i + 1].replaceAll(',', '.'); 
           final price = double.tryParse(priceStr);
 
@@ -324,25 +334,13 @@ class _AddReceiptPageState extends State<AddReceiptPage> {
           }
 
           products.add(Product(name: name, price: price));
-        } else {
-          throw FormatException('Nieparzysta liczba linii w tekście');
         }
       }
 
       return products;
     } catch (e) {
-      showToast('Błąd podczas parsowania produktów');
+      showToast('Błąd podczas parsowania produktów: $e');
       return [];
     }
   }
-}
-
-
-
-class _OcrLine {
-  final String text;
-  final double left;
-  final double top;
-
-  _OcrLine({required this.text, required this.left, required this.top});
 }

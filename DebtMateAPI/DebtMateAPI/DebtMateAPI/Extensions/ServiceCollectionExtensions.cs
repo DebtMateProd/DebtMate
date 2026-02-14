@@ -6,6 +6,7 @@ using DebtMateAPI.Repositories.Reckonings;
 using DebtMateAPI.Repositories.Users;
 using DebtMateAPI.Services.Currencies;
 using DebtMateAPI.Services.Friendships;
+using DebtMateAPI.Services.Receipt;
 using DebtMateAPI.Services.Reckonings;
 using DebtMateAPI.Services.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -38,6 +39,7 @@ namespace DebtMateAPI.Extensions
             services.AddScoped<IReckoningService, ReckoningService>();
             services.AddScoped<ICurrencyService, CurrencyService>();
             services.AddScoped<ICurrencyRepository, CurrencyRepository>();
+            services.AddHttpClient<IReceiptService, ReceiptService>();
 
             return services;
         }

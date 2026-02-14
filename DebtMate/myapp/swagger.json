@@ -432,6 +432,55 @@
         }
       }
     },
+    "/api/Receipt/analyze": {
+      "post": {
+        "tags": [
+          "Receipt"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "File": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "File": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalyzeReceiptResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalyzeReceiptResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalyzeReceiptResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Reckoning/addNewReckoning": {
       "post": {
         "tags": [
@@ -990,6 +1039,26 @@
         },
         "additionalProperties": false
       },
+      "AnalyzeReceiptResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReceiptItemResponse"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "BalanceUser": {
         "type": "object",
         "properties": {
@@ -1329,6 +1398,20 @@
           "message": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ReceiptItemResponse": {
+        "type": "object",
+        "properties": {
+          "item": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false
